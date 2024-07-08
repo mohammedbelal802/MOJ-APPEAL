@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-family: "IBM Plex Sans Arabic", sans-serif !important;
+}
+
+.style_scroll_bar::-webkit-scrollbar {
+  width: 4px;
+}
+.style_scroll_bar::-webkit-scrollbar-track {
+  border-radius: 1rem;
+  background-color: transparent;
+}
+.style_scroll_bar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #c0b9b9;
+}
+
+.line-clamp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.digital-signture {
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+}
+.digital-signture::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30%;
+  height: 1px;
+  width: 30%;
+  background-color: rgba(133, 139, 148, 0.1019607843);
+}
+.digital-signture canvas {
+  border: 1px solid rgba(133, 139, 148, 0.5019607843);
+}
+
+@media only screen and (min-width: 500px) {
+  canvas {
+    width: 375px !important;
+    height: 350px !important;
+  }
+}
+@media only screen and (min-width: 800px) {
+  canvas {
+    width: 575px !important;
+    height: 350px !important;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  canvas {
+    width: 775px !important;
+    height: 350px !important;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  canvas {
+    width: 975px !important;
+    height: 350px !important;
+  }
+}
+@media only screen and (min-width: 1200px) and (min-width: 1400px) {
+  canvas {
+    width: 1175px !important;
+    height: 350px !important;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}/*# sourceMappingURL=app.css.map */
