@@ -15,9 +15,9 @@ export default function ActiveFinger({
     <Box
       onClick={() => onClick(fingerNumber)}
       sx={{
-        width: "16%",
+        width: "12%",
         display: "flex",
-        alignItems: "center",
+        alignItems: "start",
         justifyContent: "center",
         position: "absolute",
         aspectRatio: "1/1",

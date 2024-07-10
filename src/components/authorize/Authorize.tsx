@@ -160,32 +160,6 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                       fontSize: "14px !important",
                     },
                   }}
-                  value="signture"
-                  control={<Radio />}
-                  label="توقيع حي على الشاشة"
-                />
-
-                <FormControlLabel
-                  sx={{
-                    m: "0px",
-                    color: "#617696",
-                    "& .MuiTypography-root": {
-                      fontSize: "14px !important",
-                    },
-                  }}
-                  value="fingerprint"
-                  control={<Radio />}
-                  label="البصمة"
-                />
-
-                <FormControlLabel
-                  sx={{
-                    m: "0px",
-                    color: "#617696",
-                    "& .MuiTypography-root": {
-                      fontSize: "14px !important",
-                    },
-                  }}
                   value="rejectsignture"
                   control={<Radio />}
                   label="رفض التوقيع"

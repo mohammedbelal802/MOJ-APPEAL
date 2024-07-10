@@ -70,7 +70,7 @@ export default function Landing() {
           >
             المصادقة على ضبط الجلسة
           </Button>
-          <Button
+          {/* <Button
             onClick={() => {
               dispatch(show());
               navigate("/check/caseid");
@@ -80,7 +80,7 @@ export default function Landing() {
             color="primary"
           >
             تقديم الطلبات القضائية
-          </Button>
+          </Button> */}
         </Box>
       </Container>
     </Box>

@@ -13,6 +13,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
+import moment from "moment-hijri";
+const currentHijriYear = moment().format("iYYYY");
+const currentYear = currentHijriYear;
 
 export default function AuthorizationPopup() {
   const {
@@ -25,7 +28,9 @@ export default function AuthorizationPopup() {
     formState: { isValid, errors },
   } = useForm<any>({
     mode: "all",
-    defaultValues: {},
+    defaultValues: {
+      year: +currentYear,
+    },
   });
 
   const dispatch = useAppDispatch();
@@ -55,7 +60,7 @@ export default function AuthorizationPopup() {
           مصادقة على :
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <HijriYearDropdown control={control} />
+          <HijriYearDropdown name={"year"} control={control} />
           <CloseBtn onClick={onClose} />
         </Box>
       </DialogTitle>

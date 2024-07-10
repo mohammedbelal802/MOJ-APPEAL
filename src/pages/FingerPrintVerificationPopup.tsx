@@ -12,6 +12,9 @@ import { hide, show } from "../store/modal/modalSlice";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
+import moment from "moment-hijri";
+const currentHijriYear = moment().format("iYYYY");
+const currentYear = currentHijriYear;
 
 export default function FingerPrintVerificationPopup() {
   const {
@@ -24,6 +27,7 @@ export default function FingerPrintVerificationPopup() {
     defaultValues: {
       sessionId: "",
       caseId: "",
+      year: +currentYear,
     },
   });
 
@@ -52,7 +56,7 @@ export default function FingerPrintVerificationPopup() {
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <HijriYearDropdown control={control} />
+          <HijriYearDropdown name={"year"} control={control} />
           <CloseBtn onClick={onClose} />
         </Box>
       </DialogTitle>

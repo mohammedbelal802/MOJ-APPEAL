@@ -2,34 +2,47 @@ import React, { ChangeEvent } from "react";
 import moment from "moment-hijri";
 import { Button, Menu, MenuItem } from "@mui/material";
 import Fade from "@mui/material/Fade";
+import { Controller } from "react-hook-form";
 
-const HijriYearDropdown = ({ control }: { control: any }) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+interface HijriYearDropdownProps {
+  control: any;
+  name: string;
+}
+
+const HijriYearDropdown: React.FC<HijriYearDropdownProps> = ({
+  control,
+  name,
+}) => {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const currentYear: any = moment().format("iYYYY");
-  const startYear = currentYear - 100; // Adjust as needed
-  const endYear = currentYear;
+
+  const currentYear: string = moment().format("iYYYY");
+  const startYear = parseInt(currentYear, 10) - 100; // Adjust as needed
+  const endYear = parseInt(currentYear, 10);
 
   const years: number[] = [];
   for (let year = endYear; year >= startYear; year--) {
     years.push(year);
   }
 
-  const MenuList = years.map((item: any) => (
-    <MenuItem
-      key={item}
-      sx={{ justifyContent: "center" }}
-      onClick={handleClose}
-    >
-      {item}
-    </MenuItem>
-  ));
+  const formatYear = (year: number): string => {
+    const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+    const westernDigits = "0123456789";
+    const formattedYear = year.toString().replace(/\d/g, (digit: string) => {
+      const westernIndex = westernDigits.indexOf(digit);
+      return westernIndex !== -1 ? arabicDigits[westernIndex] : digit;
+    });
+    return formattedYear;
+  };
+
   return (
     <>
       <Button
@@ -114,7 +127,29 @@ const HijriYearDropdown = ({ control }: { control: any }) => {
           },
         }}
       >
-        {MenuList}
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: { onChange, value } }) => (
+            <>
+              {years.map((item: number) => (
+                <MenuItem
+                  key={item}
+                  sx={{
+                    justifyContent: "center",
+                    backgroundColor: value === item ? "#077C5A1A" : undefined,
+                  }}
+                  onClick={() => {
+                    onChange(item);
+                    handleClose();
+                  }}
+                >
+                  {formatYear(item) + " " + "هـ"}
+                </MenuItem>
+              ))}
+            </>
+          )}
+        />
       </Menu>
     </>
   );

@@ -138,7 +138,7 @@ export default function Authorization() {
                 clipRule="evenodd"
               />
             </svg>
-            طباعة
+            عرض ملف الضبط
           </Button>
         </Box>
         <Authorize
