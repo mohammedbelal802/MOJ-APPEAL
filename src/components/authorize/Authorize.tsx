@@ -226,7 +226,7 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                 height: "70vh",
                 border: "0.8px solid #858B941A",
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
                 justifyContent: "center",
                 position: "relative",
                 paddingTop: "55px",
@@ -242,6 +242,7 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                   display: "flex",
                   alignItems: "center",
                   gap: "15px",
+                  zIndex: "2",
                 }}
               >
                 <Button
@@ -283,21 +284,25 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
               </Box>
               {renderedAuthType}
 
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                  p: "8px 16px 8px 16px",
-                  borderRadius: "8px",
-                  border: "1px solid #067C5A",
-                  background: "#fff",
-                }}
-              >
-                <Typography sx={{ color: "#067C5A", fontWeight: "700" }}>
-                  محمد عبدالله احمد الدوسري
-                </Typography>
-              </Box>
+              {(authType === "absence" || authType === "rejectsignature") && (
+                <Box
+                  sx={{
+                    // position: "absolute",
+                    bottom: "10px",
+                    right: "10px",
+                    p: "8px 16px 8px 16px",
+                    borderRadius: "8px",
+                    border: "1px solid #067C5A",
+                    background: "#fff",
+                    width: "fit-content",
+                    marginInlineStart: "10px",
+                  }}
+                >
+                  <Typography sx={{ color: "#067C5A", fontWeight: "700" }}>
+                    محمد عبدالله احمد الدوسري
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </>
         )}

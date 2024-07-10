@@ -14,7 +14,7 @@ export default function NoSigntureNotesInput({ control }: { control: any }) {
             style={{
               resize: "none",
               width: "100%",
-              height: "100%",
+              height: "80%",
               paddingInline: "30px",
               border: "none",
               outline: "none",

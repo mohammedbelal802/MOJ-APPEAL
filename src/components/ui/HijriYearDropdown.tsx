@@ -7,11 +7,13 @@ import { Controller } from "react-hook-form";
 interface HijriYearDropdownProps {
   control: any;
   name: string;
+  children: any;
 }
 
 const HijriYearDropdown: React.FC<HijriYearDropdownProps> = ({
   control,
   name,
+  children,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -76,7 +78,7 @@ const HijriYearDropdown: React.FC<HijriYearDropdownProps> = ({
             strokeLinejoin="round"
           />
         </svg>
-        السنة
+        {children}
         <svg
           style={{
             transform: `rotate(${open ? "180deg" : "0deg"})`,

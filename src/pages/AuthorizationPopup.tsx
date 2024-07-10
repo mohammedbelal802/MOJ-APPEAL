@@ -60,7 +60,9 @@ export default function AuthorizationPopup() {
           مصادقة على :
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <HijriYearDropdown name={"year"} control={control} />
+          <HijriYearDropdown name={"year"} control={control}>
+            {watch("year")}
+          </HijriYearDropdown>
           <CloseBtn onClick={onClose} />
         </Box>
       </DialogTitle>

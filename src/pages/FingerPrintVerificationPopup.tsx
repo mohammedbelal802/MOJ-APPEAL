@@ -21,6 +21,7 @@ export default function FingerPrintVerificationPopup() {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { isValid, errors },
   } = useForm({
     mode: "all",
@@ -56,7 +57,9 @@ export default function FingerPrintVerificationPopup() {
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <HijriYearDropdown name={"year"} control={control} />
+          <HijriYearDropdown name={"year"} control={control}>
+            {watch("year")}
+          </HijriYearDropdown>
           <CloseBtn onClick={onClose} />
         </Box>
       </DialogTitle>
