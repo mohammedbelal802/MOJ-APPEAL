@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import moment from "moment-hijri";
+import { formatYear } from "../utils/funcations";
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
 
@@ -29,7 +30,7 @@ export default function AuthorizationPopup() {
   } = useForm<any>({
     mode: "all",
     defaultValues: {
-      year: +currentYear,
+      year: formatYear(currentYear),
     },
   });
 
@@ -61,7 +62,7 @@ export default function AuthorizationPopup() {
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <HijriYearDropdown name={"year"} control={control}>
-            {watch("year")}
+            {watch("year") + " " + "هـ"}
           </HijriYearDropdown>
           <CloseBtn onClick={onClose} />
         </Box>

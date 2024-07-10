@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import moment from "moment-hijri";
+import { formatYear } from "../utils/funcations";
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
 
@@ -28,7 +29,7 @@ export default function FingerPrintVerificationPopup() {
     defaultValues: {
       sessionId: "",
       caseId: "",
-      year: +currentYear,
+      year: formatYear(currentYear),
     },
   });
 
@@ -58,7 +59,7 @@ export default function FingerPrintVerificationPopup() {
 
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <HijriYearDropdown name={"year"} control={control}>
-            {watch("year")}
+            {watch("year") + " " + "هـ"}
           </HijriYearDropdown>
           <CloseBtn onClick={onClose} />
         </Box>

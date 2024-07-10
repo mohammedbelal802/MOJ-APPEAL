@@ -3,6 +3,7 @@ import moment from "moment-hijri";
 import { Button, Menu, MenuItem } from "@mui/material";
 import Fade from "@mui/material/Fade";
 import { Controller } from "react-hook-form";
+import { formatYear } from "../../utils/funcations";
 
 interface HijriYearDropdownProps {
   control: any;
@@ -32,18 +33,8 @@ const HijriYearDropdown: React.FC<HijriYearDropdownProps> = ({
 
   const years: number[] = [];
   for (let year = endYear; year >= startYear; year--) {
-    years.push(year);
+    years.push(formatYear(year));
   }
-
-  const formatYear = (year: number): string => {
-    const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
-    const westernDigits = "0123456789";
-    const formattedYear = year.toString().replace(/\d/g, (digit: string) => {
-      const westernIndex = westernDigits.indexOf(digit);
-      return westernIndex !== -1 ? arabicDigits[westernIndex] : digit;
-    });
-    return formattedYear;
-  };
 
   return (
     <>
@@ -146,7 +137,7 @@ const HijriYearDropdown: React.FC<HijriYearDropdownProps> = ({
                     handleClose();
                   }}
                 >
-                  {formatYear(item) + " " + "هـ"}
+                  {item + " " + "هـ"}
                 </MenuItem>
               ))}
             </>
