@@ -160,7 +160,7 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                       fontSize: "14px !important",
                     },
                   }}
-                  value="rejectsignture"
+                  value="rejectsignature"
                   control={<Radio />}
                   label="رفض التوقيع"
                 />
