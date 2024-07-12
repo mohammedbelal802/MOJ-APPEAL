@@ -1,11 +1,13 @@
 import { Box, Button, Typography } from "@mui/material";
 import logo from "../../assets/authlogo.svg";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { logOut } from "../../store/auth/authSlice";
 export default function ProfileCard() {
-  const navigate = useNavigate();
-
+  const { data } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
-    navigate("/login");
+    dispatch(logOut());
   };
   return (
     <Box
@@ -54,7 +56,7 @@ export default function ProfileCard() {
             viewBox="0 0 87 87"
             fill="none"
           >
-            <g clip-path="url(#clip0_296_1258)">
+            <g clipPath="url(#clip0_296_1258)">
               <path
                 d="M30.5537 68.2081L17.5743 75.2879C16.8277 75.7042 16.1292 76.2013 15.4912 76.7702C23.3218 83.3889 33.2472 87.014 43.5003 87.0001C54.0946 87.0001 63.8008 83.2082 71.3469 76.9146C70.6482 76.3139 69.8799 75.7991 69.0586 75.3815L55.1599 68.433C54.2795 67.9928 53.539 67.3161 53.0215 66.4788C52.504 65.6415 52.2299 64.6766 52.2298 63.6923V58.2392C52.6205 57.7943 53.067 57.2231 53.5447 56.5484C55.42 53.8833 56.877 50.9472 57.8651 47.8419C59.6478 47.292 60.961 45.6455 60.961 43.6888V37.8681C60.961 36.5877 60.3914 35.4435 59.5066 34.6425V26.2281C59.5066 26.2281 61.2352 13.1338 43.5019 13.1338C25.7687 13.1338 27.4972 26.2281 27.4972 26.2281V34.6425C27.0418 35.0478 26.677 35.5446 26.4264 36.1003C26.1758 36.6561 26.0451 37.2584 26.0428 37.8681V43.6888C26.0428 45.222 26.8488 46.5713 28.0553 47.3511C29.5097 53.6824 33.318 58.2392 33.318 58.2392V63.5577C33.3168 64.5095 33.0595 65.4435 32.5731 66.2617C32.0868 67.0799 31.3893 67.7522 30.5537 68.2081Z"
                 fill="#E7ECED"
@@ -73,11 +75,7 @@ export default function ProfileCard() {
         </Box>
 
         <Typography sx={{ color: "#242934", fontWeight: "400" }}>
-          محمد عبدالله احمد الدوسري
-        </Typography>
-
-        <Typography sx={{ color: "#242934", fontWeight: "400" }}>
-          mohamed.abdullah
+          {data?.name}
         </Typography>
 
         <Button

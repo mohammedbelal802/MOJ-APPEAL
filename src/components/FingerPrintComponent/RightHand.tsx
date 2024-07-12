@@ -31,26 +31,26 @@ export default function LeftHand({ control }: { control: any }) {
               />
               <ActiveFinger
                 sx={{ right: "20.5%", top: "22%", height: "25%" }}
-                fingerNumber={6}
+                fingerNumber={5}
                 currentFinger={field.value}
                 onClick={(number) => field.onChange(number)}
               />
               <ActiveFinger
                 sx={{ right: "36%", top: "13%", height: "30%" }}
-                fingerNumber={7}
+                fingerNumber={4}
                 currentFinger={field.value}
                 onClick={(number) => field.onChange(number)}
               />
               <ActiveFinger
                 sx={{ right: "51%", top: "10%", height: "33%" }}
-                fingerNumber={8}
+                fingerNumber={3}
                 currentFinger={field.value}
                 onClick={(number) => field.onChange(number)}
               />
 
               <ActiveFinger
                 sx={{ right: "66.5%", top: "16%", height: "28%" }}
-                fingerNumber={9}
+                fingerNumber={2}
                 currentFinger={field.value}
                 onClick={(number) => field.onChange(number)}
               />
@@ -62,7 +62,7 @@ export default function LeftHand({ control }: { control: any }) {
                   transform: "rotate(-34deg)",
                   height: "20%",
                 }}
-                fingerNumber={10}
+                fingerNumber={1}
                 currentFinger={field.value}
                 onClick={(number) => field.onChange(number)}
               />

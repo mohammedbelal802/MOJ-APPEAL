@@ -58,7 +58,7 @@ export default function AuthorizationPopup() {
         <Typography
           sx={{ color: "#3D3F65", fontSize: "22px", fontWeight: "400" }}
         >
-          مصادقة على :
+          مصادقة على ضبط الجلسه :
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <HijriYearDropdown name={"year"} control={control}>

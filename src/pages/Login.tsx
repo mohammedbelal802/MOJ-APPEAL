@@ -2,28 +2,31 @@ import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { warningToast } from "../utils/toasts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { signIn } from "../store/auth/authSlice";
 
 export default function Login() {
+  const { status, isAuth } = useAppSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "all",
   });
   const navigate = useNavigate();
-  const handleLogin = (data: any) => {
-    console.log(data);
-    const username = data.username;
-    const iserror = username != "mohamed";
-    if (iserror) {
-      warningToast("اسم المستخدم أو كلمة المرور غير صحيحة");
-      return;
-    }
-    navigate("/");
+  const dispatch = useAppDispatch();
+  const handleLogin = async (data: any) => {
+    await dispatch(signIn(data));
   };
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth]);
 
   return (
     <Box
@@ -214,7 +217,7 @@ export default function Login() {
               backgroundColor: "#31ac4ebd",
             },
           }}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           fullWidth
           variant="contained"
         >

@@ -13,7 +13,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import moment from "moment-hijri";
-import { formatYear } from "../utils/funcations";
+import { convertToEnglish, formatYear } from "../utils/funcations";
+import { getFingerPrintCase } from "../store/fingerPrintVerification/fingerPrintCaseSlice";
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
 
@@ -23,12 +24,12 @@ export default function FingerPrintVerificationPopup() {
     handleSubmit,
     control,
     watch,
-    formState: { isValid, errors },
+    formState: { isValid, errors, isSubmitting },
   } = useForm({
     mode: "all",
     defaultValues: {
-      sessionId: "",
-      caseId: "",
+      sessionNumber: null,
+      caseNumber: null,
       year: formatYear(currentYear),
     },
   });
@@ -36,10 +37,13 @@ export default function FingerPrintVerificationPopup() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onClose = () => dispatch(hide());
-  const onSubmit = (data: any) => {
-    dispatch(show());
-    console.log(data);
-    navigate("/modal/fingerprint");
+  const onSubmit = async (data: any) => {
+    await dispatch(
+      getFingerPrintCase({
+        data: { ...data, year: convertToEnglish(data.year) },
+        navigate: navigate,
+      })
+    );
   };
 
   return (
@@ -67,17 +71,18 @@ export default function FingerPrintVerificationPopup() {
       <DialogContent>
         <form style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <div>
-            <label htmlFor="caseId">رقم القضية</label>
+            <label htmlFor="caseNumber">رقم القضية</label>
             <TextField
-              {...register("caseId", {
-                required: { value: true, message: "caseId required" },
+              {...register("caseNumber", {
+                required: { value: true, message: "caseNumber required" },
               })}
               autoComplete="off"
               variant="outlined"
               fullWidth
               margin="dense"
-              id="caseId"
-              error={errors?.caseId?.message ? true : false}
+              id="caseNumber"
+              type="number"
+              error={errors?.caseNumber?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
                 width: "100%",
@@ -111,17 +116,18 @@ export default function FingerPrintVerificationPopup() {
           </div>
 
           <div>
-            <label htmlFor="sessionId">رقم الجلسة</label>
+            <label htmlFor="sessionNumber">رقم الجلسة</label>
             <TextField
-              {...register("sessionId", {
-                required: { value: true, message: "sessionId required" },
+              {...register("sessionNumber", {
+                required: { value: true, message: "sessionNumber required" },
               })}
               autoComplete="off"
               variant="outlined"
               fullWidth
               margin="dense"
-              id="sessionId"
-              error={errors?.sessionId?.message ? true : false}
+              id="sessionNumber"
+              type="number"
+              error={errors?.sessionNumber?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
                 width: "100%",
@@ -166,7 +172,7 @@ export default function FingerPrintVerificationPopup() {
               onClick={handleSubmit(onSubmit)}
               variant="contained"
               color="primary"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               sx={{
                 width: "fit-content",
                 fontWeight: "500",

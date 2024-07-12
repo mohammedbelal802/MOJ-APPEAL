@@ -1,3 +1,5 @@
+const { dispatchSetImageSrc } = require("../../store/reduxHelper");
+
 const Fingerprint = window.Fingerprint;
 
 const FingerprintSdk = (function () {
@@ -44,16 +46,14 @@ function samplesAcquired(s) {
   // // Get samples from the object - get 0th element of samples as base 64 encoded PNG image
   localStorage.setItem("imageSrc", "");
   let samples = JSON.parse(s.samples);
-  localStorage.setItem(
-    "imageSrc",
-    "data:image/png;base64," + Fingerprint.b64UrlTo64(samples[0])
-  );
-  let vDiv = document.getElementById("imagediv");
-  vDiv.innerHTML = "";
-  let image = document.createElement("img");
-  image.id = "image";
-  image.src = localStorage.getItem("imageSrc");
-  vDiv.appendChild(image);
+  localStorage.setItem("imageSrc", Fingerprint.b64UrlTo64(samples[0]));
+  // let vDiv = document.getElementById("imagediv");
+  // vDiv.innerHTML = "";
+  dispatchSetImageSrc(localStorage.getItem("imageSrc"));
+  // let image = document.createElement("img");
+  // image.id = "image";
+  // image.src = localStorage.getItem("imageSrc");
+  // vDiv.appendChild(image);
   // }
 }
 

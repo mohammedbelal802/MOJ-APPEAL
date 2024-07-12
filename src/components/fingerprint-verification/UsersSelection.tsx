@@ -1,8 +1,19 @@
 import { Box, Typography } from "@mui/material";
 import { usersConfig } from "../../utils/config";
 import { Controller } from "react-hook-form";
-
-export default function UsersSelection({ control }: { control: any }) {
+interface PERSON {
+  id: number;
+  job: string;
+  name: string;
+  status: string;
+}
+export default function UsersSelection({
+  control,
+  users,
+}: {
+  control: any;
+  users: Array<PERSON>;
+}) {
   return (
     <div>
       <Typography
@@ -33,7 +44,7 @@ export default function UsersSelection({ control }: { control: any }) {
               }}
             >
               <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
-                {usersConfig.map((item: any, index: number) => {
+                {users.map((item: PERSON, index: number) => {
                   return (
                     <Box
                       key={index}
@@ -42,15 +53,16 @@ export default function UsersSelection({ control }: { control: any }) {
                         flexShrink: 0,
                         padding: "8px 20px",
                         backgroundColor:
-                          field.value === item ? "#077C5A" : "#F5F8FA",
-                        color: field.value === item ? "#fff" : "#617696",
+                          field?.value?.id === item.id ? "#077C5A" : "#F5F8FA",
+                        color:
+                          field?.value?.id === item.id ? "#fff" : "#617696",
                         fontSize: "12px",
                         fontWeight: "400",
                         borderRadius: "8px",
                       }}
                       onClick={() => field.onChange(item)}
                     >
-                      {item}
+                      {item.name}
                     </Box>
                   );
                 })}

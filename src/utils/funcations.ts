@@ -7,3 +7,26 @@ export const formatYear = (year: any): any => {
   });
   return formattedYear;
 };
+
+export const convertToEnglish = (numbers: any) => {
+  const arabicToWestern: { [key: string]: string } = {
+    "٠": "0",
+    "١": "1",
+    "٢": "2",
+    "٣": "3",
+    "٤": "4",
+    "٥": "5",
+    "٦": "6",
+    "٧": "7",
+    "٨": "8",
+    "٩": "9",
+  };
+
+  let westernNumber = "";
+  for (let i = 0; i < numbers.length; i++) {
+    const digit = numbers[i];
+    westernNumber += arabicToWestern[digit] || digit;
+  }
+
+  return westernNumber;
+};

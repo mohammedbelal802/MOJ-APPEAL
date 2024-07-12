@@ -60,26 +60,4 @@ export const warningToast = (message: string) =>
     }
   );
 
-// export const successToast = (message: string) =>
-//   toast(
-//     (t) => (
-//       <span style={{ display: "flex", alignItems: "center" }}>
-//         {message}
-//         <IonIcon
-//           role="button"
-//           onClick={() => toast.dismiss(t.id)}
-//           name="close-outline"
-//           style={{ fontSize: "16px", flexShrink: "0", cursor: "pointer" }}
-//         />
-//       </span>
-//     ),
-//     {
-//       icon: (
-//         <IonIcon
-//           name="close-circle-outline"
-//           style={{ flexShrink: 0, color: "#C62F35", fontSize: "20px" }}
-//         />
-//       ),
-//       duration: Infinity,
-//     }
-//   );
+export const successToast = (message: string) => toast.success(message);

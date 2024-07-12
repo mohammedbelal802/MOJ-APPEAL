@@ -6,7 +6,7 @@ interface props {
 }
 
 const login = async (data: props) => {
-  const response = await apiClient.post("", data);
+  const response = await apiClient.post("/auth", data);
   return response.data;
 };
 
