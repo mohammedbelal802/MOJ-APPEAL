@@ -41,7 +41,7 @@ export const signIn = createAsyncThunk(
     try {
       const response = await authServices.login({ username, password });
       console.log(response);
-      successToast(response.responseMessage);
+      successToast("تم الدخول بنجاح");
       window.localStorage.setItem("user", JSON.stringify(response.data));
       return response.data;
     } catch (error: any) {

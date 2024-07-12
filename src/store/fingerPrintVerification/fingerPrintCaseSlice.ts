@@ -43,7 +43,6 @@ export const getFingerPrintCase = createAsyncThunk(
   ) => {
     try {
       const response = await fingerPrintServices.getFingerPrintCase(data);
-      successToast(response.responseMessage);
       navigate("/modal/fingerprint");
       return response.data;
     } catch (error: any) {
