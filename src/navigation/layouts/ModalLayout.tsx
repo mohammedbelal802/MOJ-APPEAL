@@ -1,6 +1,6 @@
 import { Dialog } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 export default function ModalLayout() {
   const modaalState = useAppSelector((state) => state.modal);

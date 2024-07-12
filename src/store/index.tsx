@@ -3,6 +3,7 @@ import modalSlice from "./modal/modalSlice";
 import fingerPrintSlice from "./fingerprint/fingerPrintSlice";
 import authSlice from "./auth/authSlice";
 import fingerPrintCaseSlice from "./fingerPrintVerification/fingerPrintCaseSlice";
+import verificationCaseSlice from "./verificationCase/verificationCaseSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     modal: modalSlice,
     fingerPrint: fingerPrintSlice,
     fingerPrintCase: fingerPrintCaseSlice,
+    verificationCase: verificationCaseSlice,
   },
 });
 

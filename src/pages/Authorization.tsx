@@ -5,14 +5,26 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { hide } from "../store/modal/modalSlice";
 import CloseBtn from "../components/ui/buttons/CloseBtn";
 import Authorize from "../components/authorize/Authorize";
 import { useState } from "react";
 import Alert from "../components/Alert";
+interface PERSON {
+  id: any;
+  job: string;
+  name: string;
+  status: string;
+}
 export default function Authorization() {
-  const [selectedUser, setSelectedUser] = useState("");
+  const { data } = useAppSelector((state) => state.verificationCase);
+  const [selectedUser, setSelectedUser] = useState<PERSON>({
+    id: null,
+    name: "",
+    job: "",
+    status: "",
+  });
   const [openAlert, setOpenAlert] = useState(false);
   const dispatch = useAppDispatch();
   const onSubmit = () => dispatch(hide());
@@ -82,6 +94,9 @@ export default function Authorization() {
           }}
         >
           <Button
+            onClick={() => {
+              window.open(data.reportURL, "_blank");
+            }}
             sx={{
               width: "fit-content",
               fontWeight: "500",
@@ -114,6 +129,7 @@ export default function Authorization() {
           </Button>
         </Box>
         <Authorize
+          users={data.persons}
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
         />

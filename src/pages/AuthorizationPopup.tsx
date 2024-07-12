@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import moment from "moment-hijri";
-import { formatYear } from "../utils/funcations";
+import { convertToEnglish, formatYear } from "../utils/funcations";
+import { getVerificationCase } from "../store/verificationCase/verificationCaseSlice";
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
 
@@ -24,9 +25,8 @@ export default function AuthorizationPopup() {
     handleSubmit,
     watch,
     resetField,
-    getValues,
     control,
-    formState: { isValid, errors },
+    formState: { isValid, errors, isSubmitting },
   } = useForm<any>({
     mode: "all",
     defaultValues: {
@@ -37,13 +37,17 @@ export default function AuthorizationPopup() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onClose = () => dispatch(hide());
-  const onSubmit = () => {
-    dispatch(show());
-    navigate("/modal/authorization", { state: getValues("option") });
+  const onSubmit = async (data: any) => {
+    await dispatch(
+      getVerificationCase({
+        data: { ...data, year: convertToEnglish(data.year) },
+        navigate: navigate,
+      })
+    );
   };
 
   useEffect(() => {
-    resetField("sessionId");
+    resetField("sessionNumber");
   }, [watch("option")]);
 
   return (
@@ -73,17 +77,17 @@ export default function AuthorizationPopup() {
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <div>
-            <label htmlFor="caseId">رقم القضية</label>
+            <label htmlFor="caseNumber">رقم القضية</label>
             <TextField
-              {...register("caseId", {
-                required: { value: true, message: "caseId requried" },
+              {...register("caseNumber", {
+                required: { value: true, message: "caseNumber requried" },
               })}
               autoComplete="off"
               variant="outlined"
               fullWidth
               margin="dense"
-              id="caseId"
-              error={errors?.caseId?.message ? true : false}
+              id="caseNumber"
+              error={errors?.caseNumber?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
                 width: "100%",
@@ -119,15 +123,15 @@ export default function AuthorizationPopup() {
           <div>
             <label
               style={{ opacity: watch("option") === "roling" ? "0.3" : "1" }}
-              htmlFor="sessionId"
+              htmlFor="sessionNumber"
             >
               رقم الجلسة
             </label>
             <TextField
-              {...register("sessionId", {
+              {...register("sessionNumber", {
                 required: {
                   value: watch("option") === "roling" ? false : true,
-                  message: "caseId required",
+                  message: "caseNumber required",
                 },
               })}
               disabled={watch("option") === "roling" ? true : false}
@@ -135,8 +139,8 @@ export default function AuthorizationPopup() {
               variant="outlined"
               fullWidth
               margin="dense"
-              id="sessionId"
-              error={errors?.sessionId?.message ? true : false}
+              id="sessionNumber"
+              error={errors?.sessionNumber?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
                 width: "100%",
@@ -185,7 +189,7 @@ export default function AuthorizationPopup() {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               sx={{
                 width: "fit-content",
                 fontWeight: "500",

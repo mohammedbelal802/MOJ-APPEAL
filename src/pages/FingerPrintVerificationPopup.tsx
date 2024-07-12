@@ -116,7 +116,7 @@ export default function FingerPrintVerificationPopup() {
           </div>
 
           <div>
-            <label htmlFor="sessionNumber">رقم الجلسة</label>
+            <label htmlFor="sessionNumber">رقم الجلسة </label>
             <TextField
               {...register("sessionNumber", {
                 required: { value: true, message: "sessionNumber required" },

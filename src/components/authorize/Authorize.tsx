@@ -16,12 +16,24 @@ import { useForm } from "react-hook-form";
 import NoSigntureNotesInput from "../NoSigntureNotesInput";
 import AbsenceNotesInput from "../AbsenceNotesInput";
 
-interface Props {
-  selectedUser: string;
-  setSelectedUser: (item: any) => void;
+interface PERSON {
+  id: any;
+  job: string;
+  name: string;
+  status: string;
 }
 
-export default function Authorize({ selectedUser, setSelectedUser }: Props) {
+interface Props {
+  selectedUser: PERSON;
+  setSelectedUser: (item: any) => void;
+  users: Array<PERSON>;
+}
+
+export default function Authorize({
+  selectedUser,
+  setSelectedUser,
+  users,
+}: Props) {
   const {
     control,
     reset,
@@ -79,8 +91,8 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
       </Typography>
       <Box sx={{ backgroundColor: "#fff", p: "24px", borderRadius: "4px" }}>
         <div>
-          <Box sx={{ display: "flex", gap: "12px" }}>
-            {usersConfig.map((item: string, index: number) => {
+          <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
+            {users.map((item: PERSON, index: number) => {
               return (
                 <Box
                   key={index}
@@ -89,15 +101,15 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                     flexShrink: 0,
                     padding: "8px 20px",
                     backgroundColor:
-                      selectedUser === item ? "#077C5A" : "#F5F8FA",
-                    color: selectedUser === item ? "#fff" : "#617696",
+                      selectedUser?.id === item.id ? "#077C5A" : "#F5F8FA",
+                    color: selectedUser.id === item.id ? "#fff" : "#617696",
                     fontSize: "12px",
                     fontWeight: "400",
                     borderRadius: "8px",
                   }}
                   onClick={() => setSelectedUser(item)}
                 >
-                  {item}
+                  {item.name}
                 </Box>
               );
             })}
@@ -195,7 +207,7 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                   <Typography
                     sx={{ color: "#000", fontSize: "14px", fontWeight: "400" }}
                   >
-                    1005487961
+                    {selectedUser.id}
                   </Typography>
                 </div>
 
@@ -214,7 +226,7 @@ export default function Authorize({ selectedUser, setSelectedUser }: Props) {
                   <Typography
                     sx={{ color: "#000", fontSize: "14px", fontWeight: "400" }}
                   >
-                    مدعي عليه
+                    {selectedUser?.job}
                   </Typography>
                 </div>
               </Box>
