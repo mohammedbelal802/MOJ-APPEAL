@@ -18,7 +18,11 @@ const verifyFingerPrint = async (data: VERIFY_FINGERPRINT_PROPS) => {
   return response.data;
 };
 
-const submitFingerPrint = async (data: SUBMIT_FINGERPRINT_PROPS) => {
+const submitFingerPrint = async (data: {
+  id: string;
+  sessionId: string;
+  status: string;
+}) => {
   const response = await apiClient.post("/submit-fingerprint", data);
   return response.data;
 };

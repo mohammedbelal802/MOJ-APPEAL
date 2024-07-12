@@ -16,9 +16,11 @@ import { useState } from "react";
 import FingerPrintComponent from "../components/FingerPrintComponent";
 import { verifyFingerPrint } from "../store/fingerPrintVerification/fingerPrintCaseSlice";
 import { storeFingerPrint } from "../store/fingerprint/fingerPrintSlice";
+import error from "../assets/error.png";
+import success from "../assets/success.png";
 
 export default function FingerPrintVerification() {
-  const { data } = useAppSelector((state) => state.fingerPrintCase);
+  const { data, status } = useAppSelector((state) => state.fingerPrintCase);
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -44,6 +46,9 @@ export default function FingerPrintVerification() {
     };
     await dispatch(verifyFingerPrint({ data: formatedData }));
   };
+
+  console.log(status);
+
   return (
     <>
       <Alert
@@ -221,7 +226,7 @@ export default function FingerPrintVerification() {
               </Box>
             </Box>
 
-            <FingerPrintComponent control={control} />
+            <FingerPrintComponent status={status} control={control} />
           </Box>
         </form>
       </DialogContent>

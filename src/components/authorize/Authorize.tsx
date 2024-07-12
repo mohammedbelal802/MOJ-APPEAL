@@ -51,7 +51,9 @@ export default function Authorize({
       );
       break;
     case "fingerprint":
-      renderedAuthType = <FingerPrintComponent control={control} />;
+      renderedAuthType = (
+        <FingerPrintComponent status={"idle"} control={control} />
+      );
       break;
     case "rejectsignature":
       renderedAuthType = <NoSigntureNotesInput control={control} />;

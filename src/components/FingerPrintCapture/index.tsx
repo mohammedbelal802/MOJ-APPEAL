@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FingerprintSdk } from "../../fingerprint_reader/api/sdk_mod";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { storeFingerPrint } from "../../store/fingerprint/fingerPrintSlice";
+import { resetFingerPrintCase } from "../../store/fingerPrintVerification/fingerPrintCaseSlice";
 
 const FingerPrintCapture: React.FC = () => {
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [fingerprint, setFingerprint] = useState<any | null>(null);
   const [deviceId, setDeviceId] = useState<string>("");
-const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const initializeFingerprintSdk = async () => {
       try {
@@ -27,6 +28,7 @@ const dispatch = useAppDispatch();
 
     return () => {
       dispatch(storeFingerPrint(""));
+      dispatch(resetFingerPrintCase());
       if (fingerprint) {
         fingerprint.stopCapture();
       }

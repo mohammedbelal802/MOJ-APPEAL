@@ -56,21 +56,20 @@ export const getFingerPrintCase = createAsyncThunk(
 export const verifyFingerPrint = createAsyncThunk(
   "/verifyFingerPrint",
   async ({ data }: { data: VERIFY_FINGERPRINT_PROPS }, thunkApi) => {
+    const state: any = thunkApi.getState();
+    const fingerPrintCaseData = state.fingerPrintCase.data;
     try {
-      const state: any = thunkApi.getState();
-      const fingerPrintCaseData = state.fingerPrintCase.data;
       console.log(fingerPrintCaseData);
 
       const response = await fingerPrintServices.verifyFingerPrint(data);
+
       if (response.responseCode === 200)
         thunkApi.dispatch(
           submitFingerPrint({
             data: {
-              sessionNumber: fingerPrintCaseData.sessionId,
-              caseNumber: fingerPrintCaseData.sessionId,
+              sessionId: fingerPrintCaseData.sessionId,
               id: data.Parameters.id,
-              status: fingerPrintCaseData.status,
-              year: fingerPrintCaseData.year,
+              status: "10",
             },
           })
         );
@@ -78,6 +77,17 @@ export const verifyFingerPrint = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       warningToast(error?.response?.data?.responseMessage);
+
+      if (error?.response.data.responseCode === 404)
+        thunkApi.dispatch(
+          submitFingerPrint({
+            data: {
+              sessionId: fingerPrintCaseData.sessionId,
+              id: data.Parameters.id,
+              status: "20",
+            },
+          })
+        );
       return thunkApi.rejectWithValue(error?.response?.data?.responseMessage);
     }
   }
@@ -85,7 +95,10 @@ export const verifyFingerPrint = createAsyncThunk(
 
 export const submitFingerPrint = createAsyncThunk(
   "/submitFingerPrint",
-  async ({ data }: { data: SUBMIT_FINGERPRINT_PROPS }, thunkApi) => {
+  async (
+    { data }: { data: { id: string; sessionId: string; status: string } },
+    thunkApi
+  ) => {
     try {
       const response = await fingerPrintServices.submitFingerPrint(data);
 
@@ -100,17 +113,26 @@ export const submitFingerPrint = createAsyncThunk(
 const fingerPrintSlice = createSlice({
   name: "fingerprint",
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    resetFingerPrintCase: (state) => INITIAL_STATE,
+  },
   extraReducers: (builder) => {
-    builder.addCase(getFingerPrintCase.fulfilled, (state, action) => {
-      state.status = "success";
-      state.data = {
-        ...action.payload,
-        year: action.meta.arg.data.year,
-        caseNumber: action.meta.arg.data.caseNumber,
-      };
-    });
+    builder
+      .addCase(getFingerPrintCase.fulfilled, (state, action) => {
+        state.data = {
+          ...action.payload,
+          year: action.meta.arg.data.year,
+          caseNumber: action.meta.arg.data.caseNumber,
+        };
+      })
+      .addCase(verifyFingerPrint.fulfilled, (state) => {
+        state.status = "success";
+      })
+      .addCase(verifyFingerPrint.rejected, (state) => {
+        state.status = "error";
+      });
   },
 });
 
+export const { resetFingerPrintCase } = fingerPrintSlice.actions;
 export default fingerPrintSlice.reducer;
