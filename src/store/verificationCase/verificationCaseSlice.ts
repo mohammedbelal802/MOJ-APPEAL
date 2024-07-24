@@ -5,6 +5,7 @@ import {
   VERIFY_FINGERPRINT_PROPS,
 } from "../../utils/types";
 import verificationCaseServices from "./verificationServices";
+import { hide } from "../modal/modalSlice";
 
 interface PERSON {
   id: number;
@@ -54,6 +55,36 @@ export const getVerificationCase = createAsyncThunk(
   }
 );
 
+
+export const generateQrCode = createAsyncThunk("/generate-qr",async ({data}:{data:any},thunkApi) =>{
+  try {    
+    const response = await verificationCaseServices.generateQrCode(data);
+    
+    return  response.data
+  } catch (error:any) {
+  return thunkApi.rejectWithValue(error?.response?.data?.data)
+  }
+})
+
+export const submitVerification = createAsyncThunk("/submit-verification",async ({data}:{data:any},thunkApi) =>{
+  try {
+      const state:any =thunkApi.getState();
+      const verficationCaseData = state.verificationCase.data;
+      const verficationCaseSubmitedData = {...data,caseNumber:verficationCaseData.caseNumber,sessionNumber:verficationCaseData.sessionId,year:verficationCaseData.year}
+
+      console.log(verficationCaseSubmitedData);
+      
+      
+    const response = await verificationCaseServices.submitVerification(verficationCaseSubmitedData);
+    successToast(response.responseMessage);
+    thunkApi.dispatch(hide());
+    return  true
+  } catch (error:any) {
+    warningToast(error?.response?.data?.responseMessage)
+  return thunkApi.rejectWithValue(error?.response?.data?.responseMessage)
+  }
+})
+
 const verificationCaseSlice = createSlice({
   name: "verificationCase",
   initialState: INITIAL_STATE,
@@ -65,6 +96,7 @@ const verificationCaseSlice = createSlice({
         ...action.payload,
         year: action.meta.arg.data.year,
         caseNumber: action.meta.arg.data.caseNumber,
+        sessionId:action.meta.arg.data.sessionNumber
       };
     });
   },

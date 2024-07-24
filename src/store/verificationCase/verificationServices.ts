@@ -13,8 +13,21 @@ const getVerificationCase = async (data: {
   return response.data;
 };
 
+
+const generateQrCode = async (data:any) =>{
+  const response = await apiClient.post("/generate-qr",data);
+  return response.data
+}
+
+const submitVerification = async (data:any) => {
+  const response =await apiClient.post("/submit-verfication",data);
+  return response.data;
+}
+
 const getVerificationCaseServices = {
   getVerificationCase,
+  generateQrCode,
+  submitVerification
 };
 
 export default getVerificationCaseServices;

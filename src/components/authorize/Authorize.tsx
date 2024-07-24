@@ -15,6 +15,8 @@ import FingerPrintComponent from "../FingerPrintComponent";
 import { useForm } from "react-hook-form";
 import NoSigntureNotesInput from "../NoSigntureNotesInput";
 import AbsenceNotesInput from "../AbsenceNotesInput";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { generateQrCode, submitVerification } from "../../store/verificationCase/verificationCaseSlice";
 
 interface PERSON {
   id: any;
@@ -38,33 +40,36 @@ export default function Authorize({
     control,
     reset,
     setValue,
-    formState: { isValid },
+    formState: { isValid ,isSubmitting},
+    handleSubmit,
   } = useForm({});
-  const [authType, setAuthType] = useState("signature");
+  const { image } = useAppSelector((state) => state.fingerPrint);
+
+  const [authType, setAuthType] = useState(1);
   const [signature, setSignature] = useState<any>("");
 
   let renderedAuthType;
   switch (authType) {
-    case "signature":
+    case 1:
       renderedAuthType = (
         <DigitalSigntureInput signture={signature} setSignture={setSignature} />
       );
       break;
-    case "fingerprint":
+    case 2:
       renderedAuthType = (
         <FingerPrintComponent status={"idle"} control={control} />
       );
       break;
-    case "rejectsignature":
+    case 3:
       renderedAuthType = <NoSigntureNotesInput control={control} />;
       break;
-    case "absence":
+    case 4:
       renderedAuthType = <AbsenceNotesInput control={control} />;
       break;
     default:
       renderedAuthType = null;
   }
-
+const dispatch = useAppDispatch()
   const onReset = () => {
     setValue("absenceNotes", "");
     setValue("noSigntureNotes", "");
@@ -74,6 +79,47 @@ export default function Authorize({
       signature.clear();
     }
   };
+  const onVerificationSubmit =async (data:any) =>{
+    console.log(data);
+    
+    let submitVerificationData :any = {
+      id:selectedUser.id,
+      verficationType:authType,
+      coordinatorName:selectedUser.name
+    }
+    // "id": "string",
+    // "year": 0,
+    // "caseNumber": 0,
+    // "sessionNumber": 0,
+    // "verficationType": 0,
+    // "verficationImage": "string",
+    // "verficationQrImage": "string",
+    // "verficationDescription": "string",
+    // "coordinatorName": "string"
+
+    if(authType === 1){
+      const data:any = {data:{judgeName :selectedUser.name,court: "المحكمة الجزائية بالرياض"}}
+      submitVerificationData.verficationImage=signature?.toDataURL()?.split(",")?.[1];
+
+  
+    }
+    if(authType ===2){
+      const res = await dispatch(generateQrCode({data}))
+      if(res.meta.requestStatus==="fulfilled")     submitVerificationData.verficationQrImage=res.payload;
+
+      submitVerificationData.verficationImage = image
+
+    }
+    if(authType === 3 ){
+      submitVerificationData.verficationDescription =data.noSigntureNotes
+    }if(authType === 4){
+      submitVerificationData.verficationDescription =data.absenceNotes
+    }
+    console.log(authType);
+    console.log(selectedUser);
+  await  dispatch(submitVerification({data:submitVerificationData}))
+    
+  }
 
   useEffect(() => {
     onReset();
@@ -91,6 +137,7 @@ export default function Authorize({
       >
         مصادقة
       </Typography>
+      <form onSubmit={handleSubmit(onVerificationSubmit)}>
       <Box sx={{ backgroundColor: "#fff", p: "24px", borderRadius: "4px" }}>
         <div>
           <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
@@ -136,7 +183,7 @@ export default function Authorize({
             >
               <RadioGroup
                 name={"authType"}
-                onChange={(e) => setAuthType(e.target.value)}
+                onChange={(e) => setAuthType(+e.target.value)}
                 value={authType}
                 sx={{ flexDirection: "row", columnGap: "70px", rowGap: "20px" }}
               >
@@ -148,7 +195,7 @@ export default function Authorize({
                       fontSize: "14px !important",
                     },
                   }}
-                  value="signature"
+                  value="1"
                   control={<Radio />}
                   label="توقيع حي على الشاشة"
                 />
@@ -161,7 +208,7 @@ export default function Authorize({
                       fontSize: "14px !important",
                     },
                   }}
-                  value="fingerprint"
+                  value="2"
                   control={<Radio />}
                   label="البصمة"
                 />
@@ -174,7 +221,7 @@ export default function Authorize({
                       fontSize: "14px !important",
                     },
                   }}
-                  value="rejectsignature"
+                  value="3"
                   control={<Radio />}
                   label="رفض التوقيع"
                 />
@@ -187,7 +234,7 @@ export default function Authorize({
                       fontSize: "14px !important",
                     },
                   }}
-                  value="absence"
+                  value="4"
                   control={<Radio />}
                   label="لم يحضر"
                 />
@@ -263,7 +310,8 @@ export default function Authorize({
                   sx={{ p: "8px 30px 8px 30px", borderRadius: "30px" }}
                   variant="contained"
                   color="primary"
-                  disabled={!isValid}
+                  disabled={!isValid || !selectedUser.id || isSubmitting}
+                  type="submit"
                 >
                   تأكيد
                 </Button>
@@ -298,7 +346,7 @@ export default function Authorize({
               </Box>
               {renderedAuthType}
 
-              {(authType === "absence" || authType === "rejectsignature") && (
+              {(authType === 3 || authType === 4) && (
                 <Box
                   sx={{
                     // position: "absolute",
@@ -321,6 +369,7 @@ export default function Authorize({
           </>
         )}
       </Box>
+      </form>
     </div>
   );
 }
