@@ -7,6 +7,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
+import { usersConfig } from "../../utils/config";
 import NoUserSelected from "../fingerprint-verification/NoUserSelected";
 import { useEffect, useState } from "react";
 import DigitalSigntureInput from "../DigitalSigntureInput";
@@ -102,17 +103,17 @@ export default function Authorize({
     // "coordinatorName": "string"
 
     if (authType === 1) {
+      submitVerificationData.verficationImage = signature
+        ?.toDataURL()
+        ?.split(",")?.[1];
+    }
+    if (authType === 2) {
       const data: any = {
         data: {
           judgeName: selectedUser.name,
           court: "المحكمة الجزائية بالرياض",
         },
       };
-      submitVerificationData.verficationImage = signature
-        ?.toDataURL()
-        ?.split(",")?.[1];
-    }
-    if (authType === 2) {
       const res = await dispatch(generateQrCode({ data }));
       if (res.meta.requestStatus === "fulfilled")
         submitVerificationData.verficationQrImage = res.payload;
