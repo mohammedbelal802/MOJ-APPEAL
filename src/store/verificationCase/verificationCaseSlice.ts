@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { successToast, warningToast } from "../../utils/toasts";
-import {
-  SUBMIT_FINGERPRINT_PROPS,
-  VERIFY_FINGERPRINT_PROPS,
-} from "../../utils/types";
+
 import verificationCaseServices from "./verificationServices";
-import { hide } from "../modal/modalSlice";
 
 interface PERSON {
   id: number;
@@ -20,14 +16,21 @@ interface FINGERPRINT_CASE_DATA {
   reportURL: string;
 }
 
+interface SUBMITED_PERSON {
+  id: number;
+  types: Array<number>;
+}
+
 interface INITIAL_STATE_props {
   status: "idle" | "success" | "error" | "pending";
   data: FINGERPRINT_CASE_DATA;
+  submitedPersons: Array<SUBMITED_PERSON>;
 }
 
 const INITIAL_STATE: INITIAL_STATE_props = {
   status: "idle",
   data: { persons: [], sessionId: "", status: "", reportURL: "" },
+  submitedPersons: [],
 };
 
 export const getVerificationCase = createAsyncThunk(
@@ -55,35 +58,43 @@ export const getVerificationCase = createAsyncThunk(
   }
 );
 
+export const generateQrCode = createAsyncThunk(
+  "/generate-qr",
+  async ({ data }: { data: any }, thunkApi) => {
+    try {
+      const response = await verificationCaseServices.generateQrCode(data);
 
-export const generateQrCode = createAsyncThunk("/generate-qr",async ({data}:{data:any},thunkApi) =>{
-  try {    
-    const response = await verificationCaseServices.generateQrCode(data);
-    
-    return  response.data
-  } catch (error:any) {
-  return thunkApi.rejectWithValue(error?.response?.data?.data)
+      return response.data;
+    } catch (error: any) {
+      return thunkApi.rejectWithValue(error?.response?.data?.data);
+    }
   }
-})
+);
 
-export const submitVerification = createAsyncThunk("/submit-verification",async ({data}:{data:any},thunkApi) =>{
-  try {
-      const state:any =thunkApi.getState();
+export const submitVerification = createAsyncThunk(
+  "/submit-verification",
+  async ({ data }: { data: any }, thunkApi) => {
+    try {
+      const state: any = thunkApi.getState();
       const verficationCaseData = state.verificationCase.data;
-      const verficationCaseSubmitedData = {...data,caseNumber:verficationCaseData.caseNumber,sessionNumber:verficationCaseData.sessionId,year:verficationCaseData.year}
-
-      console.log(verficationCaseSubmitedData);
-      
-      
-    const response = await verificationCaseServices.submitVerification(verficationCaseSubmitedData);
-    successToast(response.responseMessage);
-    thunkApi.dispatch(hide());
-    return  true
-  } catch (error:any) {
-    warningToast(error?.response?.data?.responseMessage)
-  return thunkApi.rejectWithValue(error?.response?.data?.responseMessage)
+      const verficationCaseSubmitedData = {
+        ...data,
+        caseNumber: verficationCaseData.caseNumber,
+        sessionNumber: verficationCaseData.sessionId,
+        year: verficationCaseData.year,
+      };
+      await verificationCaseServices.submitVerification(
+        verficationCaseSubmitedData
+      );
+      // successToast(response.responseMessage);
+      // thunkApi.dispatch(hide());
+      return true;
+    } catch (error: any) {
+      warningToast(error?.response?.data?.responseMessage);
+      return thunkApi.rejectWithValue(error?.response?.data?.responseMessage);
+    }
   }
-})
+);
 
 const verificationCaseSlice = createSlice({
   name: "verificationCase",
@@ -96,7 +107,7 @@ const verificationCaseSlice = createSlice({
         ...action.payload,
         year: action.meta.arg.data.year,
         caseNumber: action.meta.arg.data.caseNumber,
-        sessionId:action.meta.arg.data.sessionNumber
+        sessionId: action.meta.arg.data.sessionNumber,
       };
     });
   },
