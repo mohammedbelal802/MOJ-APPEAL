@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { successToast, warningToast } from "../../utils/toasts";
-
 import verificationCaseServices from "./verificationServices";
 
 interface PERSON {
@@ -13,7 +12,12 @@ interface FINGERPRINT_CASE_DATA {
   persons: Array<PERSON>;
   sessionId: string;
   status: string;
-  reportURL: string;
+  books: Array<BOOK>;
+}
+
+interface BOOK {
+  bookNo: number;
+  url: string;
 }
 
 interface SUBMITED_PERSON {
@@ -29,7 +33,7 @@ interface INITIAL_STATE_props {
 
 const INITIAL_STATE: INITIAL_STATE_props = {
   status: "idle",
-  data: { persons: [], sessionId: "", status: "", reportURL: "" },
+  data: { persons: [], sessionId: "", status: "", books: [] },
   submitedPersons: [],
 };
 
