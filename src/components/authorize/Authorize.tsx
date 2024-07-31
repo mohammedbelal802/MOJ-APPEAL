@@ -48,6 +48,9 @@ export default function Authorize({
     formState: { isValid, isSubmitting },
     handleSubmit,
   } = useForm({});
+  const {
+    data: { name },
+  } = useAppSelector((state) => state.auth);
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [isSuccess, setIsSuccess] = useState<any>(null);
   const [authType, setAuthType] = useState(1);
@@ -90,7 +93,6 @@ export default function Authorize({
     let submitVerificationData: any = {
       id: selectedUser.id,
       verficationType: authType,
-      coordinatorName: selectedUser.name,
     };
     // "id": "string",
     // "year": 0,
@@ -106,25 +108,40 @@ export default function Authorize({
       submitVerificationData.verficationImage = signature
         ?.toDataURL()
         ?.split(",")?.[1];
-    }
-    if (authType === 2) {
+
       const data: any = {
-        data: {
-          judgeName: selectedUser.name,
-          court: "المحكمة الجزائية بالرياض",
+        Data: {
+          "اسم الطرف": selectedUser.name,
+          الصفه: selectedUser.job,
+          "رقم هويه الطرف": selectedUser.id,
+          "طريقه المصادقه": "توقيع حي على الشاشة",
         },
       };
       const res = await dispatch(generateQrCode({ data }));
       if (res.meta.requestStatus === "fulfilled")
         submitVerificationData.verficationQrImage = res.payload;
-
+    }
+    if (authType === 2) {
+      const data: any = {
+        Data: {
+          "اسم الطرف": selectedUser.name,
+          الصفه: selectedUser.job,
+          "رقم هويه الطرف": selectedUser.id,
+          "طريقه المصادقه": "البصمة",
+        },
+      };
+      const res = await dispatch(generateQrCode({ data }));
+      if (res.meta.requestStatus === "fulfilled")
+        submitVerificationData.verficationQrImage = res.payload;
       submitVerificationData.verficationImage = image;
     }
     if (authType === 3) {
       submitVerificationData.verficationDescription = data.noSigntureNotes;
+      submitVerificationData.coordinatorName = name;
     }
     if (authType === 4) {
       submitVerificationData.verficationDescription = data.absenceNotes;
+      submitVerificationData.coordinatorName = name;
     }
 
     const resData = await dispatch(
@@ -417,7 +434,7 @@ export default function Authorize({
                     }}
                   >
                     <Typography sx={{ color: "#067C5A", fontWeight: "700" }}>
-                      محمد عبدالله احمد الدوسري
+                      {name}
                     </Typography>
                   </Box>
                 )}
