@@ -111,10 +111,9 @@ export default function Authorize({
 
       const data: any = {
         Data: {
-          "اسم الطرف": selectedUser.name,
-          الصفه: selectedUser.job,
-          "رقم هويه الطرف": selectedUser.id,
-          "طريقه المصادقه": "توقيع حي على الشاشة",
+          "إسم الطرف": selectedUser.name,
+          الهوية: selectedUser.id,
+          "طريقة المصادقة": "توقيع حي على الشاشة",
         },
       };
       const res = await dispatch(generateQrCode({ data }));
@@ -124,10 +123,9 @@ export default function Authorize({
     if (authType === 2) {
       const data: any = {
         Data: {
-          "اسم الطرف": selectedUser.name,
-          الصفه: selectedUser.job,
-          "رقم هويه الطرف": selectedUser.id,
-          "طريقه المصادقه": "البصمة",
+          "إسم الطرف": selectedUser.name,
+          الهوية: selectedUser.id,
+          "طريقة المصادقة": "البصمة",
         },
       };
       const res = await dispatch(generateQrCode({ data }));

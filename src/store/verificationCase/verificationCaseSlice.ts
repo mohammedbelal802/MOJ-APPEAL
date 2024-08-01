@@ -66,14 +66,7 @@ export const generateQrCode = createAsyncThunk(
   "/generate-qr",
   async ({ data }: { data: any }, thunkApi) => {
     try {
-      const state: any = thunkApi.getState();
-      const verficationCaseData = state.verificationCase.data;
-      data.Data["رقم القضيه"] = verficationCaseData.caseNumber;
-      data.Data["رقم الجلسه"] = verficationCaseData.sessionId;
-      data.Data["السنه الهجريه"] = verficationCaseData.year;
-
       const response = await verificationCaseServices.generateQrCode(data);
-
       return response.data;
     } catch (error: any) {
       return thunkApi.rejectWithValue(error?.response?.data?.data);

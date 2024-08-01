@@ -10,6 +10,22 @@ export const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+apiClient.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  async (error) => {
+    const status = error.response ? error.response.responseCode : null;
+    if (status === 401) {
+      window.localStorage.removeItem("user");
+      window.location.replace("/login");
+      return;
+    }
+    throw error;
+  }
+);
+
 export const apiClientForm = axios.create({
   baseURL: `${url}`,
   withCredentials: false,
