@@ -3,6 +3,7 @@ import logo from "../assets/authlogo.svg";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
 import { show } from "../store/modal/modalSlice";
+import PrimaryButton from "../components/ui/buttons/PrimaryButton";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -48,32 +49,27 @@ export default function Landing() {
               objectFit: "contain",
             }}
           />
-          <Button
+
+          <PrimaryButton
             onClick={() => {
               dispatch(show());
-              navigate("/check/fingerprint");
+              navigate("/popup/fingerprint");
             }}
-            fullWidth
-            variant="contained"
-            color="primary"
           >
             التحقق من البصمة
-          </Button>
-          <Button
+          </PrimaryButton>
+          <PrimaryButton
             onClick={() => {
               dispatch(show());
-              navigate("/check/authorization");
+              navigate("/popup/authorization");
             }}
-            fullWidth
-            variant="contained"
-            color="primary"
           >
             المصادقة على ضبط الجلسة
-          </Button>
+          </PrimaryButton>
           {/* <Button
             onClick={() => {
               dispatch(show());
-              navigate("/check/caseid");
+              navigate("/popup/caseid");
             }}
             fullWidth
             variant="contained"

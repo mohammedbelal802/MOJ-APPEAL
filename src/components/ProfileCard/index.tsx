@@ -3,9 +3,11 @@ import logo from "../../assets/authlogo.svg";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logOut } from "../../store/auth/authSlice";
+import { show } from "../../store/modal/modalSlice";
 export default function ProfileCard() {
   const { data } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logOut());
   };
@@ -78,36 +80,65 @@ export default function ProfileCard() {
           {data?.name}
         </Typography>
 
-        <Button
-          onClick={handleLogout}
-          fullWidth
-          color="warning"
-          variant="text"
+        <Box
           sx={{
+            mt: "10px",
             display: "flex",
-            alignItems: "center",
-            fontWeight: "500",
-            fontSize: "12px",
-            gap: "10px",
+            flexDirection: "column",
+            gap: "4px",
+            width: "100%",
           }}
         >
-          <svg
-            style={{ width: "24px", height: "24px" }}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="#EE4F4F"
-            className="w-6 h-6"
+          <Button
+            onClick={() => {
+              dispatch(show());
+              navigate("/popup/change-password");
+            }}
+            fullWidth
+            variant="text"
+            color="primary"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontWeight: "500",
+              fontSize: "12px",
+              gap: "10px",
+            }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-            />
-          </svg>
-          تسجيل الخروج
-        </Button>
+            تغير كلمة المرور
+          </Button>
+
+          <Button
+            onClick={handleLogout}
+            fullWidth
+            color="warning"
+            variant="text"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontWeight: "500",
+              fontSize: "12px",
+              gap: "10px",
+            }}
+          >
+            <svg
+              style={{ width: "24px", height: "24px" }}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="#EE4F4F"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+              />
+            </svg>
+            تسجيل الخروج
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

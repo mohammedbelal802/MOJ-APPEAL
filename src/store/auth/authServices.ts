@@ -10,5 +10,13 @@ const login = async (data: props) => {
   return response.data;
 };
 
-const authServices = { login };
+const changePassword = async (data: {
+  oldPassword: string;
+  newPassword: string;
+}) => {
+  const response = await apiClient.post("/change-password", data);
+  return response.data;
+};
+
+const authServices = { login, changePassword };
 export default authServices;

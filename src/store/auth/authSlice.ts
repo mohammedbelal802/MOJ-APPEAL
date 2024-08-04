@@ -51,6 +51,27 @@ export const signIn = createAsyncThunk(
   }
 );
 
+export const changePassword = createAsyncThunk(
+  "/change-password",
+  async (
+    {
+      data,
+      navigate,
+    }: { data: { oldPassword: string; newPassword: string }; navigate: any },
+    thunkApi
+  ) => {
+    try {
+      const response = await authServices.changePassword(data);
+      console.log(response.data);
+      navigate("/");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,

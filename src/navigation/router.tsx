@@ -10,6 +10,7 @@ import AuthorizationPopup from "../pages/AuthorizationPopup";
 import Authorization from "../pages/Authorization";
 import CaseIdPopup from "../pages/CaseIdPopup";
 import SubmitRequest from "../pages/SubmitRequest";
+import ChangePasswordPopup from "../pages/ChangePasswordPopup";
 
 const Landing = lazy(() => import("./layouts/LandingLayout"));
 const Login = lazy(() => import("../pages/Login"));
@@ -39,20 +40,24 @@ export const router = createBrowserRouter([
 
     children: [
       {
-        path: "/check",
+        path: "/popup",
         element: <CheckModalLayout />,
         children: [
           {
-            path: "/check/fingerprint",
+            path: "/popup/fingerprint",
             element: <FingerPrintVerificationPopup />,
           },
           {
-            path: "/check/authorization",
+            path: "/popup/authorization",
             element: <AuthorizationPopup />,
           },
           {
-            path: "/check/caseid",
+            path: "/popup/caseid",
             element: <CaseIdPopup />,
+          },
+          {
+            path: "/popup/change-password",
+            element: <ChangePasswordPopup />,
           },
         ],
       },

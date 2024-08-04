@@ -31,16 +31,10 @@ interface PERSON {
 }
 
 interface Props {
-  selectedUser: PERSON;
-  setSelectedUser: (item: any) => void;
   users: Array<PERSON>;
 }
 
-export default function Authorize({
-  selectedUser,
-  setSelectedUser,
-  users,
-}: Props) {
+export default function Authorize({ users }: Props) {
   const {
     control,
     reset,
@@ -55,6 +49,12 @@ export default function Authorize({
   const [isSuccess, setIsSuccess] = useState<any>(null);
   const [authType, setAuthType] = useState(1);
   const [signature, setSignature] = useState<any>("");
+  const [selectedUser, setSelectedUser] = useState<PERSON>({
+    id: null,
+    name: "",
+    job: "",
+    status: "",
+  });
 
   let renderedAuthType;
   switch (authType) {
