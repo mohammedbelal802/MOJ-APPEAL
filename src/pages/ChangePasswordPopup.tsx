@@ -72,7 +72,7 @@ export default function ChangePasswordPopup() {
               fullWidth
               margin="dense"
               id="oldPassword"
-              type="text"
+              type="password"
               error={errors?.oldPassword?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
@@ -115,7 +115,7 @@ export default function ChangePasswordPopup() {
               fullWidth
               margin="dense"
               id="newPassword"
-              type="text"
+              type="password"
               error={errors?.newPassword?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
@@ -158,7 +158,7 @@ export default function ChangePasswordPopup() {
               fullWidth
               margin="dense"
               id="confirmPassword"
-              type="text"
+              type="password"
               error={errors?.confirmPassword?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",

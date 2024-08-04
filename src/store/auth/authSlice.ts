@@ -62,12 +62,12 @@ export const changePassword = createAsyncThunk(
   ) => {
     try {
       const response = await authServices.changePassword(data);
-      console.log(response.data);
+      successToast(response.responseMessage);
       navigate("/");
       return response.data;
-    } catch (error) {
-      console.log(error);
-      return thunkApi.rejectWithValue(error);
+    } catch (error: any) {
+      warningToast(error.response.data.responseMessage);
+      return thunkApi.rejectWithValue(error.response.data.responseMessage);
     }
   }
 );

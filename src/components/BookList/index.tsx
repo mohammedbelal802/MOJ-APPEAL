@@ -7,7 +7,7 @@ interface BOOK {
 
 export default function BookList({ books }: { books: Array<BOOK> }) {
   const bookList = books.map((item: BOOK, index: number) => (
-    <BookItem book={item} index={index} />
+    <BookItem key={item.bookNo} book={item} index={index} />
   ));
   return (
     <Box
