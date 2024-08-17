@@ -63,7 +63,7 @@ export const verifyFingerPrint = createAsyncThunk(
       const response = await fingerPrintServices.verifyFingerPrint(data);
 
       if (response.responseCode === 200)
-        thunkApi.dispatch(
+        await thunkApi.dispatch(
           submitFingerPrint({
             data: {
               sessionId: fingerPrintCaseData.sessionId,
@@ -78,7 +78,7 @@ export const verifyFingerPrint = createAsyncThunk(
       warningToast(error?.response?.data?.responseMessage);
 
       if (error?.response.data.responseCode === 404)
-        thunkApi.dispatch(
+        await thunkApi.dispatch(
           submitFingerPrint({
             data: {
               sessionId: fingerPrintCaseData.sessionId,

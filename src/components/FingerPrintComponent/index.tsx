@@ -8,9 +8,11 @@ import success from "../../assets/success.png";
 export default function FingerPrintComponent({
   control,
   status,
+  hideStatus,
 }: {
   control: any;
   status: any;
+  hideStatus?: boolean;
 }) {
   return (
     <Box
@@ -34,49 +36,51 @@ export default function FingerPrintComponent({
         <LeftHand control={control} />
       </Box>
 
-      <Box
-        sx={{
-          width: "150px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        {status === "error" && (
-          <>
-            {" "}
-            <img
-              style={{
-                width: "100%",
-                aspectRatio: "1/1",
-                objectFit: "contain",
-              }}
-              src={error}
-            />
-            <Typography sx={{ textAlign: "center" }}>
-              تم التحقق،
-              <br /> البصمة غير مطابقة
-            </Typography>
-          </>
-        )}
-        {status === "success" && (
-          <>
-            <img
-              style={{
-                width: "100%",
-                aspectRatio: "1/1",
-                objectFit: "contain",
-              }}
-              src={success}
-            />
-            <Typography sx={{ textAlign: "center" }}>
-              تم التحقق،
-              <br /> البصمة مطابقة
-            </Typography>
-          </>
-        )}
-      </Box>
+      {!hideStatus && (
+        <Box
+          sx={{
+            width: "150px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          {status === "error" && (
+            <>
+              {" "}
+              <img
+                style={{
+                  width: "100%",
+                  aspectRatio: "1/1",
+                  objectFit: "contain",
+                }}
+                src={error}
+              />
+              <Typography sx={{ textAlign: "center" }}>
+                تم التحقق،
+                <br /> البصمة غير مطابقة
+              </Typography>
+            </>
+          )}
+          {status === "success" && (
+            <>
+              <img
+                style={{
+                  width: "100%",
+                  aspectRatio: "1/1",
+                  objectFit: "contain",
+                }}
+                src={success}
+              />
+              <Typography sx={{ textAlign: "center" }}>
+                تم التحقق،
+                <br /> البصمة مطابقة
+              </Typography>
+            </>
+          )}
+        </Box>
+      )}
     </Box>
   );
 }

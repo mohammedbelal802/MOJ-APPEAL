@@ -19,3 +19,9 @@ export interface SUBMIT_FINGERPRINT_PROPS {
   year: string;
   status: string;
 }
+
+export interface AUTHORIZE_PROPS {
+  year: string;
+  sessionNumber: string;
+  caseNumber: string;
+}

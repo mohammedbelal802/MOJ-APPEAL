@@ -4,6 +4,9 @@ import fingerPrintSlice from "./fingerprint/fingerPrintSlice";
 import authSlice from "./auth/authSlice";
 import fingerPrintCaseSlice from "./fingerPrintVerification/fingerPrintCaseSlice";
 import verificationCaseSlice from "./verificationCase/verificationCaseSlice";
+import authMembersSlice from "./authMembers/authMembersSlice";
+import judgmentSlice from "./judgment/judgmentSlice";
+import inquirySlice from "./inquiry/inquirySlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +15,9 @@ export const store = configureStore({
     fingerPrint: fingerPrintSlice,
     fingerPrintCase: fingerPrintCaseSlice,
     verificationCase: verificationCaseSlice,
+    authMember: authMembersSlice,
+    judgment: judgmentSlice,
+    inquiry: inquirySlice,
   },
 });
 

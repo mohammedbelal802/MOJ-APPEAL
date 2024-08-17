@@ -14,7 +14,9 @@ import ChangePasswordPopup from "../pages/ChangePasswordPopup";
 
 const Landing = lazy(() => import("./layouts/LandingLayout"));
 const Login = lazy(() => import("../pages/Login"));
-
+const Judgment = lazy(() => import("../pages/Judgment"));
+const Inquiry = lazy(() => import("../pages/Inquiry"));
+const AuthorizeMembers = lazy(() => import("../pages/AuthorizeMembers"));
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -29,6 +31,18 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "/members",
+    element: <AuthorizeMembers />,
+  },
+  {
+    path: "/judgment",
+    element: <Judgment />,
+  },
+  {
+    path: "/inquiry",
+    element: <Inquiry />,
   },
   {
     path: "/",
