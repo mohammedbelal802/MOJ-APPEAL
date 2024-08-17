@@ -42,7 +42,7 @@ export const getJudgment = createAsyncThunk(
         response.data = { ...data, ...person };
       } else {
         throw new Error(
-          "لا يوجد نتائج بحث من فضلك تحقق من رقم القضية، رقم الجلسه، أو التاريخ"
+          "لا يوجد نتائج بحث من فضلك تحقق من رقم القضية، رقم الجلسة، أو التاريخ"
         );
       }
       return response.data;
