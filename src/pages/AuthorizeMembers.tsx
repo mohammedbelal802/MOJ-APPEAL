@@ -83,8 +83,12 @@ export default function AuthorizeMembers() {
             },
           }}
         >
-          {status === "idle" && <IdleStatus />}
-          {status === "error" && <NotFoundStatus />}
+          {status === "idle" && (
+            <IdleStatus message="يجب أن يتم إدخال رقم القضية، رقم الجلسة ، والسنة لإسترجاع ضبط الجلسة المراد المصادقة عليه" />
+          )}
+          {status === "error" && (
+            <NotFoundStatus message="لا يوجد نتائج بحث من فضلك تحقق من رقم القضية ، رقم الجلسه، أو التاريخ" />
+          )}
           {status === "success" && <AuthorizeMember />}
         </Container>
       </Box>

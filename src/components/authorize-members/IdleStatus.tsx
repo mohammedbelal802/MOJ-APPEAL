@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import bgStatus from "../../assets/authEmp/idleStatus.png";
 import icon from "../../assets/authEmp/idleIcon.png";
 
-export default function IdleStatus() {
+export default function IdleStatus({ message }: { message: string }) {
   return (
     <Box
       sx={{
@@ -50,8 +50,7 @@ export default function IdleStatus() {
           mt: "8px",
         }}
       >
-        يجب أن يتم إدخال رقم القضية، رقم الجلسة ، والسنة لإسترجاع ضبط الجلسة
-        المراد المصادقة عليه
+        {message}
       </Typography>
     </Box>
   );

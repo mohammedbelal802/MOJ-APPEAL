@@ -64,7 +64,7 @@ export default function JudgmentDetails({
               fill="black"
             />
           </svg>
-          عرض ملف ضبط الجلسة
+          عرض صك الحكم
         </Button>
       </Box>
     </Box>

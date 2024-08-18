@@ -71,7 +71,12 @@ export default function InquiryForm() {
 
         <Button
           disabled={isSubmitting || !isValid}
-          sx={{ p: "4px 40px", fontSize: "20px", color: "#fff" }}
+          sx={{
+            p: "4px 40px",
+            fontSize: "20px",
+            color: "#fff",
+            "&.Mui-disabled": { backgroundColor: "#ffffff3b" },
+          }}
           variant="contained"
           color="primary"
           type="submit"

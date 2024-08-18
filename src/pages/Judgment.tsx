@@ -83,8 +83,12 @@ export default function Judgment() {
             },
           }}
         >
-          {status === "idle" && <IdleStatus />}
-          {status === "error" && <NotFoundStatus />}
+          {status === "idle" && (
+            <IdleStatus message="قم بالبحث برقم القضية والتاريخ" />
+          )}
+          {status === "error" && (
+            <NotFoundStatus message="لا يوجد نتائج بحث من فضلك تحقق من رقم القضية أو التاريخ" />
+          )}
           {status === "success" && <JudgmentAuth />}
         </Container>
       </Box>

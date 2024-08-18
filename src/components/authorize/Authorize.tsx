@@ -48,6 +48,8 @@ export default function Authorize({ users }: Props) {
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [isSuccess, setIsSuccess] = useState<any>(null);
   const [authType, setAuthType] = useState(1);
+  const [isSignatureValid, setSignatureIsValid] = useState(false);
+
   const [signature, setSignature] = useState<any>("");
   const [selectedUser, setSelectedUser] = useState<PERSON>({
     id: null,
@@ -60,7 +62,11 @@ export default function Authorize({ users }: Props) {
   switch (authType) {
     case 1:
       renderedAuthType = (
-        <DigitalSigntureInput signture={signature} setSignture={setSignature} />
+        <DigitalSigntureInput
+          setIsValid={setSignatureIsValid}
+          signture={signature}
+          setSignture={setSignature}
+        />
       );
       break;
     case 2:

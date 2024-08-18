@@ -46,8 +46,10 @@ export default function JudgmentAuth() {
   } = useForm({});
   const [value, setValue] = React.useState(0);
   const { image } = useAppSelector((state) => state.fingerPrint);
+  const [isSignatureValid, setSignatureIsValid] = React.useState(false);
   const [signature, setSignature] = React.useState<any>("");
-  const isValid = (image && value === 1) || value === 0;
+  const isValid =
+    (image && value === 1) || (value === 0 && isSignatureValid === true);
   const onReset = () => {
     reset();
     if (signature) {
@@ -157,6 +159,7 @@ export default function JudgmentAuth() {
       <Box sx={{ height: "80%" }}>
         <CustomTabPanel index={0} value={value}>
           <DigitalSigntureInput
+            setIsValid={setSignatureIsValid}
             signture={signature}
             setSignture={setSignature}
           />

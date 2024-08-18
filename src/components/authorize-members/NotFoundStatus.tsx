@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import bgStatus from "../../assets/authEmp/notFoundStatus.png";
 import icon from "../../assets/authEmp/notFoundIcon.png";
 
-export default function NotFoundStatus() {
+export default function NotFoundStatus({ message }: { message: string }) {
   return (
     <Box
       sx={{
@@ -50,7 +50,7 @@ export default function NotFoundStatus() {
           mt: "8px",
         }}
       >
-        لا يوجد نتائج بحث من فضلك تحقق من رقم القضية، رقم الجلسة، أو التاريخ
+        {message}
       </Typography>
     </Box>
   );

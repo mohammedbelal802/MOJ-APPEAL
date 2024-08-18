@@ -47,7 +47,10 @@ export default function AuthorizeMember() {
   const [value, setValue] = React.useState(0);
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [signature, setSignature] = React.useState<any>("");
-  const isValid = (image && value === 1) || value === 0;
+  const [isSignatureValid, setSignatureIsValid] = React.useState(false);
+
+  const isValid =
+    (image && value === 1) || (value === 0 && isSignatureValid == true);
   const onReset = () => {
     reset();
     if (signature) {
@@ -157,6 +160,7 @@ export default function AuthorizeMember() {
       <Box sx={{ height: "80%" }}>
         <CustomTabPanel index={0} value={value}>
           <DigitalSigntureInput
+            setIsValid={setSignatureIsValid}
             signture={signature}
             setSignture={setSignature}
           />

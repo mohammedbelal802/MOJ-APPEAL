@@ -82,8 +82,12 @@ export default function Inquiry() {
             },
           }}
         >
-          {status === "idle" && <IdleStatus />}
-          {status === "error" && <NotFoundStatus />}
+          {status === "idle" && (
+            <IdleStatus message="يجب أن يتم إدخال رقم القضية، رقم الجلسة ، والسنة لإسترجاع ضبط الجلسة المراد المصادقة عليه" />
+          )}
+          {status === "error" && (
+            <NotFoundStatus message="لا يوجد نتائج بحث من فضلك تحقق من رقم القضية أو التاريخ" />
+          )}
           {status === "success" && <InquiryTable />}
         </Container>
       </Box>

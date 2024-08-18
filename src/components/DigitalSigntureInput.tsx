@@ -4,9 +4,11 @@ import SignatureCanvas from "react-signature-canvas";
 
 export default function DigitalSigntureInput({
   setSignture,
+  setIsValid,
 }: {
   signture: string;
   setSignture: (item: any) => void;
+  setIsValid: (status: boolean) => void;
 }) {
   return (
     <Box
@@ -23,6 +25,7 @@ export default function DigitalSigntureInput({
       <SignatureCanvas
         backgroundColor="#fff"
         ref={(ref) => setSignture(ref)}
+        onEnd={() => setIsValid(true)}
         // canvasProps={{ width: "975px", height: "350px" }}
       />
     </Box>
