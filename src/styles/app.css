@@ -83,7 +83,7 @@ input[type=number] {
 @media only screen and (min-width: 1200px) and (min-width: 1400px) {
   canvas {
     width: 1175px !important;
-    height: 350px !important;
+    height: 400px !important;
   }
 }
 @keyframes rotate {

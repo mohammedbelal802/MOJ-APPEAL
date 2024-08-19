@@ -66,7 +66,7 @@ export default function Landing() {
           >
             المصادقة على ضبط الجلسة
           </PrimaryButton>
-          {/* <Button
+          <Button
             onClick={() => {
               dispatch(show());
               navigate("/popup/caseid");
@@ -76,7 +76,7 @@ export default function Landing() {
             color="primary"
           >
             تقديم الطلبات القضائية
-          </Button> */}
+          </Button>
         </Box>
       </Container>
     </Box>
