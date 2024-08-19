@@ -179,7 +179,7 @@ export default function JudgmentAuth() {
           style={{ width: "38px", height: "53px", objectFit: "contain" }}
         />
         <Typography sx={{ fontWeight: "500", fontSize: "15px" }}>
-          سوف يتم إدراج الكود الخاص بك علي ملف الضبط بعد تأكيد المصادقة
+          سوف يتم إدراج الكود الخاص بك علي صك الحكم بعد تأكيد المصادقة
         </Typography>
       </Box>
     </Box>
