@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-
+import { useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
-export default function DigitalSigntureInput({
+export default function DigitalSignatureInput({
   setSignture,
   setIsValid,
 }: {
@@ -10,23 +10,43 @@ export default function DigitalSigntureInput({
   setSignture: (item: any) => void;
   setIsValid: (status: boolean) => void;
 }) {
+  const signatureRef = useRef<any>(null);
+
+  useEffect(() => {
+    const resizeCanvas = () => {
+      const canvas = signatureRef.current.getCanvas();
+      const parentWidth = canvas.parentElement.clientWidth;
+      const parentHeight = canvas.parentElement.clientHeight;
+
+      canvas.height = parentHeight;
+      canvas.width = parentWidth;
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, []);
+
   return (
     <Box
       sx={{
-        // width: "1250px",
-        // height: "350px",
-        display: "flex",
-        justifyContent: "center",
-        // border: "1px solid #858b9480",
-        mx: "auto",
+        width: "100%",
+        maxWidth: "556px",
+        aspectRatio: "556/303",
+        maxHeight: "303px",
+        m: "auto",
       }}
       className="digital-signture"
     >
       <SignatureCanvas
         backgroundColor="#fff"
-        ref={(ref) => setSignture(ref)}
+        ref={(ref) => {
+          setSignture(ref);
+          signatureRef.current = ref;
+        }}
         onEnd={() => setIsValid(true)}
-        // canvasProps={{ width: "975px", height: "350px" }}
       />
     </Box>
   );

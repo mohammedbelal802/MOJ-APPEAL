@@ -11,6 +11,8 @@ import Authorization from "../pages/Authorization";
 import CaseIdPopup from "../pages/CaseIdPopup";
 import SubmitRequest from "../pages/SubmitRequest";
 import ChangePasswordPopup from "../pages/ChangePasswordPopup";
+import ReceiveJudgmentPopup from "../pages/ReceiveJudgmentPopup";
+import ReceiveJudgment from "../pages/ReceiveJudgment";
 
 const Landing = lazy(() => import("./layouts/LandingLayout"));
 const Login = lazy(() => import("../pages/Login"));
@@ -73,6 +75,10 @@ export const router = createBrowserRouter([
             path: "/popup/change-password",
             element: <ChangePasswordPopup />,
           },
+          {
+            path: "/popup/receive-judgment",
+            element: <ReceiveJudgmentPopup />,
+          },
         ],
       },
       {
@@ -90,6 +96,10 @@ export const router = createBrowserRouter([
           {
             path: "/modal/submit-request",
             element: <SubmitRequest />,
+          },
+          {
+            path: "/modal/receive-judgment",
+            element: <ReceiveJudgment />,
           },
         ],
       },

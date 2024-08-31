@@ -6,9 +6,12 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Step,
+  StepLabel,
+  Stepper,
   Typography,
 } from "@mui/material";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { hide } from "../store/modal/modalSlice";
 import CloseBtn from "../components/ui/buttons/CloseBtn";
 import { Controller, useForm } from "react-hook-form";
@@ -17,13 +20,24 @@ import { useEffect, useState } from "react";
 import { usersConfig } from "../utils/config";
 import NoUserSelected from "../components/fingerprint-verification/NoUserSelected";
 import DragAndDropZone from "../components/ui/inputs/DargAndDropZone";
+import useMultiForm from "../hooks/useFormSteps";
+import { kStringMaxLength } from "buffer";
+import UploadFiles from "../components/submit-request/UploadFiles";
+import Authorize from "../components/submit-request/Authorize";
+import Success from "../components/authorize/Success";
+
+const stepsTitle = ["ادراج ملف", "مصادقه", "تأكيد الطلب"];
 
 export default function SubmitRequest() {
+  const { data } = useAppSelector((state) => state.submitRequest);
   const [openAlert, setOpenAlert] = useState(false);
 
   const { control, resetField, watch } = useForm({
     defaultValues: { files: [], user: "", requestType: "" },
   });
+
+  const { currentStep, next, back, steps } = useMultiForm(3, 0);
+
   // const { fields, append, remove } = useFieldArray({
   //   control,
   //   name: "files",
@@ -32,6 +46,12 @@ export default function SubmitRequest() {
   const onSubmit = () => dispatch(hide());
   const handleOpenAlert = () => setOpenAlert(true);
   const handleCloseAlert = () => setOpenAlert(false);
+
+  const stepsList = Array.from({ length: steps }).map((it, k) => (
+    <Step key={stepsTitle[k]}>
+      <StepLabel>{stepsTitle[k]}</StepLabel>
+    </Step>
+  ));
 
   useEffect(() => {
     resetField("files");
@@ -182,160 +202,131 @@ export default function SubmitRequest() {
                 control={control}
                 render={({ field }) => {
                   return (
-                    <Box sx={{ display: "flex", gap: "12px" }}>
-                      {usersConfig.map((item: any, index: number) => {
-                        return (
-                          <Box
-                            key={index}
-                            sx={{
-                              cursor: "pointer",
-                              flexShrink: 0,
-                              padding: "8px 20px",
-                              backgroundColor:
-                                field.value === item ? "#077C5A" : "#F5F8FA",
-                              color: field.value === item ? "#fff" : "#617696",
-                              fontSize: "12px",
-                              fontWeight: "400",
-                              borderRadius: "8px",
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: "12px",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Box sx={{ display: "flex", gap: "12px" }}>
+                        {data.persons.map((item: any, index: number) => {
+                          return (
+                            <Box
+                              key={index}
+                              sx={{
+                                cursor: "pointer",
+                                flexShrink: 0,
+                                padding: "8px 20px",
+                                backgroundColor:
+                                  field.value === item.id
+                                    ? "#077C5A"
+                                    : "#F5F8FA",
+                                color:
+                                  field.value === item.id ? "#fff" : "#617696",
+                                fontSize: "12px",
+                                fontWeight: "400",
+                                borderRadius: "8px",
+                              }}
+                              onClick={() => field.onChange(item.id)}
+                            >
+                              {item.name}
+                            </Box>
+                          );
+                        })}
+                      </Box>
+
+                      {watch("user") && (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "end",
+                            gap: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "5px",
                             }}
-                            onClick={() => field.onChange(item)}
                           >
-                            {item}
-                          </Box>
-                        );
-                      })}
+                            <Typography
+                              sx={{
+                                color: "#617696",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              رقم الهوية:
+                            </Typography>
+                            <Typography
+                              sx={{
+                                color: "#000",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              1005487961
+                            </Typography>
+                          </div>
+
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "5px",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                color: "#617696",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              الصفة:
+                            </Typography>
+                            <Typography
+                              sx={{
+                                color: "#000",
+                                fontSize: "14px",
+                                fontWeight: "400",
+                              }}
+                            >
+                              مدعي عليه
+                            </Typography>
+                          </div>
+                        </Box>
+                      )}
                     </Box>
                   );
                 }}
               />
-
-              {watch("user") ? (
-                <>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                      gap: "10px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          color: "#617696",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                        }}
-                      >
-                        رقم الهوية:
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: "#000",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                        }}
-                      >
-                        1005487961
-                      </Typography>
-                    </div>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          color: "#617696",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                        }}
-                      >
-                        الصفة:
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: "#000",
-                          fontSize: "14px",
-                          fontWeight: "400",
-                        }}
-                      >
-                        مدعي عليه
-                      </Typography>
-                    </div>
-                  </Box>
-                  <Box sx={{ position: "relative" }}>
-                    <DragAndDropZone
-                      control={control}
-                      isLoading={false}
-                      name="files"
-                    />
-
-                    {watch("files").length > 0 && (
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          bottom: "0px",
-                          left: "0px",
-                          p: "20px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "25px",
-                        }}
-                      >
-                        <Button
-                          sx={{
-                            padding: "6px 30px",
-                            borderRadius: "32px",
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            cursor: "pointer",
-                            display: "flex",
-                            gap: "10px",
-                            alignItems: "center",
-                          }}
-                          color="primary"
-                          variant="contained"
-                        >
-                          <svg
-                            style={{
-                              width: "16px",
-                              height: "16px",
-                              color: "#fff",
-                            }}
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1}
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-                            />
-                          </svg>
-                          تقديم
-                        </Button>
-                      </Box>
-                    )}
-                  </Box>
-                </>
-              ) : (
-                <NoUserSelected />
-              )}
             </Box>
           </Box>
+
+          <>
+            <Stepper
+              sx={{ mt: "20px" }}
+              dir="rtl"
+              activeStep={currentStep}
+              alternativeLabel
+            >
+              {stepsList}
+            </Stepper>
+
+            <Box>
+              {currentStep === 0 && (
+                <UploadFiles handleNextStep={() => next()} />
+              )}
+
+              {currentStep === 1 && <Authorize handleNextStep={() => next()} />}
+
+              {currentStep === 2 && <Success />}
+            </Box>
+          </>
         </div>
       </DialogContent>
     </>

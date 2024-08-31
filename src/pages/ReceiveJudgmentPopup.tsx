@@ -14,11 +14,11 @@ import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import { formatYear } from "../utils/funcations";
 import moment from "moment-hijri";
-import { getRequestData } from "../store/request/SubmitRequestSlice";
+import { receiveJudgment } from "../store/judgment/judgmentSlice";
 
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
-export default function CaseIdPopup() {
+export default function ReceiveJudgmentPopup() {
   const {
     register,
     handleSubmit,
@@ -37,9 +37,13 @@ export default function CaseIdPopup() {
   const onClose = () => dispatch(hide());
   const onSubmit = (data: any) => {
     console.log(data);
-    dispatch(getRequestData({ data: data, navigate }));
+    dispatch(
+      receiveJudgment({
+        data: { caseNumber: data.caseId, year: data.year },
+        navigate,
+      })
+    );
     // dispatch(show());
-    navigate("/modal/submit-request");
   };
 
   return (
@@ -54,7 +58,7 @@ export default function CaseIdPopup() {
         <Typography
           sx={{ color: "#3D3F65", fontSize: "22px", fontWeight: "400" }}
         >
-          رقم القضية
+          استلام صك حكم
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <HijriYearDropdown name={"year"} control={control}>

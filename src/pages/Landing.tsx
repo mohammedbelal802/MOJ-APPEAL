@@ -36,7 +36,7 @@ export default function Landing() {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
-            gap: "32px",
+            gap: "25px",
             mt: "40px",
           }}
         >
@@ -76,6 +76,18 @@ export default function Landing() {
             color="primary"
           >
             تقديم الطلبات القضائية
+          </Button>
+
+          <Button
+            onClick={() => {
+              dispatch(show());
+              navigate("/popup/receive-judgment");
+            }}
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
+            استلام صك حكم
           </Button>
         </Box>
       </Container>

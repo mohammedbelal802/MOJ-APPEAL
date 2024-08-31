@@ -7,6 +7,7 @@ import verificationCaseSlice from "./verificationCase/verificationCaseSlice";
 import authMembersSlice from "./authMembers/authMembersSlice";
 import judgmentSlice from "./judgment/judgmentSlice";
 import inquirySlice from "./inquiry/inquirySlice";
+import SubmitRequestSlice from "./request/SubmitRequestSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     authMember: authMembersSlice,
     judgment: judgmentSlice,
     inquiry: inquirySlice,
+    submitRequest: SubmitRequestSlice,
   },
 });
 

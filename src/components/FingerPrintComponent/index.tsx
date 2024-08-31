@@ -25,8 +25,8 @@ export default function FingerPrintComponent({
       }}
     >
       <FingerPrintCapture />
-      <Box
-        sx={{
+      <div
+        style={{
           display: "flex",
           gap: "50px",
           alignItems: "end",
@@ -34,7 +34,7 @@ export default function FingerPrintComponent({
       >
         <RightHand control={control} />
         <LeftHand control={control} />
-      </Box>
+      </div>
 
       {!hideStatus && (
         <Box

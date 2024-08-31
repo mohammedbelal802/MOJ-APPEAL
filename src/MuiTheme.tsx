@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material";
 
 const theme = createTheme({
+  direction: "rtl",
   palette: {
     primary: {
       main: "#077C5A", // Customize the primary color

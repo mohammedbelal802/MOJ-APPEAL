@@ -16,8 +16,6 @@ import { useState } from "react";
 import FingerPrintComponent from "../components/FingerPrintComponent";
 import { verifyFingerPrint } from "../store/fingerPrintVerification/fingerPrintCaseSlice";
 import { storeFingerPrint } from "../store/fingerprint/fingerPrintSlice";
-import error from "../assets/error.png";
-import success from "../assets/success.png";
 
 export default function FingerPrintVerification() {
   const { data, status } = useAppSelector((state) => state.fingerPrintCase);
