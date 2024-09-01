@@ -48,7 +48,7 @@ export default function JudgmentForm() {
                 width: "200px",
               },
             }}
-            placeholder="أدخل رقم القضية"
+            placeholder="رقم القضية"
           />
         </Box>
 
@@ -65,7 +65,7 @@ export default function JudgmentForm() {
                 width: "200px",
               },
             }}
-            placeholder="حدد السنة الهجرية"
+            placeholder="السنة الهجرية"
           />
         </Box>
 

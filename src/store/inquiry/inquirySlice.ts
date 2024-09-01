@@ -54,6 +54,7 @@ const person = {
         { name: "ملف-٤", size: "94 كيلو بايت", url: "" },
         { name: "ملف-٥", size: "94 كيلو بايت", url: "" },
       ],
+      authType: "بصمة",
     },
     {
       name: "إبراهيم نور الدين محمد عماد",
@@ -61,6 +62,7 @@ const person = {
       requestDate: "٢٠ شوال ١٤٤٤",
       requestType: "طلب نقض",
       files: [{ name: "ملف-١ ", size: "94 كيلو بايت", url: "" }],
+      authType: "بصمة",
     },
     {
       name: "يوسف عبدالله محمد البرهامي",
@@ -68,6 +70,7 @@ const person = {
       requestDate: "٢٠ شوال ١٤٤٤",
       requestType: "طلب نقض",
       files: [{ name: "ملف-١ ", size: "94 كيلو بايت", url: "" }],
+      authType: "توقيع",
     },
     {
       name: "إسماعيل محمد احمد ابراهيم",
@@ -75,6 +78,7 @@ const person = {
       requestDate: "٢٠ شوال ١٤٤٤",
       requestType: "طلب نقض",
       files: [{ name: "ملف-١ ", size: "94 كيلو بايت", url: "" }],
+      authType: "بصمة",
     },
   ],
 };

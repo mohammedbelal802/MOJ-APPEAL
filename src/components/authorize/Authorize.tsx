@@ -91,6 +91,7 @@ export default function Authorize({ users }: Props) {
     setAuthType(authType);
     if (signature) {
       signature.clear();
+      setSignatureIsValid(false);
     }
   };
   const onVerificationSubmit = async (data: any) => {

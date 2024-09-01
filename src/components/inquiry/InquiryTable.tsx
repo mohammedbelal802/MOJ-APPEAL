@@ -15,7 +15,15 @@ import fileIcon from "../../assets/fileIcon.png";
 import { useState } from "react";
 import InquiryModal from "./InquiryModal";
 
-const columns = ["#", "الاسم", "الصفة", "نوع الطلب", "تاريخ الطلب", "الملفات"];
+const columns = [
+  "#",
+  "الاسم",
+  "الصفة",
+  "نوع الطلب",
+  "تاريخ الطلب",
+  "الملفات",
+  "طريقة المصادقه",
+];
 
 export default function InquiryTable() {
   const [modalData, setModalData] = useState({ isOpen: false, data: {} });
@@ -60,31 +68,31 @@ export default function InquiryTable() {
                     <TableRow key={index} hover>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
-                        align={"right"}
+                        align={"left"}
                       >
                         {index}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
-                        align={"right"}
+                        align={"left"}
                       >
                         {item.name}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
-                        align={"right"}
+                        align={"left"}
                       >
                         {item.status}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
-                        align={"right"}
+                        align={"left"}
                       >
                         {item.requestType}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
-                        align={"right"}
+                        align={"left"}
                       >
                         {item.requestDate}
                       </TableCell>
@@ -113,6 +121,12 @@ export default function InquiryTable() {
                             عرض الملفات
                           </Typography>
                         </Button>
+                      </TableCell>
+                      <TableCell
+                        sx={{ border: "1px solid #DCDCDC" }}
+                        align={"left"}
+                      >
+                        {item.authType}
                       </TableCell>
                     </TableRow>
                   );

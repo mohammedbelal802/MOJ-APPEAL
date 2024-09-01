@@ -60,6 +60,7 @@ export default function AuthorizeMember() {
     reset();
     if (signature) {
       signature.clear();
+      setSignatureIsValid(false);
     }
   };
 
@@ -205,7 +206,7 @@ export default function AuthorizeMember() {
               </IconButton>
             </Box>
           </Box>
-          <Box sx={{ height: "fit-content", width: "100%" }}>
+          <Box sx={{ height: "80%" }}>
             <CustomTabPanel index={0} value={value}>
               <DigitalSigntureInput
                 setIsValid={setSignatureIsValid}

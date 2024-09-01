@@ -60,6 +60,7 @@ export default function JudgmentAuth() {
     reset();
     if (signature) {
       signature.clear();
+      setSignatureIsValid(false);
     }
   };
 
