@@ -54,7 +54,7 @@ export default function CaseIdPopup() {
         <Typography
           sx={{ color: "#3D3F65", fontSize: "22px", fontWeight: "400" }}
         >
-          رقم القضية
+          تقديم الطلبات القضائية
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <HijriYearDropdown name={"year"} control={control}>

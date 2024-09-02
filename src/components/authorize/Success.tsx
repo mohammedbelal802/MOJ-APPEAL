@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import successAuth from "../../assets/authSuccess.png";
 
-export default function Success() {
+export default function Success({ message }: { message?: string }) {
   return (
     <Box
       sx={{
@@ -16,7 +16,9 @@ export default function Success() {
         style={{ maxWidth: "160px", aspectRatio: "1/1", width: "100%" }}
         src={successAuth}
       />
-      <Typography sx={{ fontSize: "22px" }}>تم المصادقة بنجاح</Typography>
+      <Typography sx={{ fontSize: "22px" }}>
+        {message ? message : "تم المصادقة بنجاح"}
+      </Typography>
     </Box>
   );
 }

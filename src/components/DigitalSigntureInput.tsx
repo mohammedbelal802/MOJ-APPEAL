@@ -33,8 +33,8 @@ export default function DigitalSignatureInput({
     <Box
       sx={{
         width: "100%",
-        maxWidth: "800px",
-        aspectRatio: "800/350",
+        maxWidth: "1100px",
+        aspectRatio: "1100/350",
         maxHeight: "350px",
         m: "auto",
       }}

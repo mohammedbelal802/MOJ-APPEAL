@@ -54,7 +54,7 @@ export default function InquiryTable() {
                         border: "1px solid #DCDCDC",
                         py: "10px",
                       }}
-                      align="right"
+                      align="left"
                       key={column}
                     >
                       {column}

@@ -32,11 +32,11 @@ export default function SubmitRequest() {
   const { data } = useAppSelector((state) => state.submitRequest);
   const [openAlert, setOpenAlert] = useState(false);
 
-  const { control, resetField, watch } = useForm({
+  const { control, resetField, reset, watch } = useForm({
     defaultValues: { files: [], user: "", requestType: "" },
   });
 
-  const { currentStep, next, back, steps } = useMultiForm(3, 0);
+  const { currentStep, next, back, steps, goTo } = useMultiForm(3, 0);
 
   // const { fields, append, remove } = useFieldArray({
   //   control,
@@ -56,6 +56,15 @@ export default function SubmitRequest() {
   useEffect(() => {
     resetField("files");
   }, [watch("user")]);
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      setTimeout(() => {
+        reset();
+        goTo(0);
+      }, 2000);
+    }
+  }, [currentStep]);
   return (
     <>
       <Alert
@@ -309,7 +318,7 @@ export default function SubmitRequest() {
 
           <>
             <Stepper
-              sx={{ mt: "20px" }}
+              sx={{ my: "30px" }}
               dir="rtl"
               activeStep={currentStep}
               alternativeLabel
@@ -324,7 +333,7 @@ export default function SubmitRequest() {
 
               {currentStep === 1 && <Authorize handleNextStep={() => next()} />}
 
-              {currentStep === 2 && <Success />}
+              {currentStep === 2 && <Success message="تم تقديم الطلب بنجاح" />}
             </Box>
           </>
         </div>
