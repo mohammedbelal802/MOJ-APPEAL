@@ -31,7 +31,7 @@ const stepsTitle = ["ادراج ملف", "مصادقه", "تأكيد الطلب"
 export default function SubmitRequest() {
   const { data } = useAppSelector((state) => state.submitRequest);
   const [openAlert, setOpenAlert] = useState(false);
-
+  const [formData, setFormData] = useState({});
   const { control, resetField, reset, watch } = useForm({
     defaultValues: { files: [], user: "", requestType: "" },
   });
@@ -46,6 +46,12 @@ export default function SubmitRequest() {
   const onSubmit = () => dispatch(hide());
   const handleOpenAlert = () => setOpenAlert(true);
   const handleCloseAlert = () => setOpenAlert(false);
+  const disableUpload = watch("requestType") && watch("user") ? false : true;
+
+  const handleNextStep = (data: any) => {
+    setFormData((prev) => ({ ...prev, ...data }));
+    next();
+  };
 
   const stepsList = Array.from({ length: steps }).map((it, k) => (
     <Step key={stepsTitle[k]}>
@@ -113,6 +119,7 @@ export default function SubmitRequest() {
           flexDirection: "column",
           gap: "30px",
           px: "50px",
+          position: "relative",
         }}
       >
         <div>
@@ -328,10 +335,19 @@ export default function SubmitRequest() {
 
             <Box>
               {currentStep === 0 && (
-                <UploadFiles handleNextStep={() => next()} />
+                <UploadFiles
+                  formData={formData}
+                  disableUpload={disableUpload}
+                  handleNextStep={(data: any) => handleNextStep(data)}
+                />
               )}
 
-              {currentStep === 1 && <Authorize handleNextStep={() => next()} />}
+              {currentStep === 1 && (
+                <Authorize
+                  handlePrevStep={() => back()}
+                  handleNextStep={(data: any) => handleNextStep(data)}
+                />
+              )}
 
               {currentStep === 2 && <Success message="تم تقديم الطلب بنجاح" />}
             </Box>

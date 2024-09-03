@@ -33,7 +33,7 @@ export default function Authorize({ users }: Props) {
     control,
     reset,
     setValue,
-    formState: { isValid, isSubmitting },
+    formState: { isSubmitting },
     handleSubmit,
   } = useForm({});
 
@@ -41,7 +41,8 @@ export default function Authorize({ users }: Props) {
   const [isSuccess, setIsSuccess] = useState<any>(null);
   const [authType, setAuthType] = useState(1);
   const [isSignatureValid, setSignatureIsValid] = useState(false);
-
+  const isValid =
+    (image && authType === 2) || (authType === 1 && isSignatureValid === true);
   const [signature, setSignature] = useState<any>("");
   const [selectedUser, setSelectedUser] = useState<PERSON>({
     id: null,
@@ -77,6 +78,7 @@ export default function Authorize({ users }: Props) {
     setAuthType(authType);
     if (signature) {
       signature.clear();
+      setSignatureIsValid(false);
     }
   };
   const onVerificationSubmit = async (data: any) => {
@@ -341,7 +343,7 @@ export default function Authorize({ users }: Props) {
                     sx={{ p: "8px 30px 8px 30px", borderRadius: "30px" }}
                     variant="contained"
                     color="primary"
-                    disabled={!isValid || !selectedUser.id || isSubmitting}
+                    disabled={!isValid}
                     type="submit"
                   >
                     تأكيد

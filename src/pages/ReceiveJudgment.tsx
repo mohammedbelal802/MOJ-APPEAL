@@ -17,6 +17,7 @@ import FingerPrintComponent from "../components/FingerPrintComponent";
 import { storeFingerPrint } from "../store/fingerprint/fingerPrintSlice";
 import Authorize from "../components/receive-judgment/Authorize";
 import BookList from "../components/BookList";
+import ReciveJudmentBookList from "../components/BookList/ReciveJudmentBookList";
 
 export default function ReceiveJudgment() {
   const { data, status } = useAppSelector((state) => state.judgment);
@@ -100,7 +101,7 @@ export default function ReceiveJudgment() {
         >
           صك الحكم
         </Typography>
-        <BookList books={data.books} />
+        <ReciveJudmentBookList books={data.books} />
         <Authorize users={data.persons} />
       </DialogContent>
     </>

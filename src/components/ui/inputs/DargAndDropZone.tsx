@@ -7,10 +7,12 @@ export default function DragAndDropZone({
   control,
   isLoading,
   name,
+  disabled,
 }: {
   control: any;
   isLoading?: boolean;
   name: string;
+  disabled?: boolean;
 }) {
   const [isDraging, setIsDraging] = useState(false);
   const inputRef = useRef<any>();
@@ -112,20 +114,21 @@ export default function DragAndDropZone({
                     تنسيقات Word وPDF
                   </Typography>
 
-                  <label
-                    style={{
-                      padding: "13px 40px",
+                  <Button
+                    onClick={() => inputRef.current.click()}
+                    color="primary"
+                    variant="contained"
+                    disabled={disabled}
+                    sx={{
+                      padding: "8px 40px",
                       borderRadius: "32px",
-                      color: "white",
-                      backgroundColor: "#067C5A",
                       fontSize: "16px",
                       fontWeight: "500",
                       cursor: "pointer",
                     }}
-                    htmlFor="file"
                   >
                     إختر ملف
-                  </label>
+                  </Button>
                 </Box>
               ) : (
                 <Grid

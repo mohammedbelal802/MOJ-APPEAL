@@ -5,9 +5,13 @@ import NoUserSelected from "../fingerprint-verification/NoUserSelected";
 import { useForm } from "react-hook-form";
 
 export default function UploadFiles({
+  formData,
   handleNextStep,
+  disableUpload,
 }: {
   handleNextStep: (data: any) => void;
+  disableUpload: boolean;
+  formData: any;
 }) {
   const {
     control,
@@ -16,7 +20,7 @@ export default function UploadFiles({
     formState: { isValid },
   } = useForm({
     defaultValues: {
-      files: [],
+      files: formData.files || [],
     },
   });
 
@@ -25,10 +29,23 @@ export default function UploadFiles({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box sx={{ position: "relative" }}>
-        <DragAndDropZone control={control} isLoading={false} name="files" />
+        <DragAndDropZone
+          disabled={disableUpload}
+          control={control}
+          isLoading={false}
+          name="files"
+        />
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "end",
+          position: "sticky",
+          bottom: "0px",
+          left: "0px",
+        }}
+      >
         <Button
           type="submit"
           sx={{ px: "30px", borderRadius: "20px" }}
