@@ -17,11 +17,7 @@ import CloseBtn from "../components/ui/buttons/CloseBtn";
 import { Controller, useForm } from "react-hook-form";
 import Alert from "../components/Alert";
 import { useEffect, useState } from "react";
-import { usersConfig } from "../utils/config";
-import NoUserSelected from "../components/fingerprint-verification/NoUserSelected";
-import DragAndDropZone from "../components/ui/inputs/DargAndDropZone";
 import useMultiForm from "../hooks/useFormSteps";
-import { kStringMaxLength } from "buffer";
 import UploadFiles from "../components/submit-request/UploadFiles";
 import Authorize from "../components/submit-request/Authorize";
 import Success from "../components/authorize/Success";
@@ -66,11 +62,19 @@ export default function SubmitRequest() {
   useEffect(() => {
     if (currentStep === 2) {
       setTimeout(() => {
-        reset();
+        reset({
+          requestType: "",
+          user: "",
+          files: [],
+        });
+        setFormData({});
         goTo(0);
       }, 2000);
     }
   }, [currentStep]);
+
+  console.log("request type " + watch("requestType"));
+
   return (
     <>
       <Alert
@@ -143,6 +147,7 @@ export default function SubmitRequest() {
           >
             <Controller
               name="requestType"
+              defaultValue=""
               control={control}
               render={({ field }) => {
                 return (

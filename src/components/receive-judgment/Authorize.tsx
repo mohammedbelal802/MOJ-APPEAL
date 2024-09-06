@@ -317,14 +317,14 @@ export default function Authorize({ users }: Props) {
               <Box
                 sx={{
                   width: "100%",
-                  height: "70vh",
+                  height: "fit-content",
                   border: "0.8px solid #858B941A",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   position: "relative",
-                  paddingTop: "55px",
-                  pb: "80px",
+                  paddingTop: "60px",
+                  pb: "30px",
                 }}
               >
                 <Box
