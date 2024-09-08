@@ -28,7 +28,7 @@ export default function InquiryDetails({
         </Typography>
       </Box>
 
-      <Box sx={{ gap: "40px", display: "flex" }}>
+      {/* <Box sx={{ gap: "40px", display: "flex" }}>
         <Typography
           sx={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400" }}
         >
@@ -39,7 +39,7 @@ export default function InquiryDetails({
         >
           الصفة : {status}
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

@@ -37,7 +37,7 @@ export default function JudgmentDetails({
       </Box>
 
       <Box sx={{ gap: "40px", display: "flex" }}>
-        <Typography
+        {/* <Typography
           sx={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400" }}
         >
           الإسم : {name}
@@ -46,7 +46,7 @@ export default function JudgmentDetails({
           sx={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400" }}
         >
           الصفة : {status}
-        </Typography>
+        </Typography> */}
         <Button
           color="inherit"
           variant="contained"
