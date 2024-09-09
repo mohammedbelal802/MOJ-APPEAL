@@ -6,9 +6,9 @@ import { useAppSelector } from "../../store/hooks";
 export default function LandingLayout() {
   const { isAuth } = useAppSelector((state) => state.auth);
 
-  // if (!isAuth) {
-  //   return <Navigate to={"/login"} />;
-  // }
+  if (!isAuth) {
+    return <Navigate to={"/login"} />;
+  }
   return (
     <>
       <Header />
