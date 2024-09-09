@@ -7,8 +7,10 @@ interface BOOK {
 
 export default function ReciveJudmentBookList({
   books,
+  sx
 }: {
   books: Array<BOOK>;
+  sx?:any
 }) {
   const bookList = books.map((item: BOOK, index: number) => (
     <BookItem key={item.bookNo} book={item} index={index} />
@@ -24,6 +26,7 @@ export default function ReciveJudmentBookList({
         backgroundColor: "#fff",
         borderRadius: "4px",
         overflowX: "auto",
+        ...sx 
       }}
     >
       {bookList}

@@ -24,7 +24,7 @@ export default function ReceiveJudgmentPopup() {
     handleSubmit,
     control,
     watch,
-    formState: { isValid, errors },
+    formState: { isValid, errors,isSubmitting },
   } = useForm<any>({
     mode: "all",
     defaultValues: {
@@ -122,7 +122,7 @@ export default function ReceiveJudgmentPopup() {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               sx={{
                 width: "fit-content",
                 fontWeight: "500",

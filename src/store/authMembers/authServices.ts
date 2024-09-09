@@ -3,7 +3,7 @@ import { AUTHORIZE_PROPS } from "../../utils/types";
 
 const getJdVerificationCase = async (data: AUTHORIZE_PROPS) => {
   const response = await apiClient.post("/get-jd-verfication-case ", data);
-  return response;
+  return response.data;
 };
 
 const submitJdPersonVerification = async (data: any) => {

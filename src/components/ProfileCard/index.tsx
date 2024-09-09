@@ -15,7 +15,7 @@ export default function ProfileCard() {
     <Box
       sx={{
         position: "absolute",
-        left: "0px",
+        right: "0px",
         top: "160%",
         width: "300px",
         boxShadow: "2px 20px 40px 0px #077C5A12",

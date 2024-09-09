@@ -11,6 +11,7 @@ import qrImg from "../../assets/authEmp/qr.png";
 import SearchInput from "../ui/inputs/SearchInput";
 import { generateQrCode } from "../../store/verificationCase/verificationCaseSlice";
 import { submitJdPersonVerification } from "../../store/authMembers/authMembersSlice";
+import Success from "../authorize/Success";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,7 +45,7 @@ export default function AuthorizeMember() {
   const {
     control,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting ,isSubmitSuccessful},
     handleSubmit,
   } = useForm({});
   const [value, setValue] = React.useState(0);
@@ -107,9 +108,10 @@ export default function AuthorizeMember() {
       submitVerificationData.verficationImage = image;
     }
 
-    await dispatch(
+  const result =  await dispatch(
       submitJdPersonVerification({ data: submitVerificationData })
     );
+
   };
 
   const personList = persons.map((it) => (
@@ -139,7 +141,7 @@ export default function AuthorizeMember() {
         p: "16px 30px",
       }}
     >
-      <Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
+      {isSubmitSuccessful ? <Box sx={{display:"flex",alignContent:"center",justifyContent:"center",height:"100%"}}><Success /> </Box>:<Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
         <Box
           sx={{
             width: "100%",
@@ -151,12 +153,16 @@ export default function AuthorizeMember() {
         >
           <SearchInput />
 
+
           <Box
+          className="style_scroll_bar"
             sx={{
               display: "flex",
               flexDirection: "column",
               gap: "15px",
               mt: "20px",
+              maxHeight:"500px",
+              overflowY:"auto"
             }}
           >
             {personList}
@@ -217,7 +223,7 @@ export default function AuthorizeMember() {
                 color="primary"
                 type="submit"
                 variant="contained"
-                disabled={!isValid}
+                disabled={!isValid || isSubmitting}
                 sx={{ p: "8px 25px", borderRadius: "8px" }}
               >
                 مصادقة
@@ -278,7 +284,7 @@ export default function AuthorizeMember() {
             </Typography>
           </Box>
         </form>
-      </Box>
+      </Box>}
     </Box>
   );
 }

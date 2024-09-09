@@ -3,12 +3,15 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Button, IconButton, Typography } from "@mui/material";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import DigitalSigntureInput from "../DigitalSigntureInput";
 import { useForm } from "react-hook-form";
 import FingerPrintComponent from "../FingerPrintComponent";
 import qrImg from "../../assets/authEmp/qr.png";
 import SearchInput from "../ui/inputs/SearchInput";
+import { generateQrCode } from "../../store/verificationCase/verificationCaseSlice";
+import { submitJiJdPersonVerification } from "../../store/jiJdVerification/jiJdVerificationSlice";
+import Success from "../authorize/Success";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,7 +45,7 @@ export default function JudgmentAuth() {
   const {
     control,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting,isSubmitSuccessful },
     handleSubmit,
   } = useForm({});
   const [value, setValue] = React.useState(0);
@@ -53,6 +56,7 @@ export default function JudgmentAuth() {
   const [isSignatureValid, setSignatureIsValid] = React.useState(false);
   const [signature, setSignature] = React.useState<any>("");
   const [selectedUser, setSelectedUser] = React.useState<any>({ id: null });
+  const dispatch = useAppDispatch()
 
   const isValid =
     (image && value === 1) || (value === 0 && isSignatureValid === true);
@@ -67,6 +71,47 @@ export default function JudgmentAuth() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const onSubmit = async (data:any) => {
+     let submitVerificationData: any = {
+       id: selectedUser.id,
+       verficationType: value === 0 ? 2 : value,
+       requestCode: "test",
+     };
+
+     if (value === 0) {
+       const signtureImage = signature?.toDataURL()?.split(",")?.[1];
+
+       const data: any = {
+         Data: {
+           "إسم الطرف": selectedUser.name,
+           الهوية: selectedUser.id,
+           "طريقة المصادقة": "توقيع حي على الشاشة",
+         },
+       };
+       submitVerificationData.verficationImage = signtureImage;
+       const res = await dispatch(generateQrCode({ data }));
+       if (res.meta.requestStatus === "fulfilled")
+         submitVerificationData.verficationQrImage = res.payload;
+     }
+     if (value === 1) {
+       const data: any = {
+         Data: {
+           "إسم الطرف": selectedUser.name,
+           الهوية: selectedUser.id,
+           "طريقة المصادقة": "البصمة",
+         },
+       };
+       const res = await dispatch(generateQrCode({ data }));
+       if (res.meta.requestStatus === "fulfilled")
+         submitVerificationData.verficationQrImage = res.payload;
+       submitVerificationData.verficationImage = image;
+     }
+
+     await dispatch(
+       submitJiJdPersonVerification({ data: submitVerificationData })
+     );
+  }
 
   const personList = persons.map((it: any) => (
     <Box
@@ -95,11 +140,12 @@ export default function JudgmentAuth() {
         p: "16px 30px",
       }}
     >
-      <Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
+      {isSubmitSuccessful ? <Box sx={{display:"flex",alignItems:"center",justifyContent:"center",height:"100%"}}><Success /></Box>:<Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
         <Box
           sx={{
             width: "100%",
             maxWidth: "250px",
+            overFlowY:"auto",
             flexShrink: 0,
             p: "16px",
             backgroundColor: "#F9F9F9",
@@ -108,17 +154,22 @@ export default function JudgmentAuth() {
           <SearchInput />
 
           <Box
+          className="style_scroll_bar"
             sx={{
               display: "flex",
               flexDirection: "column",
               gap: "15px",
               mt: "20px",
+              maxHeight:"500px",
+              overflowY:"auto"
             }}
           >
             {personList}
           </Box>
         </Box>
-        <div style={{ width: "100%" }}>
+        
+        <form onSubmit={handleSubmit(onSubmit)}>
+
           <Box
             sx={{
               display: "flex",
@@ -169,9 +220,10 @@ export default function JudgmentAuth() {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Button
+              type="submit"
                 color="primary"
                 variant="contained"
-                disabled={!isValid}
+                disabled={!isValid || isSubmitting}
                 sx={{ p: "8px 25px", borderRadius: "8px" }}
               >
                 مصادقة
@@ -206,20 +258,20 @@ export default function JudgmentAuth() {
             </Box>
           </Box>
           <Box sx={{ height: "80%" }}>
-            <CustomTabPanel index={0} value={value}>
-              <DigitalSigntureInput
-                setIsValid={setSignatureIsValid}
-                signture={signature}
-                setSignture={setSignature}
-              />
-            </CustomTabPanel>
-            <CustomTabPanel index={1} value={value}>
-              <FingerPrintComponent
-                hideStatus={true}
-                status={"idle"}
-                control={control}
-              />
-            </CustomTabPanel>
+              <CustomTabPanel index={0} value={value}>
+                <DigitalSigntureInput
+                  setIsValid={setSignatureIsValid}
+                  signture={signature}
+                  setSignture={setSignature}
+                />
+              </CustomTabPanel>
+              <CustomTabPanel index={1} value={value}>
+                <FingerPrintComponent
+                  hideStatus={true}
+                  status={"idle"}
+                  control={control}
+                />
+              </CustomTabPanel>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <img
@@ -230,8 +282,9 @@ export default function JudgmentAuth() {
               سوف يتم إدراج الكود الخاص بك علي صك الحكم بعد تأكيد المصادقة
             </Typography>
           </Box>
-        </div>
-      </Box>
+          </form>
+
+      </Box>}
     </Box>
   );
 }

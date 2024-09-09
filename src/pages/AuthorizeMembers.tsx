@@ -61,6 +61,7 @@ export default function AuthorizeMembers() {
               caseNumber={data.caseNumber}
               sessionNumber={data.sessionNumber}
               year={data.year}
+              books={data.books}
             />
           ) : (
             <SessionForm />

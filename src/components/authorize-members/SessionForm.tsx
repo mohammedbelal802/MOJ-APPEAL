@@ -15,7 +15,7 @@ export default function SessionForm() {
 
   const dispatch = useAppDispatch();
   const onSubmit = async (data: any) => {
-    await dispatch(getJdVerificationCase(data));
+    await dispatch(getJdVerificationCase({data}));
   };
 
   return (

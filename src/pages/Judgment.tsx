@@ -61,6 +61,7 @@ export default function Judgment() {
               caseNumber={data.caseNumber}
               instrumentNumber={data.instrumentNumber}
               year={data.year}
+              books={data.books}
             />
           ) : (
             <JudgmentForm />
