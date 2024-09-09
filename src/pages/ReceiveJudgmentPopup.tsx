@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import { formatYear } from "../utils/funcations";
 import moment from "moment-hijri";
-import { receiveJudgment } from "../store/judgment/judgmentSlice";
+import { getJiDerliveryVerificationCase } from "../store/jiDelivery/jiDeliverySlice";
 
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
@@ -35,14 +35,8 @@ export default function ReceiveJudgmentPopup() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onClose = () => dispatch(hide());
-  const onSubmit = (data: any) => {
-    console.log(data);
-    dispatch(
-      receiveJudgment({
-        data: { caseNumber: data.caseId, year: data.year },
-        navigate,
-      })
-    );
+  const onSubmit = async (data: any) => {
+    await dispatch(getJiDerliveryVerificationCase({ data: data, navigate }));
     // dispatch(show());
   };
 
@@ -73,17 +67,17 @@ export default function ReceiveJudgmentPopup() {
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <div>
-            <label htmlFor="caseId">ادخل رقم القضية</label>
+            <label htmlFor="caseNumber">ادخل رقم القضية</label>
             <TextField
-              {...register("caseId", {
-                required: { message: "Please enter caseId", value: true },
+              {...register("caseNumber", {
+                required: { message: "Please enter caseNumber", value: true },
               })}
               autoComplete="off"
               variant="outlined"
               fullWidth
               margin="dense"
-              id="caseId"
-              error={errors?.caseId?.message ? true : false}
+              id="caseNumber"
+              error={errors?.caseNumber?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
                 width: "100%",

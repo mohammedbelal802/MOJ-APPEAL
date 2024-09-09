@@ -49,7 +49,7 @@ export default function JudgmentAuth() {
   const { image } = useAppSelector((state) => state.fingerPrint);
   const {
     data: { persons },
-  } = useAppSelector((state) => state.judgment);
+  } = useAppSelector((state) => state.jiJdVerification);
   const [isSignatureValid, setSignatureIsValid] = React.useState(false);
   const [signature, setSignature] = React.useState<any>("");
   const [selectedUser, setSelectedUser] = React.useState<any>({ id: null });
@@ -68,7 +68,7 @@ export default function JudgmentAuth() {
     setValue(newValue);
   };
 
-  const personList = persons.map((it) => (
+  const personList = persons.map((it: any) => (
     <Box
       onClick={() => setSelectedUser(it)}
       key={it.id}

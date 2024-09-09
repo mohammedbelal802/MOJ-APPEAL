@@ -108,7 +108,7 @@ export default function AuthorizeMember() {
     }
 
     await dispatch(
-      submitJdPersonVerification({ data: submitJdPersonVerification })
+      submitJdPersonVerification({ data: submitVerificationData })
     );
   };
 

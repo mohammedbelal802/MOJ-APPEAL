@@ -7,7 +7,7 @@ import NotFoundStatus from "../components/authorize-members/NotFoundStatus";
 import JudgmentAuth from "../components/judgment/JudgmentAuth";
 
 export default function Judgment() {
-  const { status, data } = useAppSelector((state) => state.judgment);
+  const { status, data } = useAppSelector((state) => state.jiJdVerification);
   return (
     <>
       <AppBar

@@ -5,9 +5,10 @@ import authSlice from "./auth/authSlice";
 import fingerPrintCaseSlice from "./fingerPrintVerification/fingerPrintCaseSlice";
 import verificationCaseSlice from "./verificationCase/verificationCaseSlice";
 import authMembersSlice from "./authMembers/authMembersSlice";
-import judgmentSlice from "./judgment/judgmentSlice";
 import inquirySlice from "./inquiry/inquirySlice";
 import SubmitRequestSlice from "./request/SubmitRequestSlice";
+import jiJdVerificationSlice from "./jiJdVerification/jiJdVerificationSlice";
+import jiDeliverySlice from "./jiDelivery/jiDeliverySlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     fingerPrintCase: fingerPrintCaseSlice,
     verificationCase: verificationCaseSlice,
     authMember: authMembersSlice,
-    judgment: judgmentSlice,
+    jiJdVerification: jiJdVerificationSlice,
+    jiDelivery: jiDeliverySlice,
     inquiry: inquirySlice,
     submitRequest: SubmitRequestSlice,
   },

@@ -20,7 +20,7 @@ import BookList from "../components/BookList";
 import ReciveJudmentBookList from "../components/BookList/ReciveJudmentBookList";
 
 export default function ReceiveJudgment() {
-  const { data, status } = useAppSelector((state) => state.judgment);
+  const { data, status } = useAppSelector((state) => state.jiDelivery);
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [openAlert, setOpenAlert] = useState(false);
 

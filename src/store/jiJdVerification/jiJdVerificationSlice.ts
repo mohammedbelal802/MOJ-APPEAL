@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import judgmentServices from "./jiJdVerificationServices";
 
 interface PERSON_PROPS {
   id: number;
@@ -64,6 +65,50 @@ const persons = [
   },
 ];
 
+export const getJiJdVerificationCase = createAsyncThunk(
+  "/getJiJdVerificationCase",
+  async (
+    { data }: { data: { caseNumber: string; year: string } },
+    thunkApi
+  ) => {
+    try {
+      const response = await judgmentServices.getJiJdVerificationCase(data);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const submitJiJdPersonVerification = createAsyncThunk(
+  "/submitJiJdVerification",
+  async ({ data }: { data: any }, thunkApi) => {
+    try {
+      const state: any = thunkApi.getState();
+      const verficationCaseData = state.verificationCase.data;
+      const verficationCaseSubmitedData = {
+        ...data,
+        caseNumber: verficationCaseData.caseNumber,
+        sessionNumber: verficationCaseData.sessionId,
+        year: verficationCaseData.year,
+        requestCode: verficationCaseData.requestCode,
+      };
+
+      const response = await judgmentServices.submitJiJdPersonVerification(
+        verficationCaseSubmitedData
+      );
+      console.log(response);
+
+      return response.data;
+    } catch (error: any) {
+      console.log(error);
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
 export const getJudgment = createAsyncThunk(
   "/judgment",
   async (
@@ -123,20 +168,20 @@ export const receiveJudgment = createAsyncThunk(
   }
 );
 
-const judgmentSlice = createSlice({
-  name: "judgmentSlice",
+const JiJdVerificationSlice = createSlice({
+  name: "JiJdVerificationSlice",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getJudgment.pending, (state) => {
+      .addCase(getJiJdVerificationCase.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(getJudgment.fulfilled, (state, action: any) => {
+      .addCase(getJiJdVerificationCase.fulfilled, (state, action: any) => {
         state.status = "success";
         state.data = action.payload;
       })
-      .addCase(getJudgment.rejected, (state, action: any) => {
+      .addCase(getJiJdVerificationCase.rejected, (state, action: any) => {
         state.status = "error";
         state.errMsg = action.payload || "حدث خطأ ما";
       })
@@ -151,4 +196,4 @@ const judgmentSlice = createSlice({
   },
 });
 
-export default judgmentSlice.reducer;
+export default JiJdVerificationSlice.reducer;

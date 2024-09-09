@@ -1,8 +1,8 @@
-import { Box, Button, FormControl, InputLabel } from "@mui/material";
+import { Box, Button, InputLabel } from "@mui/material";
 import InputField from "../ui/inputs/InputField";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "../../store/hooks";
-import { getJudgment } from "../../store/judgment/judgmentSlice";
+import { getJiJdVerificationCase } from "../../store/jiJdVerification/jiJdVerificationSlice";
 
 export default function JudgmentForm() {
   const {
@@ -15,7 +15,8 @@ export default function JudgmentForm() {
 
   const dispatch = useAppDispatch();
   const onSubmit = async (data: any) => {
-    await dispatch(getJudgment({ data }));
+    console.log("this is form");
+    await dispatch(getJiJdVerificationCase({ data }));
   };
 
   return (
