@@ -3,12 +3,14 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Button, IconButton, Typography } from "@mui/material";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import DigitalSigntureInput from "../DigitalSigntureInput";
 import { useForm } from "react-hook-form";
 import FingerPrintComponent from "../FingerPrintComponent";
 import qrImg from "../../assets/authEmp/qr.png";
 import SearchInput from "../ui/inputs/SearchInput";
+import { generateQrCode } from "../../store/verificationCase/verificationCaseSlice";
+import { submitJdPersonVerification } from "../../store/authMembers/authMembersSlice";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,6 +55,7 @@ export default function AuthorizeMember() {
   const [signature, setSignature] = React.useState<any>("");
   const [isSignatureValid, setSignatureIsValid] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<any>({ id: null });
+  const dispatch = useAppDispatch();
 
   const isValid =
     (image && value === 1) || (value === 0 && isSignatureValid == true);
@@ -66,6 +69,47 @@ export default function AuthorizeMember() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const onSubmit = async (data: any) => {
+    let submitVerificationData: any = {
+      id: selectedUser.id,
+      verficationType: value === 0 ? 2 : value,
+      requestCode: "test",
+    };
+
+    if (value === 0) {
+      const signtureImage = signature?.toDataURL()?.split(",")?.[1];
+
+      const data: any = {
+        Data: {
+          "إسم الطرف": selectedUser.name,
+          الهوية: selectedUser.id,
+          "طريقة المصادقة": "توقيع حي على الشاشة",
+        },
+      };
+      submitVerificationData.verficationImage = signtureImage;
+      const res = await dispatch(generateQrCode({ data }));
+      if (res.meta.requestStatus === "fulfilled")
+        submitVerificationData.verficationQrImage = res.payload;
+    }
+    if (value === 1) {
+      const data: any = {
+        Data: {
+          "إسم الطرف": selectedUser.name,
+          الهوية: selectedUser.id,
+          "طريقة المصادقة": "البصمة",
+        },
+      };
+      const res = await dispatch(generateQrCode({ data }));
+      if (res.meta.requestStatus === "fulfilled")
+        submitVerificationData.verficationQrImage = res.payload;
+      submitVerificationData.verficationImage = image;
+    }
+
+    await dispatch(
+      submitJdPersonVerification({ data: submitJdPersonVerification })
+    );
   };
 
   const personList = persons.map((it) => (
@@ -119,7 +163,7 @@ export default function AuthorizeMember() {
           </Box>
         </Box>
 
-        <div style={{ width: "100%" }}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
           <Box
             sx={{
               display: "flex",
@@ -171,6 +215,7 @@ export default function AuthorizeMember() {
             <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Button
                 color="primary"
+                type="submit"
                 variant="contained"
                 disabled={!isValid}
                 sx={{ p: "8px 25px", borderRadius: "8px" }}
@@ -232,7 +277,7 @@ export default function AuthorizeMember() {
               سوف يتم إدراج الكود الخاص بك علي ملف الضبط بعد تأكيد المصادقة
             </Typography>
           </Box>
-        </div>
+        </form>
       </Box>
     </Box>
   );

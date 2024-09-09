@@ -2,7 +2,7 @@ import { Box, Button, FormControl, InputLabel } from "@mui/material";
 import InputField from "../ui/inputs/InputField";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "../../store/hooks";
-import { authorizeMember } from "../../store/authMembers/authMembersSlice";
+import { getJdVerificationCase } from "../../store/authMembers/authMembersSlice";
 
 export default function SessionForm() {
   const {
@@ -15,7 +15,7 @@ export default function SessionForm() {
 
   const dispatch = useAppDispatch();
   const onSubmit = async (data: any) => {
-    await dispatch(authorizeMember({ data }));
+    await dispatch(getJdVerificationCase(data));
   };
 
   return (

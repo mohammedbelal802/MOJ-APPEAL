@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AUTHORIZE_PROPS } from "../../utils/types";
+import authMemberServices from "./authServices";
 
 interface PERSON_PROPS {
   id: number;
@@ -29,59 +30,47 @@ const initialState: INITIAL_STATE_PROPS = {
     status: "",
     persons: [],
   },
-  status: "idle",
+  status: "success",
   errMsg: "",
 };
 
-const person = {
-  name: "عبدالرحمن عامر العتيبي",
-  status: "قاضي",
-  id: 1,
-};
-
-const persons = [
-  {
-    name: "عبدالله محمد السيد",
-    id: 1,
-    status: "test",
-  },
-  {
-    name: "عامر أحمد الفهري",
-    id: 2,
-    status: "test",
-  },
-  {
-    name: "حسن محروس محمود",
-    id: 3,
-    status: "test",
-  },
-  {
-    name: "سعد محمد العتيبي",
-    id: 4,
-    status: "test",
-  },
-];
-
-export const authorizeMember = createAsyncThunk(
-  "/authorizeMember",
+export const getJdVerificationCase = createAsyncThunk(
+  "/getJdVerificationCase",
   async ({ data }: { data: AUTHORIZE_PROPS }, thunkApi) => {
     try {
-      let response = { data: {} };
-      if (
-        data.caseNumber === "452460" &&
-        data.sessionNumber === "3" &&
-        data.year === "1445"
-      ) {
-        response.data = { ...data, ...person, persons };
-      } else {
-        throw new Error(
-          "لا يوجد نتائج بحث من فضلك تحقق من رقم القضية، رقم الجلسة، أو التاريخ"
-        );
-      }
-      return response.data;
+      const response = await authMemberServices.getJdVerificationCase(data);
+      console.log(response);
+      return { ...response.data, ...data };
     } catch (error: any) {
       console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const submitJdPersonVerification = createAsyncThunk(
+  "/submitJdVerification",
+  async ({ data }: { data: any }, thunkApi) => {
+    try {
+      const state: any = thunkApi.getState();
+      const verficationCaseData = state.verificationCase.data;
+      const verficationCaseSubmitedData = {
+        ...data,
+        caseNumber: verficationCaseData.caseNumber,
+        sessionNumber: verficationCaseData.sessionId,
+        year: verficationCaseData.year,
+        requestCode: verficationCaseData.requestCode,
+      };
+
+      const response = await authMemberServices.submitJdPersonVerification(
+        verficationCaseSubmitedData
+      );
+      console.log(response);
+
+      return response.data;
+    } catch (error: any) {
+      console.log(error);
+      return thunkApi.rejectWithValue(error);
     }
   }
 );
@@ -92,14 +81,14 @@ const authMemberSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(authorizeMember.pending, (state) => {
+      .addCase(getJdVerificationCase.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(authorizeMember.fulfilled, (state, action: any) => {
+      .addCase(getJdVerificationCase.fulfilled, (state, action: any) => {
         state.status = "success";
         state.data = action.payload;
       })
-      .addCase(authorizeMember.rejected, (state, action: any) => {
+      .addCase(getJdVerificationCase.rejected, (state, action: any) => {
         state.status = "error";
         state.errMsg = action.payload || "حدث خطأ ما";
       });
