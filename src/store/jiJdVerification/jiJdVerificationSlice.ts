@@ -36,8 +36,6 @@ const initialState: INITIAL_STATE_PROPS = {
   errMsg: "",
 };
 
-
-
 export const getJiJdVerificationCase = createAsyncThunk(
   "/getJiJdVerificationCase",
   async (
@@ -47,7 +45,7 @@ export const getJiJdVerificationCase = createAsyncThunk(
     try {
       const response = await judgmentServices.getJiJdVerificationCase(data);
       console.log(response);
-      return {...response.data,...data};
+      return { ...response.data, ...data };
     } catch (error) {
       console.log(error);
       return thunkApi.rejectWithValue(error);
@@ -156,8 +154,7 @@ const JiJdVerificationSlice = createSlice({
       .addCase(getJiJdVerificationCase.rejected, (state, action: any) => {
         state.status = "error";
         state.errMsg = action.payload || "حدث خطأ ما";
-      })
-  
+      });
   },
 });
 

@@ -1,6 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
-import ReciveJudmentBookList from "../BookList/ReciveJudmentBookList";
+import BookList from "../BookList";
 
 interface props {
   status: string;
@@ -8,7 +7,7 @@ interface props {
   caseNumber: string;
   year: string;
   name: string;
-  books:any;
+  books: any;
 }
 export default function SessionDetails({
   status,
@@ -16,7 +15,7 @@ export default function SessionDetails({
   sessionNumber,
   year,
   name,
-  books
+  books,
 }: props) {
   return (
     <Box
@@ -51,7 +50,7 @@ export default function SessionDetails({
         >
           الصفة : {status}
         </Typography> */}
-       <ReciveJudmentBookList sx={{p:"0px !important"}} books={books}/>
+        <BookList sx={{ p: "0px !important" }} books={books} />
       </Box>
     </Box>
   );
