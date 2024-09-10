@@ -3,19 +3,17 @@ import ReciveJudmentBookList from "../BookList/ReciveJudmentBookList";
 
 interface props {
   status: string;
-  instrumentNumber: string;
   caseNumber: string;
   year: string;
   name: string;
-  books:any;
+  books: any;
 }
 export default function JudgmentDetails({
   status,
   caseNumber,
-  instrumentNumber,
   year,
   name,
-  books
+  books,
 }: props) {
   return (
     <Box
@@ -27,11 +25,7 @@ export default function JudgmentDetails({
         >
           رقم القضية : {caseNumber}
         </Typography>
-        <Typography
-          sx={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400" }}
-        >
-          رقم الصك : {instrumentNumber}
-        </Typography>
+
         <Typography
           sx={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400" }}
         >
@@ -50,8 +44,7 @@ export default function JudgmentDetails({
         >
           الصفة : {status}
         </Typography> */}
-               <ReciveJudmentBookList sx={{p:"0px !important"}} books={books}/>
-
+        <ReciveJudmentBookList sx={{ p: "0px !important" }} books={books} />
       </Box>
     </Box>
   );
