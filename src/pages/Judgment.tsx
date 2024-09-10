@@ -59,7 +59,6 @@ export default function Judgment() {
               name={data.name}
               status={data.status}
               caseNumber={data.caseNumber}
-              instrumentNumber={data.instrumentNumber}
               year={data.year}
               books={data.books}
             />
