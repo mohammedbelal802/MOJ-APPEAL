@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import DigitalSignatureInput from "../DigitalSigntureInput";
 import FingerPrintComponent from "../FingerPrintComponent";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { submitCasePartiesRequest } from "../../store/request/submitRequestSlice";
+import { submitCasePartiesRequest } from "../../store/request/SubmitRequestSlice";
 
 export default function Authorize({
   handleNextStep,
@@ -25,7 +25,7 @@ export default function Authorize({
   const dispatch = useAppDispatch();
   const [authType, setAuthType] = useState(2);
   const { image } = useAppSelector((state) => state.fingerPrint);
-const {data:userData} = useAppSelector(state =>state.auth)
+  const { data: userData } = useAppSelector((state) => state.auth);
 
   const {
     control,
@@ -52,7 +52,7 @@ const {data:userData} = useAppSelector(state =>state.auth)
       id: formData.id,
       verificationType: authType,
       requestType: formData.requestType,
-      userId:userData.name,
+      userId: userData.name,
       files: formData.files[0],
     };
 

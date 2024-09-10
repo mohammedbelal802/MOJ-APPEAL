@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import { formatYear } from "../utils/funcations";
 import moment from "moment-hijri";
-import { getSubmitCaseParties } from "../store/request/submitRequestSlice";
+import { getSubmitCaseParties } from "../store/request/SubmitRequestSlice";
 
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;

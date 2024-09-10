@@ -8,7 +8,7 @@ import authMembersSlice from "./authMembers/authMembersSlice";
 import inquirySlice from "./inquiry/inquirySlice";
 import jiJdVerificationSlice from "./jiJdVerification/jiJdVerificationSlice";
 import jiDeliverySlice from "./jiDelivery/jiDeliverySlice";
-import submitRequestSlice from "./request/submitRequestSlice";
+import submitRequestSlice from "./request/SubmitRequestSlice";
 
 export const store = configureStore({
   reducer: {
