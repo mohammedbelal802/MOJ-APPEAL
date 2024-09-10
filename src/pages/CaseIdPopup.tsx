@@ -14,7 +14,10 @@ import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import { formatYear } from "../utils/funcations";
 import moment from "moment-hijri";
-import { getRequestData } from "../store/request/SubmitRequestSlice";
+import {
+  getRequestData,
+  getSubmitCaseParties,
+} from "../store/request/submitRequestSlice";
 
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
@@ -24,7 +27,7 @@ export default function CaseIdPopup() {
     handleSubmit,
     control,
     watch,
-    formState: { isValid, errors },
+    formState: { isValid, errors, isSubmitting },
   } = useForm<any>({
     mode: "all",
     defaultValues: {
@@ -35,11 +38,8 @@ export default function CaseIdPopup() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onClose = () => dispatch(hide());
-  const onSubmit = (data: any) => {
-    console.log(data);
-    dispatch(getRequestData({ data: data, navigate }));
-    // dispatch(show());
-    navigate("/modal/submit-request");
+  const onSubmit = async (data: any) => {
+    await dispatch(getSubmitCaseParties({ data, navigate }));
   };
 
   return (
@@ -124,7 +124,7 @@ export default function CaseIdPopup() {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               sx={{
                 width: "fit-content",
                 fontWeight: "500",

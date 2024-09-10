@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Success from "../authorize/Success";
 import Error from "../authorize/Error";
+import { submitJiDeliveryPersonVerification } from "../../store/jiDelivery/jiDeliverySlice";
 
 interface PERSON {
   id: any;
@@ -33,16 +34,16 @@ export default function Authorize({ users }: Props) {
     control,
     reset,
     setValue,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isSubmitSuccessful },
     handleSubmit,
   } = useForm({});
 
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [isSuccess, setIsSuccess] = useState<any>(null);
-  const [authType, setAuthType] = useState(1);
+  const [authType, setAuthType] = useState(2);
   const [isSignatureValid, setSignatureIsValid] = useState(false);
   const isValid =
-    (image && authType === 2) || (authType === 1 && isSignatureValid === true);
+    (image && authType === 1) || (authType === 2 && isSignatureValid === true);
   const [signature, setSignature] = useState<any>("");
   const [selectedUser, setSelectedUser] = useState<PERSON>({
     id: null,
@@ -53,7 +54,7 @@ export default function Authorize({ users }: Props) {
 
   let renderedAuthType;
   switch (authType) {
-    case 1:
+    case 2:
       renderedAuthType = (
         <DigitalSigntureInput
           setIsValid={setSignatureIsValid}
@@ -62,7 +63,7 @@ export default function Authorize({ users }: Props) {
         />
       );
       break;
-    case 2:
+    case 1:
       renderedAuthType = (
         <FingerPrintComponent status={"idle"} control={control} />
       );
@@ -81,71 +82,25 @@ export default function Authorize({ users }: Props) {
       setSignatureIsValid(false);
     }
   };
-  const onVerificationSubmit = async (data: any) => {
-    console.log(data);
+  const onVerificationSubmit = async () => {
+    let submitVerificationData: any = {
+      id: selectedUser.id,
+      verficationType: authType,
+      requestCode: "test",
+    };
 
-    // let submitVerificationData: any = {
-    //   id: selectedUser.id,
-    //   verficationType: authType,
-    // };
-    // "id": "string",
-    // "year": 0,
-    // "caseNumber": 0,
-    // "sessionNumber": 0,
-    // "verficationType": 0,
-    // "verficationImage": "string",
-    // "verficationQrImage": "string",
-    // "verficationDescription": "string",
-    // "coordinatorName": "string"
+    if (authType === 2) {
+      const signtureImage = signature?.toDataURL()?.split(",")?.[1];
+      submitVerificationData.verficationImage = signtureImage;
+    }
+    if (authType === 1) {
+      submitVerificationData.verficationImage = image;
+    }
 
-    // if (authType === 1) {
-    //   submitVerificationData.verficationImage = signature
-    //     ?.toDataURL()
-    //     ?.split(",")?.[1];
-
-    //   const data: any = {
-    //     Data: {
-    //       "إسم الطرف": selectedUser.name,
-    //       الهوية: selectedUser.id,
-    //       "طريقة المصادقة": "توقيع حي على الشاشة",
-    //     },
-    //   };
-    //   const res = await dispatch(generateQrCode({ data }));
-    //   if (res.meta.requestStatus === "fulfilled")
-    //     submitVerificationData.verficationQrImage = res.payload;
-    // }
-    // if (authType === 2) {
-    //   const data: any = {
-    //     Data: {
-    //       "إسم الطرف": selectedUser.name,
-    //       الهوية: selectedUser.id,
-    //       "طريقة المصادقة": "البصمة",
-    //     },
-    //   };
-    //   const res = await dispatch(generateQrCode({ data }));
-    //   if (res.meta.requestStatus === "fulfilled")
-    //     submitVerificationData.verficationQrImage = res.payload;
-    //   submitVerificationData.verficationImage = image;
-    // }
-    // if (authType === 3) {
-    //   submitVerificationData.verficationDescription = data.noSigntureNotes;
-    //   submitVerificationData.coordinatorName = name;
-    // }
-    // if (authType === 4) {
-    //   submitVerificationData.verficationDescription = data.absenceNotes;
-    //   submitVerificationData.coordinatorName = name;
-    // }
-
-    // const resData = await dispatch(
-    //   submitVerification({ data: submitVerificationData })
-    // );
-    // if (resData.meta.requestStatus === "fulfilled") {
-    //   setIsSuccess(true);
-    // }
-
-    // if (resData.meta.requestStatus === "rejected") {
-    //   setIsSuccess(false);
-    // }
+    await dispatch(
+      submitJiDeliveryPersonVerification({ data: submitVerificationData })
+    );
+    setIsSuccess(true);
   };
 
   useEffect(() => {
@@ -236,7 +191,7 @@ export default function Authorize({ users }: Props) {
                         fontSize: "14px !important",
                       },
                     }}
-                    value="1"
+                    value="2"
                     control={<Radio />}
                     label="توقيع حي على الشاشة"
                   />
@@ -249,7 +204,7 @@ export default function Authorize({ users }: Props) {
                         fontSize: "14px !important",
                       },
                     }}
-                    value="2"
+                    value="1"
                     control={<Radio />}
                     label="البصمة"
                   />
@@ -343,7 +298,7 @@ export default function Authorize({ users }: Props) {
                     sx={{ p: "8px 30px 8px 30px", borderRadius: "30px" }}
                     variant="contained"
                     color="primary"
-                    disabled={!isValid}
+                    disabled={!isValid || isSubmitting}
                     type="submit"
                   >
                     تأكيد

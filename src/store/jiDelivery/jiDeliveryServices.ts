@@ -11,5 +11,16 @@ const getJideliveryVerificationCase = async (data: {
   return response.data;
 };
 
-const jiDeliveryVerificationServices = { getJideliveryVerificationCase };
+const submitJiDeliveryVerification = async (data: any) => {
+  const response = await apiClient.post(
+    "/submit-ji-delivery-verfication-case",
+    data
+  );
+  return response.data;
+};
+
+const jiDeliveryVerificationServices = {
+  getJideliveryVerificationCase,
+  submitJiDeliveryVerification,
+};
 export default jiDeliveryVerificationServices;

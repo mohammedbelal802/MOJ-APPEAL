@@ -47,7 +47,7 @@ export default function Authorize({ users }: Props) {
   } = useAppSelector((state) => state.auth);
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [isSuccess, setIsSuccess] = useState<any>(null);
-  const [authType, setAuthType] = useState(1);
+  const [authType, setAuthType] = useState(2);
   const [isSignatureValid, setSignatureIsValid] = useState(false);
 
   const [signature, setSignature] = useState<any>("");
@@ -60,7 +60,7 @@ export default function Authorize({ users }: Props) {
 
   let renderedAuthType;
   switch (authType) {
-    case 1:
+    case 2:
       renderedAuthType = (
         <DigitalSigntureInput
           setIsValid={setSignatureIsValid}
@@ -69,7 +69,7 @@ export default function Authorize({ users }: Props) {
         />
       );
       break;
-    case 2:
+    case 1:
       renderedAuthType = (
         <FingerPrintComponent status={"idle"} control={control} />
       );
@@ -111,7 +111,7 @@ export default function Authorize({ users }: Props) {
     // "verficationDescription": "string",
     // "coordinatorName": "string"
 
-    if (authType === 1) {
+    if (authType === 2) {
       submitVerificationData.verficationImage = signature
         ?.toDataURL()
         ?.split(",")?.[1];
@@ -127,7 +127,7 @@ export default function Authorize({ users }: Props) {
       if (res.meta.requestStatus === "fulfilled")
         submitVerificationData.verficationQrImage = res.payload;
     }
-    if (authType === 2) {
+    if (authType === 1) {
       const data: any = {
         Data: {
           "إسم الطرف": selectedUser.name,
@@ -249,7 +249,7 @@ export default function Authorize({ users }: Props) {
                         fontSize: "14px !important",
                       },
                     }}
-                    value="1"
+                    value="2"
                     control={<Radio />}
                     label="توقيع حي على الشاشة"
                   />
@@ -262,7 +262,7 @@ export default function Authorize({ users }: Props) {
                         fontSize: "14px !important",
                       },
                     }}
-                    value="2"
+                    value="1"
                     control={<Radio />}
                     label="البصمة"
                   />

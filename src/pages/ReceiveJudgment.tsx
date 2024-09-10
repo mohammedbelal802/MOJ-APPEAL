@@ -9,45 +9,18 @@ import {
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { hide } from "../store/modal/modalSlice";
 import CloseBtn from "../components/ui/buttons/CloseBtn";
-import { useForm } from "react-hook-form";
-import UsersSelection from "../components/fingerprint-verification/UsersSelection";
 import Alert from "../components/Alert";
 import { useState } from "react";
-import FingerPrintComponent from "../components/FingerPrintComponent";
-import { storeFingerPrint } from "../store/fingerprint/fingerPrintSlice";
 import Authorize from "../components/receive-judgment/Authorize";
-import BookList from "../components/BookList";
 import ReciveJudmentBookList from "../components/BookList/ReciveJudmentBookList";
 
 export default function ReceiveJudgment() {
   const { data, status } = useAppSelector((state) => state.jiDelivery);
-  const { image } = useAppSelector((state) => state.fingerPrint);
   const [openAlert, setOpenAlert] = useState(false);
-
-  const {
-    control,
-    resetField,
-    watch,
-    handleSubmit,
-    formState: { isValid, isSubmitting },
-  } = useForm();
   const dispatch = useAppDispatch();
   const onSubmit = () => dispatch(hide());
   const handleOpenAlert = () => setOpenAlert(true);
   const handleCloseAlert = () => setOpenAlert(false);
-
-  const handleReceiveJudgment = async (data: any) => {
-    // const formatedData = {
-    //   Action: "VerifyFingersById",
-    //   Parameters: {
-    //     id: data.user.id,
-    //     fingers: [{ type: data.fingerNumber, image }],
-    //   },
-    // };
-    // await dispatch(verifyFingerPrint({ data: formatedData }));
-  };
-
-  console.log(status);
 
   return (
     <>

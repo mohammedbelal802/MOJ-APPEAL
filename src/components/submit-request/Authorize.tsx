@@ -10,29 +10,33 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import DigitalSignatureInput from "../DigitalSigntureInput";
 import FingerPrintComponent from "../FingerPrintComponent";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { submitCasePartiesRequest } from "../../store/request/submitRequestSlice";
 
 export default function Authorize({
   handleNextStep,
   handlePrevStep,
+  formData,
 }: {
   handleNextStep: (data: any) => void;
   handlePrevStep: (data: any) => void;
+  formData: any;
 }) {
-  const [authType, setAuthType] = useState(1);
+  const dispatch = useAppDispatch();
+  const [authType, setAuthType] = useState(2);
   const { image } = useAppSelector((state) => state.fingerPrint);
 
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({});
   const [isSignatureValid, setSignatureIsValid] = useState(false);
 
   const [signature, setSignature] = useState<any>("");
   const isValid =
-    (image && authType === 2) || (authType === 1 && isSignatureValid == true);
+    (image && authType === 1) || (authType === 2 && isSignatureValid == true);
 
   const onReset = () => {
     reset();
@@ -42,7 +46,33 @@ export default function Authorize({
     }
   };
 
-  const onSubmit = (data: any) => handleNextStep(data);
+  const onSubmit = async (data: any) => {
+    let submitVerificationData: any = {
+      id: formData.id,
+      verficationType: authType,
+      requestCode: "test",
+      requestType: formData.requestType,
+      files: formData.files,
+    };
+
+    if (authType === 2) {
+      const signtureImage = signature?.toDataURL()?.split(",")?.[1];
+      submitVerificationData.verficationImage = signtureImage;
+    }
+    if (authType === 1) {
+      submitVerificationData.verficationImage = image;
+    }
+
+    const result = await dispatch(
+      submitCasePartiesRequest({ data: submitVerificationData })
+    );
+    if (result.meta.requestStatus === "fulfilled") {
+      handleNextStep(submitVerificationData);
+    }
+    // const result = await dispatch(
+    //   submitJdPersonVerification({ data: submitVerificationData })
+    // );
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <RadioGroup
@@ -63,7 +93,7 @@ export default function Authorize({
               fontSize: "14px !important",
             },
           }}
-          value="1"
+          value="2"
           control={<Radio />}
           label="توقيع حي على الشاشة"
         />
@@ -76,7 +106,7 @@ export default function Authorize({
               fontSize: "14px !important",
             },
           }}
-          value="2"
+          value="1"
           control={<Radio />}
           label="البصمة"
         />
@@ -93,7 +123,7 @@ export default function Authorize({
           pb: "0px",
         }}
       >
-        {authType === 1 && (
+        {authType === 2 && (
           <DigitalSignatureInput
             setIsValid={setSignatureIsValid}
             signture={signature}
@@ -101,7 +131,7 @@ export default function Authorize({
           />
         )}
 
-        {authType === 2 && (
+        {authType === 1 && (
           <FingerPrintComponent status={"idle"} control={control} />
         )}
       </Box>
@@ -134,7 +164,7 @@ export default function Authorize({
         <Button
           type="submit"
           sx={{ px: "30px", borderRadius: "20px" }}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           variant="contained"
           color="primary"
           startIcon={

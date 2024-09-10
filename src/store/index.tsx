@@ -6,7 +6,7 @@ import fingerPrintCaseSlice from "./fingerPrintVerification/fingerPrintCaseSlice
 import verificationCaseSlice from "./verificationCase/verificationCaseSlice";
 import authMembersSlice from "./authMembers/authMembersSlice";
 import inquirySlice from "./inquiry/inquirySlice";
-import SubmitRequestSlice from "./request/SubmitRequestSlice";
+import SubmitRequestSlice from "./request/submitRequestSlice";
 import jiJdVerificationSlice from "./jiJdVerification/jiJdVerificationSlice";
 import jiDeliverySlice from "./jiDelivery/jiDeliverySlice";
 

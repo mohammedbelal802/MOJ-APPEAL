@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { successToast, warningToast } from "../../utils/toasts";
+import submitRequestServices from "./submitRequestServices";
 
 interface PERSON {
   id: number;
@@ -44,6 +45,53 @@ const persons = [
     status: "test",
   },
 ];
+
+export const getSubmitCaseParties = createAsyncThunk(
+  "/getSubmitCaseParties",
+  async (
+    {
+      data,
+      navigate,
+    }: { data: { caseNumber: string; year: string }; navigate: any },
+    thunkApi
+  ) => {
+    try {
+      const response = await submitRequestServices.getSubmitCaseParties(data);
+      navigate("/modal/submit-request");
+      console.log(response);
+      return { ...response.data, ...data };
+    } catch (error: any) {
+      warningToast(error?.response?.data?.responseMessage);
+      return thunkApi.rejectWithValue(error?.response?.data?.data);
+    }
+  }
+);
+
+export const submitCasePartiesRequest = createAsyncThunk(
+  "/submitCasePartiesRequest",
+  async ({ data }: { data: any }, thunkApi) => {
+    try {
+      const state: any = thunkApi.getState();
+      const verficationCaseData = state.submitRequest.data;
+      const verficationCaseSubmitedData = {
+        ...data,
+        caseNumber: verficationCaseData.caseNumber,
+        year: verficationCaseData.year,
+        requestCode: data.requestCode,
+      };
+
+      console.log(verficationCaseSubmitedData);
+
+      const response = await submitRequestServices.submitCasePartiesRequest(
+        verficationCaseSubmitedData
+      );
+      return { ...response.data, ...data };
+    } catch (error) {
+      console.log(error);
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
 
 export const getRequestData = createAsyncThunk(
   "/get-request-data",

@@ -28,16 +28,12 @@ export default function SubmitRequest() {
   const { data } = useAppSelector((state) => state.submitRequest);
   const [openAlert, setOpenAlert] = useState(false);
   const [formData, setFormData] = useState({});
-  const { control, resetField, reset, watch } = useForm({
+  const { control, resetField, reset, getValues, watch } = useForm({
     defaultValues: { files: [], user: "", requestType: "" },
   });
 
   const { currentStep, next, back, steps, goTo } = useMultiForm(3, 0);
 
-  // const { fields, append, remove } = useFieldArray({
-  //   control,
-  //   name: "files",
-  // });
   const dispatch = useAppDispatch();
   const onSubmit = () => dispatch(hide());
   const handleOpenAlert = () => setOpenAlert(true);
@@ -45,7 +41,12 @@ export default function SubmitRequest() {
   const disableUpload = watch("requestType") && watch("user") ? false : true;
 
   const handleNextStep = (data: any) => {
-    setFormData((prev) => ({ ...prev, ...data }));
+    setFormData((prev) => ({
+      ...prev,
+      requestType: getValues("requestType"),
+      id: getValues("user"),
+      ...data,
+    }));
     next();
   };
 
@@ -72,8 +73,6 @@ export default function SubmitRequest() {
       }, 2000);
     }
   }, [currentStep]);
-
-  console.log("request type " + watch("requestType"));
 
   return (
     <>
@@ -164,7 +163,7 @@ export default function SubmitRequest() {
                           fontSize: "14px !important",
                         },
                       }}
-                      value="objection"
+                      value="1"
                       control={<Radio />}
                       label="طلب اعتراض"
                     />
@@ -177,7 +176,7 @@ export default function SubmitRequest() {
                           fontSize: "14px !important",
                         },
                       }}
-                      value="appeal"
+                      value="2"
                       control={<Radio />}
                       label="طلب نقض"
                     />
@@ -190,7 +189,7 @@ export default function SubmitRequest() {
                           fontSize: "14px !important",
                         },
                       }}
-                      value="caserequests"
+                      value="3"
                       control={<Radio />}
                       label="الطلبات على القضايا"
                     />
@@ -349,6 +348,7 @@ export default function SubmitRequest() {
 
               {currentStep === 1 && (
                 <Authorize
+                  formData={formData}
                   handlePrevStep={() => back()}
                   handleNextStep={(data: any) => handleNextStep(data)}
                 />
