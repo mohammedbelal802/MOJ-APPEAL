@@ -4,7 +4,7 @@ const getSubmitCaseParties = async (data: {
   year: string;
   caseNumber: string;
 }) => {
-  const response = await apiClient.post("/get-submit-case-partie", data);
+  const response = await apiClient.post("/get-submit-case-parties", data);
   return response.data;
 };
 

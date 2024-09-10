@@ -23,29 +23,6 @@ const INITIAL_STATE: INITIAL_STATE_props = {
   data: { persons: [], caseNumber: "", year: "" },
 };
 
-const persons = [
-  {
-    name: "عبدالله محمد السيد",
-    id: 1,
-    status: "test",
-  },
-  {
-    name: "عامر أحمد الفهري",
-    id: 2,
-    status: "test",
-  },
-  {
-    name: "حسن محروس محمود",
-    id: 3,
-    status: "test",
-  },
-  {
-    name: "سعد محمد العتيبي",
-    id: 4,
-    status: "test",
-  },
-];
-
 export const getSubmitCaseParties = createAsyncThunk(
   "/getSubmitCaseParties",
   async (
@@ -77,7 +54,6 @@ export const submitCasePartiesRequest = createAsyncThunk(
         ...data,
         caseNumber: verficationCaseData.caseNumber,
         year: verficationCaseData.year,
-        requestCode: data.requestCode,
       };
 
       console.log(verficationCaseSubmitedData);
@@ -93,81 +69,16 @@ export const submitCasePartiesRequest = createAsyncThunk(
   }
 );
 
-export const getRequestData = createAsyncThunk(
-  "/get-request-data",
-  async (
-    {
-      data,
-      navigate,
-    }: {
-      data: { year: string; caseId: string };
-      navigate: any;
-    },
-
-    thunkApi
-  ) => {
-    try {
-      //   const response = await verificationCaseServices.getVerificationCase(data);
-      //   successToast(response.responseMessage);
-      const response = {
-        data: { persons, year: data.year, caseNumber: data.caseId },
-      };
-      navigate("/modal/authorization");
-      return response.data;
-    } catch (error: any) {
-      warningToast(error?.response?.data?.responseMessage);
-      return thunkApi.rejectWithValue(error?.response?.data?.data);
-    }
-  }
-);
-
-// export const generateQrCode = createAsyncThunk(
-//   "/generate-qr",
-//   async ({ data }: { data: any }, thunkApi) => {
-//     try {
-//       const response = await verificationCaseServices.generateQrCode(data);
-//       return response.data;
-//     } catch (error: any) {
-//       return thunkApi.rejectWithValue(error?.response?.data?.data);
-//     }
-//   }
-// );
-
-// export const submitVerification = createAsyncThunk(
-//   "/submit-verification",
-//   async ({ data }: { data: any }, thunkApi) => {
-//     try {
-//       const state: any = thunkApi.getState();
-//       const verficationCaseData = state.verificationCase.data;
-//       const verficationCaseSubmitedData = {
-//         ...data,
-//         caseNumber: verficationCaseData.caseNumber,
-//         sessionNumber: verficationCaseData.sessionId,
-//         year: verficationCaseData.year,
-//       };
-//       await verificationCaseServices.submitVerification(
-//         verficationCaseSubmitedData
-//       );
-//       // successToast(response.responseMessage);
-//       // thunkApi.dispatch(hide());
-//       return true;
-//     } catch (error: any) {
-//       warningToast(error?.response?.data?.responseMessage);
-//       return thunkApi.rejectWithValue(error?.response?.data?.responseMessage);
-//     }
-//   }
-// );
-
-const submitRequestSlices = createSlice({
+const submitRequestSlice = createSlice({
   name: "verificationCase",
   initialState: INITIAL_STATE,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getRequestData.fulfilled, (state, action: any) => {
+    builder.addCase(getSubmitCaseParties.fulfilled, (state, action: any) => {
       state.status = "success";
       state.data = action.payload;
     });
   },
 });
 
-export default submitRequestSlices.reducer;
+export default submitRequestSlice.reducer;

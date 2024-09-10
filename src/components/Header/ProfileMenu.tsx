@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import ProfileCard from "../ProfileCard";
 import { useAppSelector } from "../../store/hooks";
-import { apiClient } from "../../api";
+import { apiClient, apiClientForm } from "../../api";
 export default function ProfileMenu() {
   const { data } = useAppSelector((state) => state.auth);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -19,6 +19,7 @@ export default function ProfileMenu() {
   useEffect(() => {
     window.addEventListener("click", handleOutSideClick);
     apiClient.defaults.headers.common.Authorization = `Bearer ${data?.token}`;
+    apiClientForm.defaults.headers.common.Authorization = `Bearer ${data?.token}`;
 
     return () => window.removeEventListener("click", handleOutSideClick);
   }, []);

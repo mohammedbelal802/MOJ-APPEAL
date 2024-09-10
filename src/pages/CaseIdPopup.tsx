@@ -14,14 +14,11 @@ import { useNavigate } from "react-router-dom";
 import HijriYearDropdown from "../components/ui/HijriYearDropdown";
 import { formatYear } from "../utils/funcations";
 import moment from "moment-hijri";
-import {
-  getRequestData,
-  getSubmitCaseParties,
-} from "../store/request/submitRequestSlice";
+import { getSubmitCaseParties } from "../store/request/submitRequestSlice";
 
 const currentHijriYear = moment().format("iYYYY");
 const currentYear = currentHijriYear;
-export default function CaseIdPopup() {
+export default function CasePopup() {
   const {
     register,
     handleSubmit,
@@ -69,17 +66,17 @@ export default function CaseIdPopup() {
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <div>
-            <label htmlFor="caseId">ادخل رقم القضية</label>
+            <label htmlFor="caseNumber">ادخل رقم القضية</label>
             <TextField
-              {...register("caseId", {
-                required: { message: "Please enter caseId", value: true },
+              {...register("caseNumber", {
+                required: { message: "Please enter caseNumber", value: true },
               })}
               autoComplete="off"
               variant="outlined"
               fullWidth
               margin="dense"
-              id="caseId"
-              error={errors?.caseId?.message ? true : false}
+              id="caseNumber"
+              error={errors?.caseNumber?.message ? true : false}
               sx={{
                 // backgroundColor: "transparent",
                 width: "100%",

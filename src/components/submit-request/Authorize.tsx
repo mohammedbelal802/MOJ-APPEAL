@@ -25,6 +25,7 @@ export default function Authorize({
   const dispatch = useAppDispatch();
   const [authType, setAuthType] = useState(2);
   const { image } = useAppSelector((state) => state.fingerPrint);
+const {data:userData} = useAppSelector(state =>state.auth)
 
   const {
     control,
@@ -49,18 +50,18 @@ export default function Authorize({
   const onSubmit = async (data: any) => {
     let submitVerificationData: any = {
       id: formData.id,
-      verficationType: authType,
-      requestCode: "test",
+      verificationType: authType,
       requestType: formData.requestType,
-      files: formData.files,
+      userId:userData.name,
+      files: formData.files[0],
     };
 
     if (authType === 2) {
       const signtureImage = signature?.toDataURL()?.split(",")?.[1];
-      submitVerificationData.verficationImage = signtureImage;
+      submitVerificationData.verificationImage = signtureImage;
     }
     if (authType === 1) {
-      submitVerificationData.verficationImage = image;
+      submitVerificationData.verificationImage = image;
     }
 
     const result = await dispatch(
