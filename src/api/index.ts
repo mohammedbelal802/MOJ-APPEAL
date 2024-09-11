@@ -8,8 +8,6 @@ export const apiClient = axios.create({
   headers: {
     Accept: "*",
     "Content-Type": "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSMDAzMDAwMTAxIiwiYXVkaWVuY2UiOiJ1bmtub3duIiwiY3JlYXRlZCI6MTcyNTk2NjQ3NjI1MSwiZXhwIjoxNzI2NTcxMjc2fQ.Qt5RLe5-kwdOpYCJ8Imwko2hIxrpSKkSlHkTgCv7w_sW7rsKNQUowfteVFxXfp9Bqyg68vbJXFsenW18a9VKxQ",
   },
 });
 

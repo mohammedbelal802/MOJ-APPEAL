@@ -55,11 +55,26 @@ export const submitCasePartiesRequest = createAsyncThunk(
         caseNumber: verficationCaseData.caseNumber,
         year: verficationCaseData.year,
       };
-
-      console.log(verficationCaseSubmitedData);
+      const formData = new FormData();
+      formData.append("caseNumber", verficationCaseSubmitedData.caseNumber);
+      formData.append("year", verficationCaseSubmitedData.year);
+      formData.append("id", verficationCaseSubmitedData.id);
+      formData.append("userId", verficationCaseSubmitedData.userId);
+      formData.append(
+        "verificationType",
+        verficationCaseSubmitedData.verificationType
+      );
+      formData.append("requestType", verficationCaseSubmitedData.requestType);
+      formData.append(
+        "verificationImage",
+        verficationCaseSubmitedData.verificationImage
+      );
+      for (let i = 0; i < verficationCaseSubmitedData.files.length; i++) {
+        formData.append("files", verficationCaseSubmitedData.files[i]);
+      }
 
       const response = await submitRequestServices.submitCasePartiesRequest(
-        verficationCaseSubmitedData
+        formData
       );
       return { ...response.data, ...data };
     } catch (error) {
