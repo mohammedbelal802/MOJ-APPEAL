@@ -12,6 +12,7 @@ import React from "react";
 import CloseBtn from "../ui/buttons/CloseBtn";
 import { FILE_PROPS, INQUIRY_TABLE_PROPS } from "../../utils/types";
 import { convertToHijri } from "../../utils/funcations";
+import { apiClient } from "../../api";
 
 export default function InquiryModal({
   closeModal,
@@ -20,7 +21,33 @@ export default function InquiryModal({
   closeModal: () => void;
   data: any;
 }) {
-  const fileList = data.files.map((item:FILE_PROPS) => (
+  const onFileClick = async (docId: string, fileName: string) => {
+    try {
+      const response = await apiClient.get(
+        `/get-file-sharepoint?documentId=${docId}`
+      );
+      const byteCharacters = atob(response.data);
+
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/octet-stream" });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fileList = data.files.map((item: FILE_PROPS) => (
     <Grid key={item.fileSharepointId} item xs={6}>
       <Box
         sx={{
@@ -49,7 +76,7 @@ export default function InquiryModal({
         </Box>
 
         <Button
-        onClick={() =>window.open(item.fileSharepointId,"_blank")}
+          onClick={() => onFileClick(item.fileSharepointId, item.fileName)}
           sx={{
             display: "flex",
             alignItems: "center",

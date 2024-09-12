@@ -16,6 +16,7 @@ import { useState } from "react";
 import InquiryModal from "./InquiryModal";
 import { convertToHijri } from "../../utils/funcations";
 import { INQUIRY_TABLE_PROPS } from "../../utils/types";
+import { authTypeConfig, requestType } from "../../utils/config";
 
 const columns = [
   "#",
@@ -90,7 +91,7 @@ export default function InquiryTable() {
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {item.requestType}
+                        {requestType[item.requestType]}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
@@ -128,7 +129,7 @@ export default function InquiryTable() {
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {item.verificationType}
+                        {authTypeConfig[item.verificationType]}
                       </TableCell>
                     </TableRow>
                   );

@@ -8,9 +8,9 @@ interface PERSON_PROPS {
   status: string;
 }
 
-interface BOOK{
-  bookNo:string;
-  url:string;
+interface BOOK {
+  bookNo: string;
+  url: string;
 }
 
 interface INITIAL_STATE_PROPS {
@@ -21,7 +21,7 @@ interface INITIAL_STATE_PROPS {
     name: string;
     status: string;
     persons: Array<PERSON_PROPS>;
-    books:Array<BOOK>
+    books: Array<BOOK>;
   };
   status: "idle" | "pending" | "success" | "error";
   errMsg: "";
@@ -35,7 +35,7 @@ const initialState: INITIAL_STATE_PROPS = {
     name: "",
     status: "",
     persons: [],
-    books:[],
+    books: [],
   },
   status: "idle",
   errMsg: "",
@@ -46,7 +46,7 @@ export const getJdVerificationCase = createAsyncThunk(
   async ({ data }: { data: AUTHORIZE_PROPS }, thunkApi) => {
     try {
       const response = await authMemberServices.getJdVerificationCase(data);
-      console.log("this is response   ",response);
+      console.log("this is response   ", response);
 
       return { ...response.data, ...data };
     } catch (error: any) {
@@ -67,10 +67,8 @@ export const submitJdPersonVerification = createAsyncThunk(
         caseNumber: verficationCaseData.caseNumber,
         sessionNumber: verficationCaseData.sessionNumber,
         year: verficationCaseData.year,
-        requestCode: verficationCaseData.requestCode,
       };
-      console.log(verficationCaseData);
-      
+
       const response = await authMemberServices.submitJdPersonVerification(
         verficationCaseSubmitedData
       );
@@ -95,7 +93,7 @@ const authMemberSlice = createSlice({
       })
       .addCase(getJdVerificationCase.fulfilled, (state, action: any) => {
         state.status = "success";
-        state.data = action.payload
+        state.data = action.payload;
       })
       .addCase(getJdVerificationCase.rejected, (state, action: any) => {
         state.status = "error";

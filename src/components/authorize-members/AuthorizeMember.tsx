@@ -12,6 +12,7 @@ import SearchInput from "../ui/inputs/SearchInput";
 import { generateQrCode } from "../../store/verificationCase/verificationCaseSlice";
 import { submitJdPersonVerification } from "../../store/authMembers/authMembersSlice";
 import Success from "../authorize/Success";
+import { warningToast } from "../../utils/toasts";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -74,10 +75,17 @@ export default function AuthorizeMember() {
   };
 
   const onSubmit = async (data: any) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestCode = urlParams.get("requestCode");
+    if (!requestCode) {
+      warningToast("يجب عليك ادخال الرمز");
+      return;
+    }
+
     let submitVerificationData: any = {
       id: selectedUser.id,
       verficationType: value === 0 ? 2 : value,
-      requestCode: "test",
+      requestCode: requestCode,
     };
 
     if (value === 0) {

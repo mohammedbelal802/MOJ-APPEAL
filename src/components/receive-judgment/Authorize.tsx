@@ -298,7 +298,7 @@ export default function Authorize({ users }: Props) {
                     sx={{ p: "8px 30px 8px 30px", borderRadius: "30px" }}
                     variant="contained"
                     color="primary"
-                    disabled={!isValid || isSubmitting}
+                    disabled={!isValid || isSubmitting || !selectedUser.id}
                     type="submit"
                   >
                     تأكيد

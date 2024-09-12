@@ -63,7 +63,6 @@ export const submitJiJdPersonVerification = createAsyncThunk(
         ...data,
         caseNumber: verficationCaseData.caseNumber,
         year: verficationCaseData.year,
-        requestCode: verficationCaseData.requestCode,
       };
 
       const response = await judgmentServices.submitJiJdPersonVerification(
