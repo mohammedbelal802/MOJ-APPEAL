@@ -53,7 +53,7 @@ export default function Authorize({
       verificationType: authType,
       requestType: formData.requestType,
       userId: userData.name,
-      files: formData.files[0],
+      files: formData.files,
     };
 
     if (authType === 2) {
