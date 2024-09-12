@@ -85,8 +85,7 @@ export default function JudgmentAuth() {
       const data: any = {
         Data: {
           "إسم الطرف": selectedUser.name,
-          الهوية: selectedUser.id,
-          "طريقة المصادقة": "توقيع حي على الشاشة",
+          الصفه: selectedUser.job,
         },
       };
       submitVerificationData.verficationImage = signtureImage;
@@ -98,8 +97,7 @@ export default function JudgmentAuth() {
       const data: any = {
         Data: {
           "إسم الطرف": selectedUser.name,
-          الهوية: selectedUser.id,
-          "طريقة المصادقة": "البصمة",
+          الصفة: selectedUser.job,
         },
       };
       const res = await dispatch(generateQrCode({ data }));

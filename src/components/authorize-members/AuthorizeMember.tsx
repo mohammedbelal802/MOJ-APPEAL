@@ -86,8 +86,7 @@ export default function AuthorizeMember() {
       const data: any = {
         Data: {
           "إسم الطرف": selectedUser.name,
-          الهوية: selectedUser.id,
-          "طريقة المصادقة": "توقيع حي على الشاشة",
+          الصفه: selectedUser.job,
         },
       };
       submitVerificationData.verficationImage = signtureImage;
@@ -99,8 +98,7 @@ export default function AuthorizeMember() {
       const data: any = {
         Data: {
           "إسم الطرف": selectedUser.name,
-          الهوية: selectedUser.id,
-          "طريقة المصادقة": "البصمة",
+          الصفه: selectedUser.job,
         },
       };
       const res = await dispatch(generateQrCode({ data }));
