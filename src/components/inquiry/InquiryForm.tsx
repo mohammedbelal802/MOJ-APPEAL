@@ -2,7 +2,7 @@ import { Box, Button, FormControl, InputLabel } from "@mui/material";
 import InputField from "../ui/inputs/InputField";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "../../store/hooks";
-import { getCaseDetails } from "../../store/inquiry/inquirySlice";
+import { getSubmitedCaseRequests } from "../../store/inquiry/inquirySlice";
 
 export default function InquiryForm() {
   const {
@@ -15,7 +15,7 @@ export default function InquiryForm() {
 
   const dispatch = useAppDispatch();
   const onSubmit = async (data: any) => {
-    await dispatch(getCaseDetails({ data }));
+    await dispatch(getSubmitedCaseRequests({ data }));
   };
 
   return (

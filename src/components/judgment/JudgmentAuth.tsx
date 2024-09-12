@@ -54,6 +54,7 @@ export default function JudgmentAuth() {
   } = useAppSelector((state) => state.jiJdVerification);
   const [isSignatureValid, setSignatureIsValid] = React.useState(false);
   const [signature, setSignature] = React.useState<any>("");
+  const [isSuccess, setIsSuccess] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<any>({ id: null });
   const dispatch = useAppDispatch();
 
@@ -107,9 +108,11 @@ export default function JudgmentAuth() {
       submitVerificationData.verficationImage = image;
     }
 
-    await dispatch(
+    const result = await dispatch(
       submitJiJdPersonVerification({ data: submitVerificationData })
     );
+
+    if (result.meta.requestStatus === "fulfilled") setIsSuccess(true);
   };
 
   const personList = persons.map((it: any) => (
@@ -139,44 +142,43 @@ export default function JudgmentAuth() {
         p: "16px 30px",
       }}
     >
-      {isSubmitSuccessful ? (
+      <Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
+            width: "100%",
+            maxWidth: "250px",
+            overFlowY: "auto",
+            flexShrink: 0,
+            p: "16px",
+            backgroundColor: "#F9F9F9",
           }}
         >
-          <Success />
-        </Box>
-      ) : (
-        <Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
           <Box
+            className="style_scroll_bar"
             sx={{
-              width: "100%",
-              maxWidth: "250px",
-              overFlowY: "auto",
-              flexShrink: 0,
-              p: "16px",
-              backgroundColor: "#F9F9F9",
+              display: "flex",
+              flexDirection: "column",
+              gap: "15px",
+              mt: "20px",
+              maxHeight: "500px",
+              overflowY: "auto",
             }}
           >
-            <Box
-              className="style_scroll_bar"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-                mt: "20px",
-                maxHeight: "500px",
-                overflowY: "auto",
-              }}
-            >
-              {personList}
-            </Box>
+            {personList}
           </Box>
-
+        </Box>
+        {isSuccess ? (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            <Success />
+          </Box>
+        ) : (
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <Box
               sx={{
@@ -291,8 +293,8 @@ export default function JudgmentAuth() {
               </Typography>
             </Box>
           </form>
-        </Box>
-      )}
+        )}
+      </Box>
     </Box>
   );
 }

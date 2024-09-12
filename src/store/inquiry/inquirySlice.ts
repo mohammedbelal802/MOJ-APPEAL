@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import inquiryServices from "./inquiryServices";
 
 interface FILE_PROPS {
   name: string;
@@ -83,22 +84,17 @@ const person = {
   ],
 };
 
-export const getCaseDetails = createAsyncThunk(
-  "/caseDetails",
+export const getSubmitedCaseRequests = createAsyncThunk(
+  "/getSubmitedCaseRequests",
   async (
     { data }: { data: { caseNumber: string; year: string } },
     thunkApi
   ) => {
     try {
-      let response = { data: {} };
-      if (data.caseNumber === "452460" && data.year === "1445") {
-        response.data = { ...data, ...person };
-      } else {
-        throw new Error(
-          "لا يوجد نتائج بحث من فضلك تحقق من رقم القضية، رقم الجلسة، أو التاريخ"
-        );
-      }
-      return response.data;
+      const response = await inquiryServices.getSubmitedCaseRequests(data);
+      console.log(response);
+
+      return { ...response.data, ...data };
     } catch (error: any) {
       console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
@@ -112,14 +108,14 @@ const inquirySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getCaseDetails.pending, (state) => {
+      .addCase(getSubmitedCaseRequests.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(getCaseDetails.fulfilled, (state, action: any) => {
+      .addCase(getSubmitedCaseRequests.fulfilled, (state, action: any) => {
         state.status = "success";
         state.data = action.payload;
       })
-      .addCase(getCaseDetails.rejected, (state, action: any) => {
+      .addCase(getSubmitedCaseRequests.rejected, (state, action: any) => {
         state.status = "error";
         state.errMsg = action.payload || "حدث خطأ ما";
       });

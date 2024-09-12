@@ -45,7 +45,7 @@ export default function AuthorizeMember() {
   const {
     control,
     reset,
-    formState: { isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting },
     handleSubmit,
   } = useForm({});
   const [value, setValue] = React.useState(0);
@@ -53,6 +53,7 @@ export default function AuthorizeMember() {
   const {
     data: { persons },
   } = useAppSelector((state) => state.authMember);
+  const [isSuccess, setIsSuccess] = React.useState(false);
   const [signature, setSignature] = React.useState<any>("");
   const [isSignatureValid, setSignatureIsValid] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<any>({ id: null });
@@ -111,11 +112,15 @@ export default function AuthorizeMember() {
     const result = await dispatch(
       submitJdPersonVerification({ data: submitVerificationData })
     );
+    if (result.meta.requestStatus === "fulfilled") setIsSuccess(true);
   };
 
   const personList = persons.map((it) => (
     <Box
-      onClick={() => setSelectedUser(it)}
+      onClick={() => {
+        setIsSuccess(false);
+        setSelectedUser(it);
+      }}
       key={it.id}
       sx={{
         borderRadius: "8px",
@@ -130,6 +135,7 @@ export default function AuthorizeMember() {
       {it.name}
     </Box>
   ));
+
   return (
     <Box
       sx={{
@@ -140,43 +146,43 @@ export default function AuthorizeMember() {
         p: "16px 30px",
       }}
     >
-      {isSubmitSuccessful ? (
+      <Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
         <Box
           sx={{
-            display: "flex",
-            alignContent: "center",
-            justifyContent: "center",
-            height: "100%",
+            width: "100%",
+            maxWidth: "250px",
+            flexShrink: 0,
+            p: "16px",
+            backgroundColor: "#F9F9F9",
           }}
         >
-          <Success />{" "}
-        </Box>
-      ) : (
-        <Box sx={{ display: "flex", gap: "20px", height: "100%" }}>
           <Box
+            className="style_scroll_bar"
             sx={{
-              width: "100%",
-              maxWidth: "250px",
-              flexShrink: 0,
-              p: "16px",
-              backgroundColor: "#F9F9F9",
+              display: "flex",
+              flexDirection: "column",
+              gap: "15px",
+              mt: "20px",
+              maxHeight: "500px",
+              overflowY: "auto",
             }}
           >
-            <Box
-              className="style_scroll_bar"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-                mt: "20px",
-                maxHeight: "500px",
-                overflowY: "auto",
-              }}
-            >
-              {personList}
-            </Box>
+            {personList}
           </Box>
-
+        </Box>
+        {isSuccess ? (
+          <Box
+            sx={{
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <Success />
+          </Box>
+        ) : (
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <Box
               sx={{
@@ -292,8 +298,8 @@ export default function AuthorizeMember() {
               </Typography>
             </Box>
           </form>
-        </Box>
-      )}
+        )}
+      </Box>
     </Box>
   );
 }
