@@ -1,3 +1,5 @@
+import moment from "moment-hijri";
+
 export const formatYear = (year: any): any => {
   const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
   const westernDigits = "0123456789";
@@ -29,4 +31,13 @@ export const convertToEnglish = (numbers: any) => {
   }
 
   return westernNumber;
+};
+
+
+export const convertToHijri = (gregorianDate: string) => {
+  moment.locale("ar-sa");
+  const hijriDateMoment: any = moment(gregorianDate).format("YYYY/M/D");
+  const m = moment(hijriDateMoment, "YYYY/M/D"); // Parse a Hijri date.
+  let formattedHijrDate = m.format("iD iMMMM iYYYY هـ");
+  return formattedHijrDate;
 };

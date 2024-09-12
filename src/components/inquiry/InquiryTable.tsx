@@ -14,6 +14,8 @@ import { useAppSelector } from "../../store/hooks";
 import fileIcon from "../../assets/fileIcon.png";
 import { useState } from "react";
 import InquiryModal from "./InquiryModal";
+import { convertToHijri } from "../../utils/funcations";
+import { INQUIRY_TABLE_PROPS } from "../../utils/types";
 
 const columns = [
   "#",
@@ -63,7 +65,7 @@ export default function InquiryTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData.map((item: any, index: number) => {
+                {tableData.map((item: INQUIRY_TABLE_PROPS, index: number) => {
                   return (
                     <TableRow key={index} hover>
                       <TableCell
@@ -82,7 +84,7 @@ export default function InquiryTable() {
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {item.status}
+                        {item.job}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
@@ -94,7 +96,7 @@ export default function InquiryTable() {
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {item.requestDate}
+                        {convertToHijri(item.date)}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
@@ -126,7 +128,7 @@ export default function InquiryTable() {
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {item.authType}
+                        {item.verificationType}
                       </TableCell>
                     </TableRow>
                   );

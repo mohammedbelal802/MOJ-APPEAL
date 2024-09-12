@@ -25,3 +25,20 @@ export interface AUTHORIZE_PROPS {
   sessionNumber: string;
   caseNumber: string;
 }
+
+
+export interface FILE_PROPS {
+  fileSharepointId: string;
+  fileName: string;
+
+}
+
+export interface INQUIRY_TABLE_PROPS {
+  date: string;
+  job:string;
+  name:string;
+  requestDesc:string;
+  requestType: string;
+  verificationType: string;
+  files: Array<FILE_PROPS>;
+}

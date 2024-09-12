@@ -1,19 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import inquiryServices from "./inquiryServices";
+import { INQUIRY_TABLE_PROPS } from "../../utils/types";
 
-interface FILE_PROPS {
-  name: string;
-  url: string;
-  size: string;
-}
-
-interface TABLE_PROPS {
-  name: string;
-  status: string;
-  requestType: string;
-  requestDate: string;
-  files: Array<FILE_PROPS>;
-}
 
 interface INITIAL_STATE_PROPS {
   data: {
@@ -21,7 +9,7 @@ interface INITIAL_STATE_PROPS {
     year: string;
     name: string;
     status: string;
-    tableData: Array<TABLE_PROPS>;
+    tableData: Array<INQUIRY_TABLE_PROPS>;
   };
   status: "idle" | "pending" | "success" | "error";
   errMsg: "";
@@ -39,51 +27,6 @@ const initialState: INITIAL_STATE_PROPS = {
   errMsg: "",
 };
 
-const person = {
-  name: "عبدالرحمن عامر العتيبي",
-  status: "قاضي",
-  tableData: [
-    {
-      name: "خالد محمد محمود عبد السلام",
-      status: "وكيل مدعي عليه",
-      requestDate: "٢٠ شوال ١٤٤٤",
-      requestType: "طلب نقض",
-      files: [
-        { name: "ملف-١ ", size: "94 كيلو بايت", url: "" },
-        { name: "ملف-٢", size: "94 كيلو بايت", url: "" },
-        { name: "ملف-٣", size: "94 كيلو بايت", url: "" },
-        { name: "ملف-٤", size: "94 كيلو بايت", url: "" },
-        { name: "ملف-٥", size: "94 كيلو بايت", url: "" },
-      ],
-      authType: "بصمة",
-    },
-    {
-      name: "إبراهيم نور الدين محمد عماد",
-      status: "وكيل مدعي عليه",
-      requestDate: "٢٠ شوال ١٤٤٤",
-      requestType: "طلب نقض",
-      files: [{ name: "ملف-١ ", size: "94 كيلو بايت", url: "" }],
-      authType: "بصمة",
-    },
-    {
-      name: "يوسف عبدالله محمد البرهامي",
-      status: "وكيل مدعي عليه",
-      requestDate: "٢٠ شوال ١٤٤٤",
-      requestType: "طلب نقض",
-      files: [{ name: "ملف-١ ", size: "94 كيلو بايت", url: "" }],
-      authType: "توقيع",
-    },
-    {
-      name: "إسماعيل محمد احمد ابراهيم",
-      status: "وكيل مدعي عليه",
-      requestDate: "٢٠ شوال ١٤٤٤",
-      requestType: "طلب نقض",
-      files: [{ name: "ملف-١ ", size: "94 كيلو بايت", url: "" }],
-      authType: "بصمة",
-    },
-  ],
-};
-
 export const getSubmitedCaseRequests = createAsyncThunk(
   "/getSubmitedCaseRequests",
   async (
@@ -94,7 +37,7 @@ export const getSubmitedCaseRequests = createAsyncThunk(
       const response = await inquiryServices.getSubmitedCaseRequests(data);
       console.log(response);
 
-      return { ...response.data, ...data };
+      return {tableData: response.data, ...data };
     } catch (error: any) {
       console.log(error.message);
       return thunkApi.rejectWithValue(error.message);

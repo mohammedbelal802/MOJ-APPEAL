@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import CloseBtn from "../ui/buttons/CloseBtn";
+import { FILE_PROPS, INQUIRY_TABLE_PROPS } from "../../utils/types";
+import { convertToHijri } from "../../utils/funcations";
 
 export default function InquiryModal({
   closeModal,
@@ -18,8 +20,8 @@ export default function InquiryModal({
   closeModal: () => void;
   data: any;
 }) {
-  const fileList = data.files.map((item: any) => (
-    <Grid item xs={6}>
+  const fileList = data.files.map((item:FILE_PROPS) => (
+    <Grid key={item.fileSharepointId} item xs={6}>
       <Box
         sx={{
           display: "flex",
@@ -38,15 +40,16 @@ export default function InquiryModal({
 
           <div>
             <Typography sx={{ fontWeight: "500", color: "#292D32" }}>
-              {item.name}
+              {item.fileName}
             </Typography>
-            <Typography sx={{ fontSize: "14px", color: "#A9ACB4" }}>
+            {/* <Typography sx={{ fontSize: "14px", color: "#A9ACB4" }}>
               {item.size}
-            </Typography>
+            </Typography> */}
           </div>
         </Box>
 
         <Button
+        onClick={() =>window.open(item.fileSharepointId,"_blank")}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -118,7 +121,7 @@ export default function InquiryModal({
             flexItem
             sx={{ backgroundColor: "1px solid #858B941A", my: "0px" }}
           />
-          <Typography>{data.status}</Typography>
+          <Typography>{data.job}</Typography>
           <Divider
             orientation="vertical"
             variant="middle"
@@ -132,7 +135,7 @@ export default function InquiryModal({
             flexItem
             sx={{ backgroundColor: "1px solid #858B941A", my: "0px" }}
           />
-          <Typography>{data.requestDate}</Typography>
+          <Typography>{convertToHijri(data.date)}</Typography>
         </Box>
 
         <Typography
