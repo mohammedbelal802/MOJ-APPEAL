@@ -93,7 +93,7 @@ export default function AuthorizeMember() {
 
       const data: any = {
         Data: {
-          "إسم الطرف": selectedUser.name,
+          الاسم: selectedUser.name,
           الصفه: selectedUser.job,
         },
       };
@@ -105,7 +105,7 @@ export default function AuthorizeMember() {
     if (value === 1) {
       const data: any = {
         Data: {
-          "إسم الطرف": selectedUser.name,
+          الاسم: selectedUser.name,
           الصفه: selectedUser.job,
         },
       };
