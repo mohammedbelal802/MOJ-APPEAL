@@ -66,14 +66,14 @@ export default function InquiryTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData.map((item: INQUIRY_TABLE_PROPS, index: number) => {
+                {tableData?.map((item: INQUIRY_TABLE_PROPS, index: number) => {
                   return (
                     <TableRow key={index} hover>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {index+1}
+                        {index + 1}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}

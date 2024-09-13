@@ -143,59 +143,61 @@ export default function SubmitRequest() {
               boxShadow: "0px 4px 19px 0px #4548520A",
             }}
           >
-            <form><Controller
-              name="requestType"
-              defaultValue="1"
-              control={control}
-              render={({ field }) => {
-                return (
-                  <RadioGroup
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.value)}
-                    sx={{ flexDirection: "row", gap: "70px" }}
-                  >
-                    <FormControlLabel
-                      sx={{
-                        m: "0px",
-                        color: "#617696",
-                        "& .MuiTypography-root": {
-                          fontSize: "14px !important",
-                        },
-                      }}
-                      value="1"
-                      control={<Radio />}
-                      label="طلب اعتراض"
-                    />
+            <form>
+              <Controller
+                name="requestType"
+                defaultValue="1"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <RadioGroup
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      sx={{ flexDirection: "row", gap: "70px" }}
+                    >
+                      <FormControlLabel
+                        sx={{
+                          m: "0px",
+                          color: "#617696",
+                          "& .MuiTypography-root": {
+                            fontSize: "14px !important",
+                          },
+                        }}
+                        value="1"
+                        control={<Radio />}
+                        label="طلب اعتراض"
+                      />
 
-                    <FormControlLabel
-                      sx={{
-                        m: "0px",
-                        color: "#617696",
-                        "& .MuiTypography-root": {
-                          fontSize: "14px !important",
-                        },
-                      }}
-                      value="2"
-                      control={<Radio />}
-                      label="طلب نقض"
-                    />
+                      <FormControlLabel
+                        sx={{
+                          m: "0px",
+                          color: "#617696",
+                          "& .MuiTypography-root": {
+                            fontSize: "14px !important",
+                          },
+                        }}
+                        value="2"
+                        control={<Radio />}
+                        label="طلب نقض"
+                      />
 
-                    <FormControlLabel
-                      sx={{
-                        m: "0px",
-                        color: "#617696",
-                        "& .MuiTypography-root": {
-                          fontSize: "14px !important",
-                        },
-                      }}
-                      value="3"
-                      control={<Radio />}
-                      label="الطلبات على القضايا"
-                    />
-                  </RadioGroup>
-                );
-              }}
-            /></form>
+                      <FormControlLabel
+                        sx={{
+                          m: "0px",
+                          color: "#617696",
+                          "& .MuiTypography-root": {
+                            fontSize: "14px !important",
+                          },
+                        }}
+                        value="3"
+                        control={<Radio />}
+                        label="الطلبات على القضايا"
+                      />
+                    </RadioGroup>
+                  );
+                }}
+              />
+            </form>
           </Box>
         </div>
 
@@ -287,7 +289,11 @@ export default function SubmitRequest() {
                                 fontWeight: "400",
                               }}
                             >
-                              1005487961
+                              {
+                                data.persons?.find(
+                                  (user: any) => user.id === field.value
+                                )?.id
+                              }
                             </Typography>
                           </div>
 
@@ -314,7 +320,11 @@ export default function SubmitRequest() {
                                 fontWeight: "400",
                               }}
                             >
-                              مدعي عليه
+                              {
+                                data.persons?.find(
+                                  (user: any) => user.id === field.value
+                                )?.job
+                              }
                             </Typography>
                           </div>
                         </Box>
