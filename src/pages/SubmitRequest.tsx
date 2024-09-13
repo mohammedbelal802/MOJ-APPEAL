@@ -29,7 +29,7 @@ export default function SubmitRequest() {
   const [openAlert, setOpenAlert] = useState(false);
   const [formData, setFormData] = useState({});
   const { control, resetField, reset, getValues, watch } = useForm({
-    defaultValues: { files: [], user: "", requestType: "" },
+    defaultValues: { files: [], user: "", requestType: "1" },
   });
 
   const { currentStep, next, back, steps, goTo } = useMultiForm(3, 0);
@@ -64,7 +64,7 @@ export default function SubmitRequest() {
     if (currentStep === 2) {
       setTimeout(() => {
         reset({
-          requestType: "",
+          requestType: "1",
           user: "",
           files: [],
         });
@@ -73,7 +73,6 @@ export default function SubmitRequest() {
       }, 2000);
     }
   }, [currentStep]);
-
   return (
     <>
       <Alert
@@ -144,14 +143,14 @@ export default function SubmitRequest() {
               boxShadow: "0px 4px 19px 0px #4548520A",
             }}
           >
-            <Controller
+            <form><Controller
               name="requestType"
-              defaultValue=""
+              defaultValue="1"
               control={control}
               render={({ field }) => {
                 return (
                   <RadioGroup
-                    name={field.name}
+                    {...field}
                     onChange={(e) => field.onChange(e.target.value)}
                     sx={{ flexDirection: "row", gap: "70px" }}
                   >
@@ -196,7 +195,7 @@ export default function SubmitRequest() {
                   </RadioGroup>
                 );
               }}
-            />
+            /></form>
           </Box>
         </div>
 

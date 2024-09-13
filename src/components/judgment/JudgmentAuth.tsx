@@ -122,7 +122,7 @@ export default function JudgmentAuth() {
 
   const personList = persons.map((it: any) => (
     <Box
-      onClick={() => setSelectedUser(it)}
+      onClick={() => {setSelectedUser(it);setIsSuccess(false)}}
       key={it.id}
       sx={{
         borderRadius: "8px",
@@ -179,6 +179,7 @@ export default function JudgmentAuth() {
               alignItems: "center",
               justifyContent: "center",
               height: "100%",
+              width:"100%"
             }}
           >
             <Success />

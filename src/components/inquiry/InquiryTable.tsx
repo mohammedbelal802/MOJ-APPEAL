@@ -73,7 +73,7 @@ export default function InquiryTable() {
                         sx={{ border: "1px solid #DCDCDC" }}
                         align={"left"}
                       >
-                        {index}
+                        {index+1}
                       </TableCell>
                       <TableCell
                         sx={{ border: "1px solid #DCDCDC" }}

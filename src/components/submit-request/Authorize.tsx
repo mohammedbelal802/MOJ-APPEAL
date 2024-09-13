@@ -2,11 +2,10 @@ import {
   Box,
   Button,
   FormControlLabel,
-  IconButton,
   Radio,
   RadioGroup,
 } from "@mui/material";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import DigitalSignatureInput from "../DigitalSigntureInput";
 import FingerPrintComponent from "../FingerPrintComponent";
@@ -69,6 +68,7 @@ export default function Authorize({
     );
     if (result.meta.requestStatus === "fulfilled") {
       handleNextStep(submitVerificationData);
+      
     }
     // const result = await dispatch(
     //   submitJdPersonVerification({ data: submitVerificationData })

@@ -13,6 +13,7 @@ import CloseBtn from "../ui/buttons/CloseBtn";
 import { FILE_PROPS, INQUIRY_TABLE_PROPS } from "../../utils/types";
 import { convertToHijri } from "../../utils/funcations";
 import { apiClient } from "../../api";
+import { requestType } from "../../utils/config";
 
 export default function InquiryModal({
   closeModal,
@@ -155,7 +156,7 @@ export default function InquiryModal({
             flexItem
             sx={{ backgroundColor: "1px solid #858B941A", my: "0px" }}
           />
-          <Typography>{data.requestType}</Typography>
+          <Typography>{requestType[data.requestType]}</Typography>
           <Divider
             orientation="vertical"
             variant="middle"

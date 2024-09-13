@@ -255,8 +255,8 @@ export default function DragAndDropZone({
                 ref={inputRef}
                 onChange={(e: any) => {
                   if (e.target.files.length === 0) return;
-                  const file = e.target.files[0];
-                  onChange([...value, file]);
+                  const files = e.target.files;
+                  onChange([...value, ...files]);
                 }}
                 multiple
                 type="file"
