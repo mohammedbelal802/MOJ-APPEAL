@@ -89,10 +89,10 @@ export default function InquiryModal({
           variant="contained"
         >
           <img
-            src={require("../../assets/eye.png")}
+            src={require("../../assets/download.png")}
             style={{ width: "24px", aspectRatio: "1/1", objectFit: "contain" }}
           />
-          عرض
+          تحميل
         </Button>
       </Box>
     </Grid>

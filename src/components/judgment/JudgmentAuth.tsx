@@ -92,7 +92,7 @@ export default function JudgmentAuth() {
       const data: any = {
         Data: {
           الاسم: selectedUser.name,
-          الصفه: selectedUser.job,
+          الصفة: selectedUser.job,
         },
       };
       submitVerificationData.verficationImage = signtureImage;
@@ -122,7 +122,10 @@ export default function JudgmentAuth() {
 
   const personList = persons.map((it: any) => (
     <Box
-      onClick={() => {setSelectedUser(it);setIsSuccess(false)}}
+      onClick={() => {
+        setSelectedUser(it);
+        setIsSuccess(false);
+      }}
       key={it.id}
       sx={{
         borderRadius: "8px",
@@ -179,7 +182,7 @@ export default function JudgmentAuth() {
               alignItems: "center",
               justifyContent: "center",
               height: "100%",
-              width:"100%"
+              width: "100%",
             }}
           >
             <Success />

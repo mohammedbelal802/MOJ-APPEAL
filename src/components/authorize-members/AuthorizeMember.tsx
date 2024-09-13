@@ -94,7 +94,7 @@ export default function AuthorizeMember() {
       const data: any = {
         Data: {
           الاسم: selectedUser.name,
-          الصفه: selectedUser.job,
+          الصفة: selectedUser.job,
         },
       };
       submitVerificationData.verficationImage = signtureImage;
@@ -106,7 +106,7 @@ export default function AuthorizeMember() {
       const data: any = {
         Data: {
           الاسم: selectedUser.name,
-          الصفه: selectedUser.job,
+          الصفة: selectedUser.job,
         },
       };
       const res = await dispatch(generateQrCode({ data }));
