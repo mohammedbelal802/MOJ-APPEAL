@@ -43,7 +43,16 @@ export default function UsersSelection({
                 borderRadius: "4px",
               }}
             >
-              <Box sx={{ display: "flex", gap: "12px", alignItems: "center" }}>
+              <Box
+                className="style_scroll_bar"
+                sx={{
+                  display: "flex",
+                  gap: "12px",
+                  alignItems: "center",
+                  overflowX: "scroll",
+                  pb: "4px",
+                }}
+              >
                 {users.map((item: PERSON, index: number) => {
                   return (
                     <Box

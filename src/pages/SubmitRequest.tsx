@@ -230,7 +230,16 @@ export default function SubmitRequest() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <Box sx={{ display: "flex", gap: "12px" }}>
+                      <Box
+                        className="style_scroll_bar"
+                        sx={{
+                          display: "flex",
+                          gap: "12px",
+                          alignItems: "center",
+                          overflowX: "scroll",
+                          pb: "4px",
+                        }}
+                      >
                         {data.persons.map((item: any, index: number) => {
                           return (
                             <Box
