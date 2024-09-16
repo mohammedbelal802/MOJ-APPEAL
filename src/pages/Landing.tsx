@@ -87,7 +87,7 @@ export default function Landing() {
             variant="contained"
             color="primary"
           >
-            استلام صك حكم
+            تسليم صك الحكم
           </Button>
         </Box>
       </Container>

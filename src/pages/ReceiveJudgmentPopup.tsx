@@ -24,7 +24,7 @@ export default function ReceiveJudgmentPopup() {
     handleSubmit,
     control,
     watch,
-    formState: { isValid, errors,isSubmitting },
+    formState: { isValid, errors, isSubmitting },
   } = useForm<any>({
     mode: "all",
     defaultValues: {
@@ -52,7 +52,7 @@ export default function ReceiveJudgmentPopup() {
         <Typography
           sx={{ color: "#3D3F65", fontSize: "22px", fontWeight: "400" }}
         >
-          استلام صك حكم
+          تسليم صك الحكم
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <HijriYearDropdown name={"year"} control={control}>

@@ -17,7 +17,7 @@ export default function Success({ message }: { message?: string }) {
         src={successAuth}
       />
       <Typography sx={{ fontSize: "22px" }}>
-        {message ? message : "تم المصادقة بنجاح"}
+        {message ? message : "تمت المصادقة بنجاح"}
       </Typography>
     </Box>
   );
