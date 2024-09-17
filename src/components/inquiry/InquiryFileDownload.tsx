@@ -9,8 +9,8 @@ export default function InquiryFileDownload({ item }: { item: FILE_PROPS }) {
   const onFileClick = async (docId: string, fileName: string) => {
     try {
       setIsLoading(true);
-      const response = await apiClient.post(`/get-file?documentId=${docId}`, {
-        documnetId: docId,
+      const response = await apiClient.post("/get-file", {
+        documentId: docId,
       });
       setIsLoading(false);
 
