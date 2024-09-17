@@ -16,8 +16,11 @@ apiClient.interceptors.response.use(
     return res;
   },
   async (error) => {
-    const status = error.response ? error.response.responseCode : null;
-    if (status === 401) {
+    const status = error.response.status;
+    const errMsg = error.response.data.error;
+    console.log(error);
+
+    if (status === 401 && errMsg === "Unauthorized") {
       window.localStorage.removeItem("user");
       window.location.replace("/login");
       return;
