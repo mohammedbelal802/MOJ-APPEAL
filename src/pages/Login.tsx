@@ -41,7 +41,7 @@ export default function Login() {
       }}
     >
       <Typography sx={{ fontSize: "22px", fontWeight: "700" }}>
-        تسجيل الدخول إلى المحكمة الجزائية
+        تسجيل الدخول إلى محكمة الإستئناف
       </Typography>
 
       <form onSubmit={handleSubmit(handleLogin)}>

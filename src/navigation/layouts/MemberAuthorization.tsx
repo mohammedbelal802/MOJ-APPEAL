@@ -29,7 +29,7 @@ export default function MemberAuthorization() {
           <Typography
             sx={{ fontSize: "24px", fontWeight: "400", color: "#FFFFFF" }}
           >
-            المحكمة الجزائية
+            محكمة الإستئناف
           </Typography>
         </Container>
       </AppBar>
