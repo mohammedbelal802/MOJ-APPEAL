@@ -1,5 +1,5 @@
 const baseURL = () => {
-  const globalUrl: string = "http://128.250.5.117:9000/api";
+  const globalUrl: string = "http://128.133.5.105:9000/api";
   return { globalUrl };
 };
 
