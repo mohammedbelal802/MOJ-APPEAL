@@ -39,7 +39,7 @@ export default function Authorize({ users }: Props) {
     control,
     reset,
     setValue,
-    formState: { isValid, isSubmitting },
+    formState: { isSubmitting },
     handleSubmit,
   } = useForm({});
   const {
@@ -49,6 +49,8 @@ export default function Authorize({ users }: Props) {
   const [isSuccess, setIsSuccess] = useState<any>(null);
   const [authType, setAuthType] = useState(2);
   const [isSignatureValid, setSignatureIsValid] = useState(false);
+  const isValid =
+    (image && authType === 1) || (authType === 2 && isSignatureValid == true);
 
   const [signature, setSignature] = useState<any>("");
   const [selectedUser, setSelectedUser] = useState<PERSON>({

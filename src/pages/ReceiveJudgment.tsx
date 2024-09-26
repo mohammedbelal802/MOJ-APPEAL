@@ -59,7 +59,7 @@ export default function ReceiveJudgment() {
         <Typography
           sx={{ color: "#3D3F65", fontSize: "22px", fontWeight: "400" }}
         >
-          استلام الحكم
+          تسليم الحكم
         </Typography>
         <CloseBtn onClick={handleOpenAlert} />
       </DialogTitle>

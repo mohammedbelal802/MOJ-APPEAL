@@ -118,7 +118,7 @@ export default function Authorize({ users }: Props) {
           mb: "8px",
         }}
       >
-        مصادقة علي استلام الحكم
+        مصادقة علي تسليم الحكم
       </Typography>
       <form onSubmit={handleSubmit(onVerificationSubmit)}>
         <Box sx={{ backgroundColor: "#fff", p: "24px", borderRadius: "4px" }}>
