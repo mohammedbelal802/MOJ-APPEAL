@@ -41,7 +41,7 @@ export default function BookList({
         handleClose();
       }}
     >
-      صفحة {index + 1}
+      صفحة {item.bookNo}
     </MenuItem>
   ));
   return (
