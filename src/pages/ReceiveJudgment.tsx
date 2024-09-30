@@ -12,7 +12,7 @@ import CloseBtn from "../components/ui/buttons/CloseBtn";
 import Alert from "../components/Alert";
 import { useState } from "react";
 import Authorize from "../components/receive-judgment/Authorize";
-import ReciveJudmentBookList from "../components/BookList/ReciveJudmentBookList";
+import BookList from "../components/BookList";
 
 export default function ReceiveJudgment() {
   const { data, status } = useAppSelector((state) => state.jiDelivery);
@@ -74,7 +74,7 @@ export default function ReceiveJudgment() {
         >
           صك الحكم
         </Typography>
-        <ReciveJudmentBookList books={data.books} />
+        <BookList placeholder="عرض صك الحكم" books={data.books} />
         <Authorize users={data.persons} />
       </DialogContent>
     </>

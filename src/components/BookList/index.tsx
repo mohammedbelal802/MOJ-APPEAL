@@ -1,73 +1,115 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Fade, Menu, MenuItem } from "@mui/material";
+import React, { useState } from "react";
 
 interface BOOK {
-  bookNo: number;
+  bookNo: number | null;
   url: string;
 }
 
 export default function BookList({
   books,
-  sx,
+  placeholder,
 }: {
   books: Array<BOOK>;
-  sx?: any;
+  placeholder?: string;
 }) {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const [selectedBook, setSelectedBook] = useState<BOOK>({
+    bookNo: null,
+    url: "",
+  });
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const bookList = books.map((item: BOOK, index: number) => (
-    <BookItem key={item.bookNo} book={item} index={index} />
-  ));
-  return (
-    <Box
-      className={"style-scroll-bar"}
+    <MenuItem
+      key={item.bookNo}
       sx={{
-        display: "flex",
-        gap: "20px",
-        p: "18px 15px",
-        boxShadow: "0px 4px 19px 0px #4548520A",
-        backgroundColor: "#fff",
-        borderRadius: "4px",
-        overflowX: "auto",
-        ...sx,
+        justifyContent: "center",
+        backgroundColor:
+          selectedBook.bookNo === item.bookNo ? "#077C5A1A" : undefined,
+      }}
+      onClick={() => {
+        setSelectedBook(item);
+        handleClose();
       }}
     >
-      {bookList}
+      {item.bookNo}
+    </MenuItem>
+  ));
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+      <Button
+        id="fade-button"
+        color="primary"
+        variant="outlined"
+        aria-controls={open ? "fade-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
+        {selectedBook.bookNo || "إختر ملف"}
+      </Button>
+
+      <Menu
+        id="fade-menu"
+        MenuListProps={{
+          "aria-labelledby": "fade-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+        className={"style_scroll_bar"}
+        sx={{
+          maxHeight: "300px",
+          "& .MuiPaper-root": {
+            outline: "4px solid white",
+            top: "238px !important",
+            width: "100px",
+            borderRadius: "8px",
+            "&::-webkit-scrollbar": { width: "4px" },
+            "&::-webkit-scrollbar-track": {
+              borderRadius: "16px",
+              backgroundColor: "#23232326",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: "10px",
+              background: "#077C5A",
+            },
+          },
+        }}
+      >
+        {bookList}
+      </Menu>
+
+      <Button
+        color="primary"
+        variant="text"
+        sx={{
+          width: "fit-content",
+          fontWeight: "500",
+          px: "20px",
+          backgroundColor: "#F5F8FA",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          color: "#000",
+        }}
+        onClick={() => {
+          if (!selectedBook.bookNo) return;
+          window.location.href = selectedBook.url;
+        }}
+      >
+        {placeholder || "placeholder"}
+      </Button>
     </Box>
   );
 }
-
-const BookItem = ({ book, index }: { book: BOOK; index: number }) => (
-  <Button
-    onClick={() => {
-      window.location.href = book.url;
-    }}
-    key={book.bookNo}
-    sx={{
-      width: "fit-content",
-      fontWeight: "500",
-      px: "20px",
-      backgroundColor: "#F5F8FA",
-      display: "flex",
-      alignItems: "center",
-      gap: "10px",
-      color: "#000",
-    }}
-    color="primary"
-    variant="text"
-  >
-    <svg
-      style={{ width: "16px", height: "16px" }}
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-6 h-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-      />
-    </svg>
-    {index === 0 ? "عرض ضبط الجلسة" : "عرض باقي ضبط الجلسة"}
-  </Button>
-);

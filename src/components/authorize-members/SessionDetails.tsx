@@ -50,7 +50,7 @@ export default function SessionDetails({
         >
           الصفة : {status}
         </Typography> */}
-        <BookList sx={{ p: "0px !important" }} books={books} />
+        <BookList placeholder="عرض ضبط الجلسة" books={books} />
       </Box>
     </Box>
   );
