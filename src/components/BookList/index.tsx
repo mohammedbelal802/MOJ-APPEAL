@@ -9,9 +9,11 @@ interface BOOK {
 export default function BookList({
   books,
   placeholder,
+  buttonProps,
 }: {
   books: Array<BOOK>;
   placeholder?: string;
+  buttonProps?: any;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const [selectedBook, setSelectedBook] = useState<BOOK>({
@@ -54,6 +56,7 @@ export default function BookList({
         aria-controls={open ? "fade-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
+        {...buttonProps}
         onClick={handleClick}
       >
         {selectedBook.bookNo || "إختر الصفحة"}
@@ -92,13 +95,12 @@ export default function BookList({
       </Menu>
 
       <Button
-        color="primary"
-        variant="text"
+        color="secondary"
+        variant="contained"
         sx={{
           width: "fit-content",
           fontWeight: "500",
           px: "20px",
-          backgroundColor: "#F5F8FA",
           display: "flex",
           alignItems: "center",
           gap: "10px",
