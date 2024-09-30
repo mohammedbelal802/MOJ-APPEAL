@@ -79,10 +79,20 @@ export default function Authorization() {
         >
           مراجعة ضبط الجلسة
         </Typography>
-        <BookList
-          books={data.books}
-          buttonProps={{ color: "secondary", variant: "contained" }}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            p: "22px",
+            backgroundColor: "#FFFFFF",
+            boxShadow: "0px 4px 19px 0px #4548520A",
+            borderRadius: "4px",
+            width: "100%",
+          }}
+        >
+          <BookList books={data.books} />
+        </Box>
         <Authorize users={data.persons} />
       </DialogContent>
     </>
