@@ -41,7 +41,7 @@ export default function BookList({
         handleClose();
       }}
     >
-      {item.bookNo}
+      صفحة {index + 1}
     </MenuItem>
   ));
   return (
@@ -56,7 +56,7 @@ export default function BookList({
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        {selectedBook.bookNo || "إختر ملف"}
+        {selectedBook.bookNo || "إختر الصفحة"}
       </Button>
 
       <Menu
@@ -109,7 +109,7 @@ export default function BookList({
           window.location.href = selectedBook.url;
         }}
       >
-        {placeholder || "placeholder"}
+        {placeholder || "عرض"}
       </Button>
     </Box>
   );

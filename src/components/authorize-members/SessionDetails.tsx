@@ -50,7 +50,12 @@ export default function SessionDetails({
         >
           الصفة : {status}
         </Typography> */}
-        <BookList placeholder="عرض ضبط الجلسة" books={books} />
+        <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <Typography sx={{ color: "#ffff", mb: "5px" }}>
+            ضبط الجلسة :
+          </Typography>
+          <BookList books={books} />
+        </Box>
       </Box>
     </Box>
   );

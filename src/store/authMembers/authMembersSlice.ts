@@ -35,9 +35,30 @@ const initialState: INITIAL_STATE_PROPS = {
     name: "",
     status: "",
     persons: [],
-    books: [],
+    books: [
+      {
+        bookNo: "1",
+        url: "sgsg",
+      },
+      {
+        bookNo: "2",
+        url: "sgsg",
+      },
+      {
+        bookNo: "3",
+        url: "sgsg",
+      },
+      {
+        bookNo: "4",
+        url: "sgsg",
+      },
+      {
+        bookNo: "5",
+        url: "sgsg",
+      },
+    ],
   },
-  status: "idle",
+  status: "success",
   errMsg: "",
 };
 
