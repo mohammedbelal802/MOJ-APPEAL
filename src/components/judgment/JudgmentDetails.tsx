@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from "@mui/material";
-import BookList from "../BookList";
+import { Box, Typography } from "@mui/material";
+import ReciveJudmentBookList from "../BookList/ReciveJudmentBookList";
 
 interface props {
   status: string;
@@ -44,7 +44,10 @@ export default function JudgmentDetails({
         >
           الصفة : {status}
         </Typography> */}
-        <BookList placeholder="عرض صك الحكم" books={books} />
+        <ReciveJudmentBookList
+          sx={{ p: "0px !important", backgroundColor: "white" }}
+          books={books}
+        />
       </Box>
     </Box>
   );
