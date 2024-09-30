@@ -47,8 +47,9 @@ export default function BookList({
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
       <Button
+        sx={{ py: "6px !important", borderRadius: "8px" }}
         id="fade-button"
-        color="primary"
+        color="secondary"
         variant="outlined"
         aria-controls={open ? "fade-menu" : undefined}
         aria-haspopup="true"
@@ -72,7 +73,7 @@ export default function BookList({
           maxHeight: "300px",
           "& .MuiPaper-root": {
             outline: "4px solid white",
-            top: "238px !important",
+            top: "142px !important",
             width: "100px",
             borderRadius: "8px",
             "&::-webkit-scrollbar": { width: "4px" },
