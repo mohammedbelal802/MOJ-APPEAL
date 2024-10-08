@@ -68,7 +68,6 @@ export const submitJdPersonVerification = createAsyncThunk(
         sessionNumber: verficationCaseData.sessionNumber,
         year: verficationCaseData.year,
       };
-
       const response = await authMemberServices.submitJdPersonVerification(
         verficationCaseSubmitedData
       );

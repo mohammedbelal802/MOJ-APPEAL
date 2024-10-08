@@ -13,6 +13,7 @@ import { generateQrCode } from "../../store/verificationCase/verificationCaseSli
 import { submitJdPersonVerification } from "../../store/authMembers/authMembersSlice";
 import Success from "../authorize/Success";
 import { warningToast } from "../../utils/toasts";
+import { verifyFingerPrint } from "../../store/fingerPrintVerification/fingerPrintCaseSlice";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -61,7 +62,7 @@ export default function AuthorizeMember() {
   const dispatch = useAppDispatch();
 
   const isValid =
-    (image && value === 1) || (value === 0 && isSignatureValid == true);
+    (value === 1 && image) || (value === 0 && isSignatureValid == true);
   const onReset = () => {
     reset();
     if (signature) {
@@ -75,6 +76,18 @@ export default function AuthorizeMember() {
   };
 
   const onSubmit = async (data: any) => {
+    const fingerPrintVerificationData = {
+      Action: "VerifyFingersById",
+      Parameters: {
+        id: selectedUser.personId,
+        fingers: [{ type: data.fingerNumber, image }],
+      },
+    };
+    const fingerPrintVerificationResponse = await dispatch(
+      verifyFingerPrint({ data: fingerPrintVerificationData })
+    );
+    if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled")
+      return;
     const urlParams = new URLSearchParams(window.location.search);
     const requestCode = urlParams.get("requestCode");
     if (!requestCode) {
@@ -243,7 +256,7 @@ export default function AuthorizeMember() {
                   color="primary"
                   type="submit"
                   variant="contained"
-                  disabled={!isValid || isSubmitting}
+                  disabled={!isValid || isSubmitting || !selectedUser.id}
                   sx={{ p: "8px 25px", borderRadius: "8px" }}
                 >
                   مصادقة
