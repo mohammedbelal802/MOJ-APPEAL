@@ -91,10 +91,7 @@ export default function Authorization() {
             width: "100%",
           }}
         >
-          <BookList
-            books={data.books}
-            buttonProps={{ color: "secondary", variant: "contained" }}
-          />
+          <BookList books={data.books} />
         </Box>
         <Authorize users={data.persons} />
       </DialogContent>
