@@ -8,7 +8,6 @@ import DigitalSigntureInput from "../DigitalSigntureInput";
 import { useForm } from "react-hook-form";
 import FingerPrintComponent from "../FingerPrintComponent";
 import qrImg from "../../assets/authEmp/qr.png";
-import SearchInput from "../ui/inputs/SearchInput";
 import { generateQrCode } from "../../store/verificationCase/verificationCaseSlice";
 import { submitJdPersonVerification } from "../../store/authMembers/authMembersSlice";
 import Success from "../authorize/Success";
@@ -76,18 +75,21 @@ export default function AuthorizeMember() {
   };
 
   const onSubmit = async (data: any) => {
-    const fingerPrintVerificationData = {
-      Action: "VerifyFingersById",
-      Parameters: {
-        id: selectedUser.personId,
-        fingers: [{ type: data.fingerNumber, image }],
-      },
-    };
-    const fingerPrintVerificationResponse = await dispatch(
-      verifyFingerPrint({ data: fingerPrintVerificationData })
-    );
-    if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled")
-      return;
+    if (value === 1) {
+      const fingerPrintVerificationData = {
+        Action: "VerifyFingersById",
+        Parameters: {
+          id: selectedUser.personId,
+          fingers: [{ type: data.fingerNumber, image }],
+        },
+      };
+      const fingerPrintVerificationResponse = await dispatch(
+        verifyFingerPrint({ data: fingerPrintVerificationData })
+      );
+      if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled")
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const requestCode = urlParams.get("requestCode");
     if (!requestCode) {
