@@ -22,12 +22,14 @@ import {
 } from "../../store/verificationCase/verificationCaseSlice";
 import Success from "./Success";
 import Error from "./Error";
+import { verifyFingerPrint } from "../../store/fingerPrintVerification/fingerPrintCaseSlice";
 
 interface PERSON {
   id: any;
   job: string;
   name: string;
   status: string;
+  personId: any;
 }
 
 interface Props {
@@ -58,6 +60,7 @@ export default function Authorize({ users }: Props) {
     name: "",
     job: "",
     status: "",
+    personId: null,
   });
 
   let renderedAuthType;
@@ -98,6 +101,21 @@ export default function Authorize({ users }: Props) {
   };
   const onVerificationSubmit = async (data: any) => {
     console.log(data);
+
+    if (authType === 1) {
+      const fingerPrintVerificationData = {
+        Action: "VerifyFingersById",
+        Parameters: {
+          id: selectedUser.personId,
+          fingers: [{ type: data.fingerNumber, image }],
+        },
+      };
+      const fingerPrintVerificationResponse = await dispatch(
+        verifyFingerPrint({ data: fingerPrintVerificationData })
+      );
+      if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled")
+        return;
+    }
 
     let submitVerificationData: any = {
       id: selectedUser.id,

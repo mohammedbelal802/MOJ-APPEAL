@@ -52,8 +52,8 @@ export const getFingerPrintCase = createAsyncThunk(
   }
 );
 
-export const verifyFingerPrint = createAsyncThunk(
-  "/verifyFingerPrint",
+export const verifyAndSubmitFingerPrint = createAsyncThunk(
+  "/verifyAndSubmitFingerPrint",
   async ({ data }: { data: VERIFY_FINGERPRINT_PROPS }, thunkApi) => {
     const state: any = thunkApi.getState();
     const fingerPrintCaseData = state.fingerPrintCase.data;
@@ -87,6 +87,19 @@ export const verifyFingerPrint = createAsyncThunk(
             },
           })
         );
+      return thunkApi.rejectWithValue(error?.response?.data?.responseMessage);
+    }
+  }
+);
+
+export const verifyFingerPrint = createAsyncThunk(
+  "/verifyFingerPrint",
+  async ({ data }: { data: VERIFY_FINGERPRINT_PROPS }, thunkApi) => {
+    try {
+      const response = await fingerPrintServices.verifyFingerPrint(data);
+      return response.data;
+    } catch (error: any) {
+      warningToast(error?.response?.data?.responseMessage);
       return thunkApi.rejectWithValue(error?.response?.data?.responseMessage);
     }
   }

@@ -7,6 +7,7 @@ interface PERSON {
   job: string;
   name: string;
   status: string;
+  personId: number;
 }
 interface FINGERPRINT_CASE_DATA {
   persons: Array<PERSON>;

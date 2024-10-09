@@ -1,8 +1,5 @@
 import { apiClient } from "../../api";
-import {
-  SUBMIT_FINGERPRINT_PROPS,
-  VERIFY_FINGERPRINT_PROPS,
-} from "../../utils/types";
+import { VERIFY_FINGERPRINT_PROPS } from "../../utils/types";
 
 const getFingerPrintCase = async (data: {
   year: string;

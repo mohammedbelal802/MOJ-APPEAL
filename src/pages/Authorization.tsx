@@ -12,12 +12,7 @@ import Authorize from "../components/authorize/Authorize";
 import { useState } from "react";
 import Alert from "../components/Alert";
 import BookList from "../components/BookList";
-interface PERSON {
-  id: any;
-  job: string;
-  name: string;
-  status: string;
-}
+
 export default function Authorization() {
   const { data } = useAppSelector((state) => state.verificationCase);
 
