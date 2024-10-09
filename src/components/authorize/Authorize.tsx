@@ -23,6 +23,7 @@ import {
 import Success from "./Success";
 import Error from "./Error";
 import { verifyFingerPrint } from "../../store/fingerPrintVerification/fingerPrintCaseSlice";
+import fingerPrintCaseServices from "../../store/fingerPrintVerification/fingerPrintServices";
 
 interface PERSON {
   id: any;
@@ -110,14 +111,14 @@ export default function Authorize({ users }: Props) {
           fingers: [{ type: data.fingerNumber, image }],
         },
       };
-      const fingerPrintVerificationResponse = await dispatch(
-        verifyFingerPrint({ data: fingerPrintVerificationData })
-      );
-      if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled") {
+      try {
+        const fingerPrintVerificationResponse =
+          await fingerPrintCaseServices.verifyFingerPrint(
+            fingerPrintVerificationData
+          );
+      } catch (error) {
         setStatus("error");
         return;
-      } else {
-        setStatus("success");
       }
     }
 
