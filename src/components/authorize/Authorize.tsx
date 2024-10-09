@@ -49,6 +49,7 @@ export default function Authorize({ users }: Props) {
   } = useAppSelector((state) => state.auth);
   const { image } = useAppSelector((state) => state.fingerPrint);
   const [isSuccess, setIsSuccess] = useState<any>(null);
+  const [status, setStatus] = useState<any>(null);
   const [authType, setAuthType] = useState(2);
   const [isSignatureValid, setSignatureIsValid] = useState(false);
   const isValid =
@@ -76,7 +77,7 @@ export default function Authorize({ users }: Props) {
       break;
     case 1:
       renderedAuthType = (
-        <FingerPrintComponent status={"idle"} control={control} />
+        <FingerPrintComponent status={status} control={control} />
       );
       break;
     case 3:
@@ -100,8 +101,6 @@ export default function Authorize({ users }: Props) {
     }
   };
   const onVerificationSubmit = async (data: any) => {
-    console.log(data);
-
     if (authType === 1) {
       const fingerPrintVerificationData = {
         Action: "VerifyFingersById",
@@ -113,8 +112,12 @@ export default function Authorize({ users }: Props) {
       const fingerPrintVerificationResponse = await dispatch(
         verifyFingerPrint({ data: fingerPrintVerificationData })
       );
-      if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled")
+      if (fingerPrintVerificationResponse.meta.requestStatus !== "fulfilled") {
+        setStatus("error");
         return;
+      } else {
+        setStatus("success");
+      }
     }
 
     let submitVerificationData: any = {
