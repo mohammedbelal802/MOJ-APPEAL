@@ -63,30 +63,20 @@ export const verifyAndSubmitFingerPrint = createAsyncThunk(
       const response = await fingerPrintServices.verifyFingerPrint(data);
 
       if (response.responseCode === 200)
-        await thunkApi.dispatch(
-          submitFingerPrint({
-            data: {
-              sessionId: fingerPrintCaseData.sessionId,
-              id: data.Parameters.id,
-              status: "10",
-            },
-          })
-        );
+        await fingerPrintServices.submitFingerPrint({
+          sessionId: fingerPrintCaseData.sessionId,
+          id: data.Parameters.id,
+          status: "10",
+        });
 
       return response.data;
     } catch (error: any) {
-      warningToast(error?.response?.data?.responseMessage);
-
       if (error?.response.data.responseCode === 404)
-        await thunkApi.dispatch(
-          submitFingerPrint({
-            data: {
-              sessionId: fingerPrintCaseData.sessionId,
-              id: data.Parameters.id,
-              status: "20",
-            },
-          })
-        );
+        await fingerPrintServices.submitFingerPrint({
+          sessionId: fingerPrintCaseData.sessionId,
+          id: data.Parameters.id,
+          status: "20",
+        });
       return thunkApi.rejectWithValue(error?.response?.data?.responseMessage);
     }
   }
@@ -137,10 +127,10 @@ const fingerPrintSlice = createSlice({
           caseNumber: action.meta.arg.data.caseNumber,
         };
       })
-      .addCase(verifyFingerPrint.fulfilled, (state) => {
+      .addCase(verifyAndSubmitFingerPrint.fulfilled, (state) => {
         state.status = "success";
       })
-      .addCase(verifyFingerPrint.rejected, (state) => {
+      .addCase(verifyAndSubmitFingerPrint.rejected, (state) => {
         state.status = "error";
       });
   },

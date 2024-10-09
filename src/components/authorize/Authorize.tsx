@@ -95,6 +95,7 @@ export default function Authorize({ users }: Props) {
     setValue("noSigntureNotes", "");
     reset();
     setAuthType(authType);
+    setStatus(null);
     if (signature) {
       signature.clear();
       setSignatureIsValid(false);

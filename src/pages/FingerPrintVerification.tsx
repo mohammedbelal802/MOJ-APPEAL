@@ -45,8 +45,6 @@ export default function FingerPrintVerification() {
     await dispatch(verifyAndSubmitFingerPrint({ data: formatedData }));
   };
 
-  console.log(status);
-
   return (
     <>
       <Alert
