@@ -106,7 +106,7 @@ export default function Authorize({ users }: Props) {
       const fingerPrintVerificationData = {
         Action: "VerifyFingersById",
         Parameters: {
-          id: selectedUser.personId,
+          id: selectedUser.id,
           fingers: [{ type: data.fingerNumber, image }],
         },
       };
