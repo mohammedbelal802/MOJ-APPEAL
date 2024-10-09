@@ -117,6 +117,7 @@ const fingerPrintSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     resetFingerPrintCase: (state) => INITIAL_STATE,
+    resetStatus: (state) => ({ ...state, status: "idle" }),
   },
   extraReducers: (builder) => {
     builder
@@ -136,5 +137,5 @@ const fingerPrintSlice = createSlice({
   },
 });
 
-export const { resetFingerPrintCase } = fingerPrintSlice.actions;
+export const { resetFingerPrintCase, resetStatus } = fingerPrintSlice.actions;
 export default fingerPrintSlice.reducer;

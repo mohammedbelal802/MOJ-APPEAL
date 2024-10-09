@@ -14,7 +14,10 @@ import UsersSelection from "../components/fingerprint-verification/UsersSelectio
 import Alert from "../components/Alert";
 import { useState } from "react";
 import FingerPrintComponent from "../components/FingerPrintComponent";
-import { verifyAndSubmitFingerPrint } from "../store/fingerPrintVerification/fingerPrintCaseSlice";
+import {
+  resetStatus,
+  verifyAndSubmitFingerPrint,
+} from "../store/fingerPrintVerification/fingerPrintCaseSlice";
 import { storeFingerPrint } from "../store/fingerprint/fingerPrintSlice";
 
 export default function FingerPrintVerification() {
@@ -192,6 +195,7 @@ export default function FingerPrintVerification() {
                 <IconButton
                   onClick={() => {
                     resetField("fingerNumber");
+                    dispatch(resetStatus());
                     dispatch(storeFingerPrint(""));
                   }}
                   sx={{
